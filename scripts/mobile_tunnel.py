@@ -71,15 +71,15 @@ def run_tunnel():
         mobile_url = f"{public_url}/publisher.html"
         local_wifi_url = f"http://{local_ip}:8765/publisher.html"
 
-        print("\n" + "🌟" * 30)
-        print("🎉 تونل امن با موفقیت ایجاد شد! لینک‌های دسترسی روی گوشی:")
-        print("🌟" * 30)
-        print(f"\n📱 لینک اینترنتی (از هر جای شهر با اینترنت سیم‌کارت گوشی):\n👉 {mobile_url}\n")
-        print(f"🏠 لینک شبکه خانگی (وقتی گوشی به همین وای‌فای وصل است):\n👉 {local_wifi_url}\n")
-        print("=" * 65)
-        print("💡 نکته: این پنجره را نبندید تا اتصال گوشی قطع نشود.")
-        print("برای توقف، کلیدهای Ctrl + C را فشار دهید.")
-        print("=" * 65 + "\n")
+        print("\n" + "🌟" * 30, flush=True)
+        print("🎉 تونل امن با موفقیت ایجاد شد! لینک‌های دسترسی روی گوشی:", flush=True)
+        print("🌟" * 30, flush=True)
+        print(f"\n📱 لینک اینترنتی (از هر جای شهر با اینترنت سیم‌کارت گوشی):\n👉 {mobile_url}\n", flush=True)
+        print(f"🏠 لینک شبکه خانگی (وقتی گوشی به همین وای‌فای وصل است):\n👉 {local_wifi_url}\n", flush=True)
+        print("=" * 65, flush=True)
+        print("💡 نکته: این پنجره را نبندید تا اتصال گوشی قطع نشود.", flush=True)
+        print("برای توقف، کلیدهای Ctrl + C را فشار دهید.", flush=True)
+        print("=" * 65 + "\n", flush=True)
 
         try:
             while True:

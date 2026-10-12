@@ -22,6 +22,7 @@
         <a href="publisher.html" style="background: linear-gradient(135deg, var(--rose-primary), #be123c); color: #fff; font-weight: 800; border-color: var(--rose-light);">🚀 باز کردن وب‌اپ انتشار (Publisher)</a>
         <a href="#how-to-use">نحوه استفاده از اسکیل</a>
         <a href="#publisher-guide">راهنمای وب‌اپ پابلیشر</a>
+        <a href="#mobile-guide" style="color: #38bdf8; font-weight: 800; border-color: rgba(56, 189, 248, 0.4);">📲 دسترسی موبایل و کلود</a>
         <a href="#story-skill-guide" style="color: #34d399; font-weight: 800; border-color: rgba(16, 185, 129, 0.4);">📱 اسکیل استوری تعاملی (۵۹.۸K)</a>
         <a href="#prompt-builder">سازنده هوشمند پرامپت</a>
         <a href="#insights-schedule">ساعات طلایی</a>
@@ -50,10 +51,12 @@
         <div>│       └── 📄 <span class="highlight">story-formulas-and-7day-calendar.md</span> <span class="comment">← تقویم ۷ روزه استوری تعاملی (شنبه تا جمعه) آماده کپی</span></div>
         <div>├── 📂 <span class="highlight">data/</span></div>
         <div>│   └── 🗄️ <span class="highlight">scripts-db.json</span> <span class="comment">← دیتابیس JSON خودکار تمام اسکریپت‌های تولیدشده و برنامه ۶ اسلات روزانه</span></div>
-        <div>├── 🚀 <span class="highlight">publisher.html</span> <span class="comment">← وب‌اپلیکیشن استودیو انتشار ۶ ریلز روزانه + استوری تعاملی روز + تیک انتشار</span></div>
-        <div>├── ⚙️ <span class="highlight">server.py &amp; start-publisher.bat</span> <span class="comment">← سرور محلی و گیت ضدتکرار ۴-گرمی با تاریخچه ۲۳۳ ریلز</span></div>
+        <div>├── 🚀 <span class="highlight">publisher.html</span> <span class="comment">← وب‌اپلیکیشن استودیو انتشار ۶ ریلز روزانه + پست‌میکر و تیک انتشار</span></div>
+        <div>├── 📲 <span class="highlight">start-mobile-tunnel.bat</span> <span class="comment">← 🆕 اتصال مستقیم و امن گوشی از هر جای شهر با یک کلیک</span></div>
+        <div>├── ☁️ <span class="highlight">sync-to-cloud.bat &amp; render.yaml</span> <span class="comment">← 🆕 همگام‌سازی خودکار دیتابیس با گیت‌هاب و سرور ابری Render</span></div>
+        <div>├── ⚙️ <span class="highlight">server.py &amp; start-publisher.bat</span> <span class="comment">← سرور محلی و ابری با پورت خودکار و گیت ضدتکرار ۴-گرمی</span></div>
         <div>├── 🧪 <span class="highlight">tests/test_publisher_app.py</span> <span class="comment">← ۸ تست خودکار تضمین سلامت دیتابیس و گیت ضدتکرار</span></div>
-        <div>└── 🌐 <span class="highlight">index.html &amp; style.css</span> <span class="comment">← همین داشبورد مستندات و سازنده پرامپت ریلز و استوری</span></div>
+        <div>└── 🌐 <span class="highlight">index.html, README.md &amp; style.css</span> <span class="comment">← مستندات جامع، راهنمای گوشی و سازنده پرامپت</span></div>
       </div>
     </section>
 
@@ -285,6 +288,125 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <!-- بخش جدید ۱.۶: راهنمای جامع دسترسی از روی موبایل و همگام‌سازی ابری (Mobile & Cloud Sync) -->
+    <section id="mobile-guide" class="section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="section-num">📲</span>
+          <span>راهنمای دسترسی به استودیو از روی گوشی و همگام‌سازی محتوای شکارشده</span>
+        </div>
+        <span class="badge badge-sky">دسترسی از هر جای شهر با موبایل</span>
+      </div>
+
+      <!-- کارت‌های ۲ روش اتصال -->
+      <div class="cards-grid-2" style="margin-bottom: 24px;">
+        
+        <!-- روش ۱ -->
+        <div class="card" style="border-top: 3px solid #38bdf8;">
+          <div class="card-header">
+            <div class="card-title">روش ۱: تونل اینترنتی مستقیم به کامپیوتر (پیشنهادی)</div>
+            <span class="badge badge-sky">start-mobile-tunnel.bat</span>
+          </div>
+          <p style="color: var(--text-secondary); font-size: 13.8px; line-height: 1.8;">
+            <strong>مناسب برای:</strong> زمان‌هایی که کامپیوتر در منزل یا محل کار روشن است و می‌خواهید مستقیماً با گوشی پست‌ها را مدیریت کنید.
+            <br><br>
+            <strong>نحوه اجرا:</strong>
+            <br>۱. روی فایل <code>start-mobile-tunnel.bat</code> در پوشه پروژه دابل‌کلیک کنید.
+            <br>۲. سرور و تونل امن اینترنتی خودکار روشن شده و یک لینک اختصاصی HTTPS مانند زیر دریافت می‌کنید:
+            <br><code style="color:#38bdf8; font-weight:700;">https://xxxx.serveousercontent.com/publisher.html</code>
+            <br>۳. این لینک را در مرورگر موبایل (کروم یا سافاری) با هر اینترنتی (همراه اول/ایرانسل) باز کنید.
+            <br><br>
+            <span style="color: #4ade80; font-weight: 800;">⚡ وضعیت آپدیت محتوای شکارشده:</span>
+            <br><strong>۱۰۰٪ آنی و همان ثانیه!</strong> چون گوشی مستقیماً به همین هارد و دیتابیس کامپیوتر وصل است، هر محتوای جدیدی که شکار شود در همان لحظه روی گوشی شما نمایش داده می‌شود.
+          </p>
+        </div>
+
+        <!-- روش ۲ -->
+        <div class="card" style="border-top: 3px solid #a855f7;">
+          <div class="card-header">
+            <div class="card-title">روش ۲: نسخه ابری ۲۴ ساعته روی Render.com</div>
+            <span class="badge badge-purple">همیشه آنلاین حتی با PC خاموش</span>
+          </div>
+          <p style="color: var(--text-secondary); font-size: 13.8px; line-height: 1.8;">
+            <strong>مناسب برای:</strong> زمان‌هایی که کامپیوتر خاموش است و می‌خواهید یک نسخه دائمی و همیشه در دسترس روی اینترنت داشته باشید.
+            <br><br>
+            <strong>نحوه اجرا:</strong>
+            <br>۱. در سایت <a href="https://render.com" target="_blank" style="color:#c084fc;">Render.com</a> با اکانت گیت‌هاب لاگین کرده و ریپازیتوری <code>rozetext-framework</code> را متصل کنید.
+            <br>۲. پلن <strong>Free</strong> را انتخاب کرده و دکمه Deploy را بزنید.
+            <br>۳. آدرس دائمی اینترنتی شما همیشه فعال خواهد بود:
+            <br><code style="color:#c084fc; font-weight:700;">https://rozetext-publisher.onrender.com/publisher.html</code>
+            <br><br>
+            <span style="color: #fbbf24; font-weight: 800;">🔄 وضعیت آپدیت محتوای شکارشده:</span>
+            <br>سرور Render اطلاعاتش را از گیت‌هاب می‌خواند. هر زمان محتوای جدید شکار کردید، فقط کافیست روی فایل <strong><code>sync-to-cloud.bat</code></strong> دابل‌کلیک کنید تا ظرف ۳۰ ثانیه نسخه روی اینترنت هم آپدیت شود.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- جعبه پرسش و پاسخ کلیدی: آیا محتوا روی اینترنت آپدیت می‌شود؟ -->
+      <div class="builder-box" style="border-color: rgba(56, 189, 248, 0.4); margin-bottom: 24px;">
+        <h3 style="font-size: 17px; font-weight: 900; color: #38bdf8; margin-bottom: 12px;">
+          ❓ سوال مهم: وقتی محتوای جدید شکار می‌شود، محتوای روی اینترنت هم آپدیت می‌شود؟
+        </h3>
+        <div class="table-wrap" style="margin-top: 10px;">
+          <table>
+            <thead>
+              <tr>
+                <th>روش دسترسی</th>
+                <th>آیا خودکار آپدیت می‌شود؟</th>
+                <th>سرعت اعمال تغییرات</th>
+                <th>کاری که باید انجام دهید</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>روش ۱ (تونل مستقیم به کامپیوتر)</strong></td>
+                <td><span class="badge badge-emerald">بله، کاملاً خودکار</span></td>
+                <td>⚡ در همان لحظه (Real-time)</td>
+                <td>هیچ کاری! گوشی مستقیماً به همین دیتابیس محلی کامپیوتر وصل است.</td>
+              </tr>
+              <tr>
+                <td><strong>روش ۲ (سرور ابری Render.com)</strong></td>
+                <td><span class="badge badge-amber">با یک کلیک همگام‌ساز</span></td>
+                <td>⏱ ظرف ۳۰ تا ۴۰ ثانیه</td>
+                <td>پس از شکار محتوا، یک‌بار روی فایل <strong><code>sync-to-cloud.bat</code></strong> دابل‌کلیک کنید.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- جعبه ویژگی‌های جدید پست‌میکر -->
+      <div class="builder-box" style="border-color: rgba(16, 185, 129, 0.4);">
+        <h3 style="font-size: 17px; font-weight: 900; color: #34d399; margin-bottom: 10px;">
+          🎨 فیچرهای جدید استودیو پست‌میکر (Post Maker)
+        </h3>
+        <p style="color: var(--text-secondary); font-size: 13.8px; line-height: 1.7; margin-bottom: 12px;">
+          علاوه بر دسترسی موبایل، بخش پست‌میکر (Post Maker) با قابلیت‌های زیر مجهز شد:
+        </p>
+        <div class="cards-grid-3">
+          <div class="prompt-box" style="margin-top:0;">
+            <strong style="color: #4ade80;">🔘 دکمه انتشار مستقیم:</strong>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 5px;">
+              در هدر کارت هر اسلات، فوتر اقدامات و همچنین بالای مدال پیش‌نمایش تمام‌صفحه تعبیه شده تا بلافاصله پس از بررسی رندر، وضعیت انتشار را ثبت کنید.
+            </p>
+          </div>
+          <div class="prompt-box" style="margin-top:0;">
+            <strong style="color: #38bdf8;">🪞 مقایسه پهلوبه‌پهلو (Side-by-Side):</strong>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 5px;">
+              امکان مشاهده فریم واقعی ویدیوی مرجع شکارشده در کنار رندر اختصاصی شما برای تطبیق دقیق ترکیب‌بندی، هایلایت‌ها و فونت.
+            </p>
+          </div>
+          <div class="prompt-box" style="margin-top:0;">
+            <strong style="color: #f43f5e;">🔒 قانون قفل استخراج (Extraction Lock):</strong>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 5px;">
+              تضمین استخراج کلمه به کلمه متن از روی فریم ویدیوی اصلی در ثانیه ۲، بدون حدس و بدون دخل و تصرف توسط هوش مصنوعی.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
 

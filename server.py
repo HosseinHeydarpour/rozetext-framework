@@ -1592,9 +1592,12 @@ class RequestHandler(SimpleHTTPRequestHandler):
             self._send_json(400, {"ok": False, "error": str(e)})
 
 
-def run_server(port=8765):
-    server = ThreadingHTTPServer(("127.0.0.1", port), RequestHandler)
-    print(f"RozeText Publisher Server running on http://127.0.0.1:{port}")
+def run_server(port=None):
+    if port is None:
+        port = int(os.environ.get("PORT", 8765))
+    host = os.environ.get("HOST", "0.0.0.0")
+    server = ThreadingHTTPServer((host, port), RequestHandler)
+    print(f"RozeText Publisher Server running on http://{host}:{port}")
     server.serve_forever()
 
 

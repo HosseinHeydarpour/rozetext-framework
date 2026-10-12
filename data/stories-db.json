@@ -1,0 +1,486 @@
+{
+  "meta": {
+    "page_handle": "@rozetext.ir",
+    "total_followers": 71371,
+    "current_views_avg": "2,000 - 2,500",
+    "target_views_goal": "5,000 - 7,000+",
+    "target_monetization": "تبلیغات هدفمند با تعرفه ۱.۵ تا ۲.۵ میلیون تومان به ازای هر استوری ۲۴ ساعته",
+    "last_updated": "2026-10-09 00:01:22"
+  },
+  "stories": [
+    {
+      "id": "story-sat-01",
+      "date": "2026-10-10",
+      "date_fa": "شنبه ۱۸ مهر ۱۴۰۵",
+      "weekday": "شنبه",
+      "weekday_role": "شروع پرقدرت هفته 🔥 — ریست نوار استوری و جذب ۲۵٪ کلیک اول",
+      "daily_theme": "دوراهیِ «آدمِ همیشه قوی و بی‌صدا خسته» (پنهان کردن خستگی از دیگران)",
+      "online_followers_peak": "22,565 نفر آنلاین",
+      "published": false,
+      "published_at": null,
+      "story_sequence": [
+        {
+          "step": 1,
+          "time": "21:15",
+          "badge": "🔥 استوری ۱: شوک و احتراق اولیه (The Igniter)",
+          "goal": "شکستن قفل استوری و ثبت بالاترین نرخ کلیک اولیه در بین ۵۰ هزار فالوور خفته",
+          "text_content": "امشب یه سوالی از خودم پرسیدم:\nچرا همیشه همونی که از همه صبورتره،\nاز درون از همه تنهاتره؟..\nماهایی که یاد گرفتیم تکیه‌گاه باشیم،\nوقتی خودمون کم میاریم\nدقیقاً کجا باید پناه ببریم؟",
+          "sticker": {
+            "type": "poll",
+            "question": "تو رابطه و خونه، وقتِ خستگی کدومی؟ 👇",
+            "option_a": "همونی که بغضشو قورت میده و به رو نمیاره 🖤",
+            "option_b": "همونی که بریده و بی‌صدا فاصله میگیره 🥀"
+          },
+          "visual_aesthetic": {
+            "background_hex": "#0d0f12",
+            "background_desc": "مشکی زغالی بسیار مات با افکت بافت کاغذ دست‌ساز و گرین سینمایی ۳۵ میلی‌متری (Cinematic Film Grain)",
+            "typography": "فونت سفید مینیمال با فاصله خطوط باز؛ عبارت «کجا باید پناه ببریم؟» کمی برجسته‌تر با خاکستری روشن",
+            "music_suggestion": "اینسترومنتال پیانو ملایم و محزون (قطعه Experience اثر Ludovico Einaudi یا پیانو ابری)",
+            "layout_tip": "استیکر نظرسنجی دقیقاً در یک‌سوم پایینی صفحه قرار گیرد تا انگشت شست کاربر در یک ثانیه اول آن را لمس کند.",
+            "ai_image_prompt": "Vertical 9:16 dark minimalist background for Instagram typography story, textured matte charcoal plaster wall, subtle soft rim light casting from top corner, deep obsidian shadows, empty clean negative space in center for typography overlay, cinematic 35mm film grain, elegant melancholy atmosphere, 8k resolution, no people, no text, no words, no watermark, no logo --ar 9:16",
+            "ai_music_prompt": {
+              "track_title": "Quiet Burden (بار سنگین سکوت)",
+              "mood": "نوستالژیک، بغض‌آلود، تنهایی باوقار (Solitary, Introspective, Dignified Melancholy)",
+              "tempo_bpm": "62 BPM (Adagio ملایم و نفس‌گیر)",
+              "instruments": "پیانوی نمدی (Felt Piano)، چلو سولو (Solo Cello)، پد امبینت، گرین گرم نوار کاست",
+              "suno_style_tags": "cinematic felt piano, emotive solo cello, slow 62 bpm, dark ambient, neoclassical melancholy, tape hiss, intimate reverberation, emotional soundtrack, instrumental, no vocals",
+              "suno_lyrics_structure": "[Instrumental]\n[Intro: Delicate acoustic felt piano, slow 62 BPM]\n[Theme: Quiet melancholy melody, intimate room acoustics]\n[Build: Solo cello enters with long mournful bows]\n[Climax: Rich emotional piano chords and resonant cello harmony]\n[Outro: Slow fading piano notes, warm ambient silence]\n[End]",
+              "gemini_detailed_prompt": "A slow, poignant neoclassical instrumental track tailored for dark moody Persian poetry. Features soft felt upright piano with intimate keystrokes and pedal sounds playing a melancholic progression at 62 BPM. A warm, expressive solo cello weaves through the lower frequencies, expressing deep emotional solitude and quiet resilience. Subtle tape saturation and expansive room reverb create a cinematic atmosphere. Completely acoustic and ambient, strictly no drums, no percussion, no vocal sounds.",
+              "quick_guide": "در Suno گزینه Custom Mode و سپس Instrumental را روشن کنید؛ تگ‌های استایل را در Style of Music و دستور ساختار را در Lyrics وارد کنید. در Gemini یا MusicFX کل متن انگلیسی پرامپت جمنای را کپی کنید."
+            }
+          }
+        },
+        {
+          "step": 2,
+          "time": "22:15",
+          "badge": "🔗 استوری ۲: کلیف‌هنگر ریلز و پلِ دایرکت (The Cliffhanger Bridge)",
+          "goal": "هدایت مخاطبان کنجکاو استوری به ریلز ساعت ۲۱:۰۰ و ترغیب به ریپلای در دایرکت",
+          "text_content": "۷۹٪ بچه‌ها گزینه اول رو زدن...\nیعنی خیلیا بدون اینکه کسی بفهمه،\nدارن تنهایی با خستگیاشون کنار میان.\nپست امشبمون دقیقاً برای همین دل‌هاست...\nخط آخرش رو حتماً بخون 🥀👇",
+          "sticker": {
+            "type": "reels_share",
+            "reels_title": "من هیچوقت هیچ آدمی رو برای منفعت کنارم نگه نداشتم",
+            "reels_cover_overlay": "پوشاندن سطر پایانی با استیکر گیف «Tap Here 👆» یا نوار تاریک مات"
+          },
+          "visual_aesthetic": {
+            "background_hex": "#111317",
+            "background_desc": "تم تیره منطبق با استوری اول؛ اسکرین‌شات از درصد نظرسنجی در بالای صفحه و فریم ریلز در پایین",
+            "typography": "متن توضیحی با فونت نستعلیق یا تایپ فیس تمیز فارسی",
+            "music_suggestion": "صدای اصلی ریلز (بدون موسیقی جداگانه)"
+          }
+        }
+      ],
+      "pinned_comment": "نظرسنجیِ امشبِ استوری دقیقاً درباره همین زخمه... تا الان ۷۹٪ بچه‌ها گزینه اول رو زدن، تو کدومی؟ 🖤",
+      "monetization_guide": {
+        "ad_readiness_score": "۹۵٪ آماده جذب تبلیغ",
+        "ad_slot_strategy": "استوری شنبه به دلیل ریست هفتگی بالاترین سین را دارد. اگر اسپانسر دارید، استوری تبلیغاتی را در اسلاید ۳ (ساعت ۲۲:۴۵) بعد از درگیر شدن احساسی مخاطب قرار دهید.",
+        "estimated_cpm": "۵,۵۰۰ تا ۶,۸۰۰ بازدید هدفمند = تعرفه پیشنهادی ۱.۵ تا ۱.۸ میلیون تومان برای ۲۴ ساعت."
+      }
+    },
+    {
+      "id": "story-sun-02",
+      "date": "2026-10-11",
+      "date_fa": "یکشنبه ۱۹ مهر ۱۴۰۵",
+      "weekday": "یکشنبه",
+      "weekday_role": "سوپرپیک کل هفته 👑 (۲۳,۰۶۰ آنلاین) — محاکمه عاطفی و انفجار ریپلای دایرکت",
+      "daily_theme": "محاکمه عاطفی: «برگشتنِ آدمی که دلت رو شکسته» (بخشیدن یا بستن درها؟)",
+      "online_followers_peak": "23,060 نفر آنلاین (رکورد کل هفته)",
+      "published": false,
+      "published_at": null,
+      "story_sequence": [
+        {
+          "step": 1,
+          "time": "21:15",
+          "badge": "🔥 استوری ۱: چالش دوراهی عزت‌نفس (The Dignity Trial)",
+          "goal": "بالاترین سطح تعامل چالشی و شکستن رکورد اشتراک استوری در دایرکت",
+          "text_content": "اگه همون آدمی که یه روز بی‌رحمانه\nرهات کرد و رفت،\nامشب برگرده و بگه پشیمونم و حالم بدون تو بده؛\nتو چی‌کار می‌کنی؟..",
+          "sticker": {
+            "type": "poll",
+            "question": "صادقانه بگو، دلت به کدوم رضایت میده؟ 👇",
+            "option_a": "در رو به روش می‌بندم؛ حرمتم مهم‌تره 🖤",
+            "option_b": "شاید بهش فرصت بدم، چون هنوز برام عزیزه 💔"
+          },
+          "visual_aesthetic": {
+            "background_hex": "#0b0c10",
+            "background_desc": "تاریکی عمیق با یک سایه‌روشن خفیف شمع در پس‌زمینه (Dark Moody Candlelight)",
+            "typography": "متن درشت و متمرکز در وسط کادر؛ فاصله بین سطرها آرامش‌بخش و نفس‌گیر",
+            "music_suggestion": "موزیک بی‌کلام ویولن سل یا پیانوی مینیمال آرام",
+            "layout_tip": "استیکر نظرسنجی با رنگ متضاد و فونت خوانا بدون المان‌های شلوغ اضافه.",
+            "ai_image_prompt": "Vertical 9:16 background for Instagram story textography, extremely dark moody cinematic scene, a single delicate warm candle flame burning softly out of focus in the distant bottom corner, deep dark obsidian room, vast clean empty negative space in the middle for typography overlay, subtle volumetric smoke haze, dramatic chiaroscuro lighting, 35mm photography, film grain, no text, no watermark, no faces --ar 9:16",
+            "ai_music_prompt": {
+              "track_title": "The Final Door (بستن آخرین در)",
+              "mood": "محاکمه عاطفی، دلشکستگی دراماتیک، وقار و غرور تلخ (Dramatic, Bitter, Deep Heartbreak, Resolute Dignity)",
+              "tempo_bpm": "66 BPM (سنگین و کوبنده)",
+              "instruments": "چلو چمبر (Chamber Cello)، گرند پیانوی تاریک، ساب‌درون بیس سینمایی، لرزش خفیف ویولن",
+              "suno_style_tags": "dark cinematic neoclassical, dramatic chamber cello, poignant grand piano, deep bass drone, bittersweet slow 66 bpm, film score, intense melancholy, instrumental, no vocals",
+              "suno_lyrics_structure": "[Instrumental]\n[Intro: Dark resonant piano chords in minor key, slow 66 BPM]\n[Build: Dramatic cello with intense emotional bowing]\n[Interlude: Subtle high violin tremor, tension and heartbreak]\n[Climax: Powerful emotional crescendo of piano and weeping cello]\n[Outro: Low sustained cello note fading into deep silence]\n[End]",
+              "gemini_detailed_prompt": "A dramatic and deeply emotional cinematic neoclassical piece reflecting the pain of betrayal and dignified farewell. Centers on a weeping solo cello playing a heart-wrenching melody at 66 BPM, supported by heavy, brooding piano chords in a dark minor key. Low sub-harmonic ambient drones add weight and tension. The melody rises into an emotional, sorrowful climax before resolving into a quiet, resigned stillness. High-definition film soundtrack quality, no beats, no rhythm section, no vocals.",
+              "quick_guide": "در Suno استایل را در Style of Music و ساختار [Instrumental] را در Lyrics پیست کنید. در Gemini کل پرامپت انگلیسی را وارد کنید."
+            }
+          }
+        },
+        {
+          "step": 2,
+          "time": "22:15",
+          "badge": "🔗 استوری ۲: دعوت به ریپلای عمیق در دایرکت (Direct Magnet)",
+          "goal": "تبدیل رای‌های نظرسنجی به صدها پیام دایرکت برای بالا بردن امتیاز اکانت در الگوریتم",
+          "text_content": "خیلیاتون دارین ریپلای می‌زنین که\n«آدم بخشیدن نیستم ولی هنوز دلتنگشم»...\nسخت‌ترین جنگ دنیا همینه:\nجنگ بین قلبی که هنوز می‌خوادش و\nغروری که می‌گه دیگه کافیه.\nتو دایرکت بهم بگو: چند وقته داری با این حس می‌جنگی؟ 🥀",
+          "sticker": {
+            "type": "direct_reply_prompt",
+            "action_text": "💬 ریپلای کن و بنویس (تمام پیام‌ها رو می‌خونم)"
+          },
+          "visual_aesthetic": {
+            "background_hex": "#0e1014",
+            "background_desc": "تم مشکی با نوشته سفید مات؛ هایلایت کردن کلمات «قلب» و «غرور»",
+            "typography": "لحن هم‌کلامی صمیمی و بدون تکبر",
+            "music_suggestion": "ادامه تم آرام استوری ۱"
+          }
+        }
+      ],
+      "pinned_comment": "نظرسنجیِ عجیبِ امشب استوری رو دیدید؟ ۸۳٪ بچه‌ها گفتن هرگز نمی‌بخشن... نظر تو چیه؟ 🥀",
+      "monetization_guide": {
+        "ad_readiness_score": "۱۰۰٪ الماس طلایی تبلیغات",
+        "ad_slot_strategy": "یکشنبه پیک بازدید تاریخ پیج است! نرخ تعامل دایرکت در این شب به اوج می‌رسد؛ بهترین زمان برای گرفتن بالاترین تعرفه از حامیان مالی.",
+        "estimated_cpm": "۶,۰۰۰ تا ۷,۵۰۰ بازدید قطعی = تعرفه پیشنهادی ۲.۰ تا ۲.۵ میلیون تومان."
+      }
+    },
+    {
+      "id": "story-mon-03",
+      "date": "2026-10-12",
+      "date_fa": "دوشنبه ۲۰ مهر ۱۴۰۵",
+      "weekday": "دوشنبه",
+      "weekday_role": "میانه هفته آرام (۱۹,۱۵۹ آنلاین) — عاطفه خالص و تست شدت دلتنگی",
+      "daily_theme": "زخمِ «نقش فرزند صبور / آدم امنی که خودش تکیه‌گاه نداره»",
+      "online_followers_peak": "19,159 نفر آنلاین",
+      "published": false,
+      "published_at": null,
+      "story_sequence": [
+        {
+          "step": 1,
+          "time": "21:15",
+          "badge": "🔥 استوری ۱: ایموجی اسلایدر شدت بغض (Emotional Slider)",
+          "goal": "درگیر کردن احساسی با اسلایدر کشیدنی (Touch Engagement) برای افزایش واچ‌تایم",
+          "text_content": "چقدر درد داره که\nتوی سخت‌ترین شب‌های زندگیت،\nنتونی به هیچ‌کس بگی حالم بده؛\nچون همه عادت کردن تو همونی باشی\nکه حال بقیه رو خوب می‌کنه..",
+          "sticker": {
+            "type": "slider",
+            "emoji": "🖤",
+            "question": "چقدر این تنهاییِ تلخ رو تجربه کردی؟"
+          },
+          "visual_aesthetic": {
+            "background_hex": "#101216",
+            "background_desc": "پس‌زمینه بارانی شبانه تاریک و محو از پشت شیشه خیس (Moody Rain Window)",
+            "typography": "متن وسط‌چین با ریتم اشک‌بار و لحن آرام",
+            "music_suggestion": "موزیک باران و پیانو بی کلام آرشاوین یا کارن همایونفر",
+            "layout_tip": "اسلایدر دقیقا در وسط صفحه با آیکون قلب سیاه یا قطره اشک.",
+            "ai_image_prompt": "Vertical 9:16 wallpaper for textography, dark moody rainy night, subtle transparent raindrops running down a dark window pane, delicate soft blurred bokeh of city streetlights in the far background, deep slate blue and dark graphite palette, empty clean negative space in center for Persian typography overlay, cinematic aesthetic, moody reflection, 8k, no text, no watermark, no faces --ar 9:16",
+            "ai_music_prompt": {
+              "track_title": "Raindrops on the Pillow (اشک و باران)",
+              "mood": "گریه در سکوت، تسکین احساسی، اندوه آرامش‌بخش (Tender, Tearful, Soothing Melancholy, Cathartic)",
+              "tempo_bpm": "58 BPM (Lento بسیار آرام)",
+              "instruments": "پیانوی کریستالی نت‌های زیر (High-register Piano)، امبینت صدای باران، پد استرینگ مخملی",
+              "suno_style_tags": "ambient piano, soft strings pad, gentle rain ambience, delicate glockenspiel, tender sadness, slow 58 bpm, emotional catharsis, neoclassical, instrumental, no vocals",
+              "suno_lyrics_structure": "[Instrumental]\n[Intro: Distant rain atmosphere, delicate high-register piano melody, 58 BPM]\n[Verse: Tender fragile piano notes like falling teardrops]\n[Build: Warm ambient string pad swells beneath the piano]\n[Climax: Gentle soaring emotional harmony, soothing and cathartic]\n[Outro: Fading piano with soft raindrops lingering]\n[End]",
+              "gemini_detailed_prompt": "A tender, tearful ambient neoclassical track evoking midnight weeping and soothing catharsis. Delicate high-register piano notes drop gently like rain at a very slow 58 BPM, enveloped in authentic soft rain texture and distant thunder rumble. A warm, lush ambient string pad swells gently to provide emotional comfort without overwhelming the listener. Pure acoustic intimacy, zero drums, no electronic rhythm, absolutely instrumental with no vocals.",
+              "quick_guide": "در Suno بخش Instrumental را فعال کنید و تگ‌ها را در Style of Music و دستور ساختار را در Lyrics بگذارید. در Gemini کل پرامپت انگلیسی را به مدل بدهید."
+            }
+          }
+        },
+        {
+          "step": 2,
+          "time": "22:15",
+          "badge": "🔗 استوری ۲: پل به ریلز شبانه و همنوایی",
+          "goal": "اتصال به ریلز اسلات شبانه با نقد زیبای احساسات",
+          "text_content": "امشب اگر خسته‌ای،\nلازم نیست تظاهر به قوی بودن کنی.\nاین پست رو گذاشتم تا بدونی\nصدای سکوتت شنیده میشه... ☕👇",
+          "sticker": {
+            "type": "reels_share",
+            "reels_title": "ریلز شبانه پیج",
+            "reels_cover_overlay": "استیکر لینک دار با فلش ملایم"
+          },
+          "visual_aesthetic": {
+            "background_hex": "#121418",
+            "background_desc": "مشکی متالیک با فونت خوانا",
+            "typography": "متن گرم و صمیمی",
+            "music_suggestion": "صدای اصلی ریلز"
+          }
+        }
+      ],
+      "pinned_comment": "اگر امشب دلت از قوی بودن خسته‌ست، استوری امشب رو ببین... حرف‌های خودته 🖤",
+      "monetization_guide": {
+        "ad_readiness_score": "۸۵٪ مناسب تبلیغات پیج‌های مشاوره‌ای و کتاب",
+        "ad_slot_strategy": "اسپانسرهای حوزه سلامت روان، اکسسوری مینیمال یا محصولات قهوه و کتاب در این شب بازدهی فوق‌العاده دارند.",
+        "estimated_cpm": "۴,۸۰۰ تا ۵,۵۰۰ بازدید = تعرفه ۱.۴ تا ۱.۶ میلیون تومان."
+      }
+    },
+    {
+      "id": "story-tue-04",
+      "date": "2026-10-06",
+      "date_fa": "سه‌شنبه ۱۴ مهر ۱۴۰۵ (امروز ⭐)",
+      "weekday": "سه‌شنبه",
+      "weekday_role": "تثبیت مخاطب (۱۹,۵۹۰ آنلاین) — تست رفتاربینی و نگه داشتن انگشت روی صفحه",
+      "daily_theme": "تست رفتاربینی در برابر وعده‌های قشنگ: «کدوم نشونه میگه دوستت نداره؟»",
+      "online_followers_peak": "19,590 نفر آنلاین",
+      "published": false,
+      "published_at": null,
+      "story_sequence": [
+        {
+          "step": 1,
+          "time": "21:15",
+          "badge": "🔥 استوری ۱: کوییز روانشناسی رفتاربینی (Behavior Quiz)",
+          "goal": "نگه داشتن طولانی‌مدت انگشت مخاطب روی استوری (Hold Retention) برای تحریک الگوریتم",
+          "text_content": "گوش آدما از وعده و کلمات قشنگ پره..\nاما رفتار هیچ‌وقت دروغ نمیگه.\nاز نظر تو، کدوم رفتار بزرگ‌ترین سندیه\nکه نشون میده طرفت برای بودنت ارزشی قائل نیست؟",
+          "sticker": {
+            "type": "poll",
+            "question": "کدوم رفتار بیشتر از همه آدمو سرد می‌کنه؟ 👇",
+            "option_a": "بی‌تفاوتی و دیر جواب دادن وقتی بهش نیاز داری 🥀",
+            "option_b": "طلبکار بودن و وظیفه دونستنِ مهربونیات 🖤"
+          },
+          "visual_aesthetic": {
+            "background_hex": "#0a0a0c",
+            "background_desc": "تاریکی مطلق زغالی مینیمال (AMOLED Dark) بدون هیچ حاشیه‌ای؛ تمرکز ۱۰۰٪ روی کنتراست متن سفید خالص",
+            "typography": "تیتر اصلی با سایز ۲۴ و متن گزینه‌ها با فونت بولد و صریح",
+            "music_suggestion": "یک نجوای عمیق ساز آمبیِنت (Ambient Dark Cinematic)",
+            "layout_tip": "متن در بالای نظرسنجی و فاصله ۳ سانتی‌متری از لبه‌های گوشی.",
+            "ai_image_prompt": "Vertical 9:16 background for textography, minimalist dark obsidian and black slate stone texture, ultra clean matte surface, single subtle faint ray of cool moonlight across the corner, empty vast dark negative space in center for typography overlay, dramatic low-key lighting, raw texture, cinematic film grain, elegant luxury minimalism, no text, no watermark, no logo, no people --ar 9:16",
+            "ai_music_prompt": {
+              "track_title": "Obsidian Truth (حقیقت صریح)",
+              "mood": "وضوح سرد و قاطع، مرزگذاری باوقار، دارک مینیمال (Cold Clarity, Introspective, Dignified, Minimalist)",
+              "tempo_bpm": "60 BPM (عمیق و بافاصله)",
+              "instruments": "پیانوی مات با طنین سنگین، ساب‌بیس پالسی تاریک، پد امبینت خلأ، کریستال بلز محو",
+              "suno_style_tags": "minimalist dark neoclassical, matte acoustic piano, deep sub-bass drone, atmospheric cinematic space, slow 60 bpm, cold clarity, modern score, instrumental, no vocals",
+              "suno_lyrics_structure": "[Instrumental]\n[Intro: Deep single piano bass notes echoing in dark void, 60 BPM]\n[Theme: Minimalist repetitive piano motifs, cold dignified clarity]\n[Build: Low atmospheric sub-bass pulse, subtle dark harmonic depth]\n[Climax: Rich reverberant piano chords delivering resolute finality]\n[Outro: Piano notes ring out and decay naturally into black void]\n[End]",
+              "gemini_detailed_prompt": "A dark minimalist neoclassical composition inspired by modern cinematic film scores like Max Richter and Olafur Arnalds. Features sparse, deliberate acoustic piano chords ringing out with heavy decay and reverb at 60 BPM. A deep, subtle atmospheric sub-bass drone provides an undercurrent of tension and unwavering self-respect. Ultra-clean production with wide stereo imaging, cold and noble mood, zero percussion, no rhythm track, no vocal elements.",
+              "quick_guide": "در Suno حالت Instrumental را بزنید و تگ‌ها را در Style of Music و دستور ساختار را در Lyrics کپی کنید. در Gemini کل پرامپت انگلیسی را وارد کنید."
+            }
+          }
+        },
+        {
+          "step": 2,
+          "time": "22:15",
+          "badge": "🔗 استوری ۲: پل به ریلز ۷.۵ میلیونی امشب (The 7.5M Mega Reel)",
+          "goal": "انفجار بازدید ریلز ساعت ۲۱:۰۰ و هدایت ترافیک استوری به پست شاهکار امشب",
+          "text_content": "دقیقاً! وقتی آدم‌ها مهربونی رو وظیفه بدونن،\nوقتشه که ترمز احساساتت رو بکشی.\nتوی ریلز امشب دقیقاً همینو گفتم:\n«من با دلم زندگی می‌کنم، نه با حساب‌کتابام»..\nببینش و نظرتو بگو ☕👇",
+          "sticker": {
+            "type": "reels_share",
+            "reels_title": "من هیچوقت هیچ آدمی رو برای منفعت کنارم نگه نداشتم",
+            "reels_cover_overlay": "برچسب شفاف با دعوت به دیدن ریلز"
+          },
+          "visual_aesthetic": {
+            "background_hex": "#0e0f12",
+            "background_desc": "ترکیب فریم تیره ریلز با پس‌زمینه محو مشکی",
+            "typography": "فونت خوانا و مدرن",
+            "music_suggestion": "صدای ریلز"
+          }
+        }
+      ],
+      "pinned_comment": "نظرسنجی استوری امشب دقیقاً درباره همین رفتاربینیه... تا الان گزینه دوم بیشترین رای رو آورده، تو کدومی؟ 🖤",
+      "monetization_guide": {
+        "ad_readiness_score": "۹۰٪ بازدهی بالا",
+        "ad_slot_strategy": "امشب به دلیل ریلز ۷.۵ میلیونی، ترافیک پیج تصاعدی است. فضای استوری برای جذب برندهای معتبر بسیار آماده است.",
+        "estimated_cpm": "۵,۲۰۰ تا ۶,۲۰۰ بازدید = تعرفه ۱.۵ تا ۱.۸ میلیون تومان."
+      }
+    },
+    {
+      "id": "story-wed-05",
+      "date": "2026-10-07",
+      "date_fa": "چهارشنبه ۱۵ مهر ۱۴۰۵ (فردا)",
+      "weekday": "چهارشنبه",
+      "weekday_role": "جهش آخر هفته 🔥 (۲۰,۱۲۱ آنلاین) — روابط و بالاترین نرخ فوروارد دایرکت",
+      "daily_theme": "کالبدشکافیِ رابطه: «قهرِ از سرِ دلتنگی در برابر سرد شدنِ بی‌صدا»",
+      "online_followers_peak": "20,121 نفر آنلاین",
+      "published": false,
+      "published_at": null,
+      "story_sequence": [
+        {
+          "step": 1,
+          "time": "21:15",
+          "badge": "🔥 استوری ۱: مگنت ارسال به پارتنر (Partner Direct Magnet)",
+          "goal": "ثبت رکورد اشتراک‌گذاری استوری در دایرکت به عنوان کنایه یا حرف دل به پارتنر",
+          "text_content": "آدمی که قهر می‌کنه،\nهنوز امید داره که بیای و از دلش دربیاری..\nاما از روزی بترس که\nدیگه قهر هم نمی‌کنه؛\nفقط نگاهت می‌کنه، لبخند می‌زنه\nو بی‌صدا ازت سرد می‌شه..",
+          "sticker": {
+            "type": "poll",
+            "question": "کدومش نشونه پایان واقعیِ یه احساسه؟ 👇",
+            "option_a": "قهر و دلخوری‌های مداوم 💔",
+            "option_b": "سکوت و لبخندِ بی‌تفاوت 🖤"
+          },
+          "visual_aesthetic": {
+            "background_hex": "#0f1115",
+            "background_desc": "تصویر بسیار تیره و محو از دو فنجان قهوه در تاریکی شب (Moody Dark Still Life)",
+            "typography": "سطر «فقط نگاهت می‌کنه، لبخند می‌زنه» با فونت باوقار و تاکید ویژه",
+            "music_suggestion": "ملودی دلتنگی با گیتار آکوستیک یا پیانوی ملایم شبانه",
+            "layout_tip": "استیکر دوراهی با فاصله‌گذاری استاندارد برای کلیک آسان.",
+            "ai_image_prompt": "Vertical 9:16 dark moody still life for text overlay, dark rustic wooden surface, two minimalist ceramic coffee cups sitting silently in deep shadow in the lower third, soft moody warm atmospheric haze, vast clean dark empty space across center and top for typography overlay, cinematic color grading, muted tones, 35mm photo, no text, no watermark, no people --ar 9:16",
+            "ai_music_prompt": {
+              "track_title": "The Cold Smile (سرد شدن بی‌صدا)",
+              "mood": "نوستالژی تلخ و شیرین، پایان بی‌صدای عشق، دلتنگی عمیق (Bittersweet, Nostalgic, Fading Warmth, Acoustic Sorrow)",
+              "tempo_bpm": "64 BPM (آرام و خاطره‌انگیز)",
+              "instruments": "گیتار آکوستیک آرپژ (Acoustic Guitar Fingerpicking)، پیانوی محزون، چلو لطیف، نوار کاست لوفای",
+              "suno_style_tags": "melancholic acoustic guitar, delicate piano, nostalgic folk neoclassical, warm tape saturation, slow 64 bpm, bittersweet ending, atmospheric indie soundtrack, instrumental, no vocals",
+              "suno_lyrics_structure": "[Instrumental]\n[Intro: Intimate acoustic guitar fingerpicking in minor key, 64 BPM]\n[Theme: Soft piano harmonizing with the guitar, nostalgic sorrow]\n[Build: Gentle swell of warm cello and distant melancholic acoustic textures]\n[Climax: Bittersweet harmony capturing the irreversible fading of love]\n[Outro: Solo acoustic guitar strings gently ringing out to a stop]\n[End]",
+              "gemini_detailed_prompt": "A bittersweet acoustic indie-classical piece evoking the quiet, irreversible moment when someone stops arguing and quietly lets go. Gentle acoustic guitar fingerpicking intertwines with a soft, mournful felt piano at 64 BPM. Warm analog tape flutter and intimate room ambiance create an immediate, nostalgic emotional closeness. Beautiful, bittersweet, and authentic. No drums, no electronic beats, strictly instrumental with no vocals.",
+              "quick_guide": "در Suno حالت Instrumental را تیک بزنید؛ تگ‌ها در Style of Music و ساختار در Lyrics. در Gemini متن انگلیسی پرامپت جمنای را وارد کنید."
+            }
+          }
+        },
+        {
+          "step": 2,
+          "time": "22:15",
+          "badge": "🔗 استوری ۲: انتشار نتیجه و گفتگوی دایرکتی",
+          "goal": "تحریک صدها نفر برای فرستادن استوری به پی‌وی پارتنرشان",
+          "text_content": "۹۱٪ بچه‌ها گفتن: «سکوت و لبخند بی‌تفاوت»...\nچون آدمی که سکوت می‌کنه،\nدیگه امیدش رو به تغییر از دست داده.\nاین استوری رو بفرست برای کسی که\nنمی‌خوای کار به سکوتش بکشه.. 🥀",
+          "sticker": {
+            "type": "share_prompt",
+            "action_text": "ارسال به دایرکت ↗️"
+          },
+          "visual_aesthetic": {
+            "background_hex": "#11141a",
+            "background_desc": "اسکرین‌شات از نتیجه آمار ۹۱ درصدی با کادر شیشه‌ای تیره",
+            "typography": "فونت دعوت به تعامل دوستانه و باوقار",
+            "music_suggestion": "ادامه تم استوری ۱"
+          }
+        }
+      ],
+      "pinned_comment": "نتیجه نظرسنجی امشب استوری ترسناکه... ۹۱٪ گفتن سکوت یعنی پایان. نظر شما چیه؟ 🥀",
+      "monetization_guide": {
+        "ad_readiness_score": "۹۵٪ مناسب هدیه، اکسسوری و عطر",
+        "ad_slot_strategy": "چهارشنبه‌شب‌ها مخاطبان در فکر هدیه و قرارهای آخر هفته هستند؛ تبلیغات مرتبط با پوشاک، کادو و عطر در این شب انفجار فروش دارند.",
+        "estimated_cpm": "۵,۶۰۰ تا ۶,۷۰۰ بازدید = تعرفه ۱.۷ تا ۲.۰ میلیون تومان."
+      }
+    },
+    {
+      "id": "story-thu-06",
+      "date": "2026-10-08",
+      "date_fa": "پنج‌شنبه ۱۶ مهر ۱۴۰۵",
+      "weekday": "پنجشنبه",
+      "weekday_role": "پیک شبانه آخر هفته 🔥🔥 (۲۰,۳۵۵ آنلاین) — باکس ناشناس نیمه‌شب و انفجار کامنت",
+      "daily_theme": "باکس ناشناسِ نیمه‌شب: «یه جمله بنویس برای کسی که دیگه هیچ‌وقت پیامش رو نمی‌بینی...»",
+      "online_followers_peak": "20,355 نفر آنلاین",
+      "published": false,
+      "published_at": null,
+      "story_sequence": [
+        {
+          "step": 1,
+          "time": "21:15",
+          "badge": "🔥 استوری ۱: باکس اسرار نیمه‌شب (Midnight Question Box)",
+          "goal": "دریافت صدها تا هزاران پیام متنی در باکس سوال (بالاترین امتیاز الگوریتم اینستاگرام)",
+          "text_content": "امشب پنج‌شنبه‌ست و\nدلتنگی‌های نگفته سر باز می‌کنن..\nفرض کن این باکس به دست همون آدمی می‌رسه\nکه مدتهاست رفته یا دیگه کنارت نیست؛\nآخرین حرفی که بهش نزدی چی بود؟..",
+          "sticker": {
+            "type": "question_box",
+            "prompt": "یه جمله براش بنویس... (کاملاً ناشناس) 🖤"
+          },
+          "visual_aesthetic": {
+            "background_hex": "#08090b",
+            "background_desc": "تاریکی شبانه عمیق با پرتو ماه ملایم یا یک پنجره تاریک (Midnight Moon Window)",
+            "typography": "متن عمیق و پر از راز با فونت مینیمال سفید برفی",
+            "music_suggestion": "آهنگ شبانه آرام و تاثیرگذار (مثلا قطعه Je te laisserai des mots اثر Patrick Watson)",
+            "layout_tip": "باکس سوال در پایین کادر با رنگ تیره تا حس امنیت و اعتراف ناشناس را تقویت کند.",
+            "ai_image_prompt": "Vertical 9:16 story background, deep midnight dark bedroom aesthetic, sheer silhouette curtain swaying gently with faint cold moonlight glowing along the edge, deep midnight charcoal shadows, empty clean vast negative space in center for question sticker and typography, moody atmospheric haze, 35mm film still, mysterious emotional vibe, no text, no watermark, no faces --ar 9:16",
+            "ai_music_prompt": {
+              "track_title": "Midnight Letters (نامه‌های نیمه‌شب)",
+              "mood": "اعترافات نیمه‌شب، والس غمگین، دلتنگی تسخیرکننده (Haunting, Vulnerable, Cinematic Waltz, Timeless Nostalgia)",
+              "tempo_bpm": "68 BPM (والس آرام ۳/۴ شبیه سبک پاتریک واتسون)",
+              "instruments": "پیانوی آپ‌رایت با صدای کلیک کلیدها (Upright Felt Piano)، ویولن سولو با سوز فراوان، پد سینت نرم",
+              "suno_style_tags": "slow 3/4 waltz neoclassical, haunting upright piano, weeping solo violin, Patrick Watson style, midnight nostalgia, emotional 68 bpm, cinematic heartbreak, instrumental, no vocals",
+              "suno_lyrics_structure": "[Instrumental]\n[Intro: Slow haunting 3/4 waltz piano melody, felt upright keys, 68 BPM]\n[Theme: Heart-rending melody reminiscent of unspoken confessions]\n[Build: Weeping violin glides over the gentle waltz rhythm]\n[Climax: Grand emotional waltz swell, intensely touching and cinematic]\n[Outro: Slow decelerating piano waltz, dying away in midnight silence]\n[End]",
+              "gemini_detailed_prompt": "A haunting, deeply nostalgic neoclassical slow waltz in 3/4 time, reminiscent of 'Je te laisserai des mots'. An upright acoustic piano plays an evocative, lilting waltz progression with audible key clicks and damper pedal warmth at 68 BPM. A weeping, expressive violin weaves in with soaring, melancholic vibrato, echoing unspoken midnight confessions and unsent letters. Cinematic, intimate, and profoundly moving. Zero beats, no drums, no vocal singing.",
+              "quick_guide": "در Suno تیک Instrumental را فعال کنید؛ تگ‌ها در Style of Music و دستور ساختار والس در Lyrics. در Gemini متن انگلیسی پرامپت جمنای را وارد کنید."
+            }
+          }
+        },
+        {
+          "step": 2,
+          "time": "23:45",
+          "badge": "🌙 استوری ۲: ویترین درددل‌های ناشناس (The Midnight Gallery)",
+          "goal": "انتشار ۴ پیام برگزیده و تکان‌دهنده با حذف کامل آیدی برای جلب اعتماد و ماندگاری مخاطب تا صبح",
+          "text_content": "پیام‌هاتون داره قلب آدم رو مچاله می‌کنه...\nچند تاش رو بدون اسم می‌ذارم؛\nببین چقدر حرف توی گلوی این نسل گیر کرده.. 🥀👇",
+          "sticker": {
+            "type": "anonymous_responses",
+            "response_samples": [
+              "«هنوزم وقتی گوشیم زنگ می‌خوره ناخودآگاه اسم تو رو روی صفحه می‌بینم...»",
+              "«من بخشیدمت ولی ای کاش هیچ‌وقت باهام اون کارو نمی‌کردی...»",
+              "«تو زیباترین اشتباه زندگیم بودی.»"
+            ]
+          },
+          "visual_aesthetic": {
+            "background_hex": "#0c0d10",
+            "background_desc": "کارت‌های خاکستری مات با متن مشکی/سفید روی پس‌زمینه زغالی",
+            "typography": "فونت تمیز با گیومه باز و بسته",
+            "music_suggestion": "موسیقی ادامه شب"
+          }
+        }
+      ],
+      "pinned_comment": "باکس استوری امشب پر از بغض‌های ناگفته‌ست... اعتراف‌ها رو گذاشتم، حرف تو چی بود؟ 🖤",
+      "monetization_guide": {
+        "ad_readiness_score": "۱۰۰٪ بمب بازدهی اسپانسر",
+        "ad_slot_strategy": "پنجشنبه‌شب بیشترین زمان صرف‌شده (Time Spent) را در پیج دارد. نرخ بازخوانی استوری‌ها تا صبح جمعه ادامه دارد؛ بهترین زمان برای قراردادهای پرمیوم.",
+        "estimated_cpm": "۶,۵۰۰ تا ۸,۰۰۰ بازدید = تعرفه ۲.۲ تا ۲.۵ میلیون تومان."
+      }
+    },
+    {
+      "id": "story-fri-07",
+      "date": "2026-10-09",
+      "date_fa": "جمعه ۱۷ مهر ۱۴۰۵",
+      "weekday": "جمعه",
+      "weekday_role": "غروب دلتنگی جمعه (۲۱,۹۷۰ آنلاین) — ویترین هم‌دردی و تثبیت وفاداری مخاطب",
+      "daily_theme": "ویترینِ هم‌دردی: آرامش درونی و پیوند مخاطبان در غروب جمعه",
+      "online_followers_peak": "21,970 نفر آنلاین",
+      "published": false,
+      "published_at": null,
+      "story_sequence": [
+        {
+          "step": 1,
+          "time": "18:30",
+          "badge": "☕ استوری ۱: تسکین غروب جمعه (Sunset Solace)",
+          "goal": "جذب موج دلتنگی غروب جمعه و فراهم کردن فضایی امن برای التیام روحی",
+          "text_content": "غروب جمعه همیشه یه سنگینی عجیبی داره..\nانگار تمام بغض‌های هفته جمع میشن تو سینه.\nاما امشب فقط یه چیز رو یادت نره:\nتو از تمام شب‌های سخت زندگیت تا امروز رد شدی،\nاز این روزها هم رد میشی..",
+          "sticker": {
+            "type": "poll",
+            "question": "امشب دلت بیشتر محتاجِ کدومه؟ 👇",
+            "option_a": "یه حضورِ امن و بی‌قضاوت 🫖",
+            "option_b": "سکوت مطلق و خلوت با خودم 🌿"
+          },
+          "visual_aesthetic": {
+            "background_hex": "#0e1013",
+            "background_desc": "غروب محو و تاریک پاییزی با رنگ‌های زغالی و مسی ملایم (Moody Sunset Tones)",
+            "typography": "متن آرام و تسکین‌بخش با سطر آخر هایلایت‌شده",
+            "music_suggestion": "نوای ملایم سه‌تار و پیانو تلفیقی یا ویولن سلو آرام",
+            "layout_tip": "استیکر در جایگاه راحت با ایموجی‌های آرامش‌بخش.",
+            "ai_image_prompt": "Vertical 9:16 wallpaper for Instagram typography, melancholic autumn sunset shadows through silhouette window blinds, deep charcoal and muted copper tones, soft warm late-dusk glow softly fading into black, vast empty clean dark space in center for typography overlay, cinematic film grain, tranquil peaceful solitude, 8k, no text, no watermark, no people --ar 9:16",
+            "ai_music_prompt": {
+              "track_title": "Dusk Healing (التیام غروب)",
+              "mood": "التیام غروب جمعه، تسکین و آرامش روحی، رهایی از خستگی هفته (Peaceful, Soothing, Meditative, Spiritual Solace)",
+              "tempo_bpm": "56 BPM (بسیار آرامش‌بخش و مراقبه‌ای)",
+              "instruments": "پیانوی گرم آکوستیک، گیتار کلاسیک لطیف، نوای تنفسی نی یا فلوت شرقی (Ambient Ney Harmonics)، پد ابری",
+              "suno_style_tags": "meditative ambient piano, spiritual Persian woodwind breath, soothing warm neoclassical, dusk healing, slow 56 bpm, peaceful melancholy, tranquil soundtrack, instrumental, no vocals",
+              "suno_lyrics_structure": "[Instrumental]\n[Intro: Warm meditative piano chords breathing slowly at 56 BPM]\n[Theme: Peaceful, comforting melody that releases anxiety and heavy burdens]\n[Build: Soft atmospheric woodwind breath and warm ambient drone envelop the space]\n[Climax: Radiant gentle harmonic release, reassuring and uplifting stillness]\n[Outro: Soft fading piano note dissolving into serene peaceful glow]\n[End]",
+              "gemini_detailed_prompt": "A peaceful, restorative ambient neoclassical track designed to heal and comfort the listener during a melancholic Friday sunset. Features warm, resonant acoustic piano chords played at a calm breathing tempo of 56 BPM. Gentle, breathy woodwind ambient harmonics inspired by the Persian Ney float in the background, offering profound solace and emotional closure. The atmosphere is warm, serene, and deeply healing. Completely tranquil, no percussion, no drums, zero vocals.",
+              "quick_guide": "در Suno حالت Instrumental را فعال کنید؛ استایل را در Style of Music و ساختار را در Lyrics پیست کنید. در Gemini کل پرامپت انگلیسی را وارد کنید."
+            }
+          }
+        },
+        {
+          "step": 2,
+          "time": "21:15",
+          "badge": "🔗 استوری ۲: مانیفست آرامش و آمادگی برای شروع هفته نو",
+          "goal": "تکمیل حلقه تعامل هفتگی و دعوت به ذخیره مانیفست آرامش",
+          "text_content": "هفته جدید در راهه..\nکارهای بیهوده رو رها کن، به حرف‌های بی‌ارزش بها نده\nو آرامشت رو اولویت اولت بذار.\nاین مانیفست رو سیو کن که فردا صبح با قدرت شروع کنی ✨👇",
+          "sticker": {
+            "type": "reels_share",
+            "reels_title": "ریلز مانیفست اصالت",
+            "reels_cover_overlay": "کاور ریلز با افکت شاین ملایم"
+          },
+          "visual_aesthetic": {
+            "background_hex": "#101215",
+            "background_desc": "تیره با کنتراست شفاف",
+            "typography": "فونت شیک و انگیزشی عمیق",
+            "music_suggestion": "صدای اصلی ریلز"
+          }
+        }
+      ],
+      "pinned_comment": "غروب جمعه اگر دلت گرفته، استوری رو ببین... یه یادآوری کوچیک برای دلتنگی‌هات 🌿",
+      "monetization_guide": {
+        "ad_readiness_score": "۹۰٪ عالی برای محصولات آرامش‌بخش، کتاب و دمنوش",
+        "ad_slot_strategy": "غروب جمعه زمان خرید آنلاین کاربران است؛ تبلیغات فروشگاهی و پیج‌های لایف‌استایل در این بازه بیشترین لید و فروش را می‌گیرند.",
+        "estimated_cpm": "۵,۸۰۰ تا ۶,۹۰۰ بازدید = تعرفه ۱.۶ تا ۱.۹ میلیون تومان."
+      }
+    }
+  ]
+}

@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>راهنمای جامع اسکیل و DNA محتوایی پیج رز تکست (@rozetext.ir)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- نوار ناوبری بالای صفحه -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="brand">
+        <div class="brand-logo">🤍</div>
+        <div>
+          <div class="brand-title">مستندات جامع اسکیل رز تکست (@rozetext.ir)</div>
+          <div class="brand-sub">کالیبره‌شده با ۲۳۳ ریلز گزارش + داشبورد اینسایت زنده (۴۳.۹ میلیون ویو ماهانه)</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="publisher.html" style="background: linear-gradient(135deg, var(--rose-primary), #be123c); color: #fff; font-weight: 800; border-color: var(--rose-light);">🚀 باز کردن وب‌اپ انتشار (Publisher)</a>
+        <a href="#how-to-use">نحوه استفاده از اسکیل</a>
+        <a href="#publisher-guide">راهنمای وب‌اپ پابلیشر</a>
+        <a href="#story-skill-guide" style="color: #34d399; font-weight: 800; border-color: rgba(16, 185, 129, 0.4);">📱 اسکیل استوری تعاملی (۵۹.۸K)</a>
+        <a href="#prompt-builder">سازنده هوشمند پرامپت</a>
+        <a href="#insights-schedule">ساعات طلایی</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- بخش هیرو و معرفی ساختار اسکیل -->
+    <section class="hero">
+      <div class="hero-badge">✨ نسخه کالیبره‌شده نهایی | RozeText Persona & DNA Skill v2.5 + Story Engine (59,850 Followers)</div>
+      <h1>راهنمای کامل استفاده از اسکیل ریلز، اسکیل استوری تعاملی و وب‌اپلیکیشن انتشار «رز تکست»</h1>
+      <p>
+        این صفحه، دفترچه راهنمای تعاملی شما برای کار با اسکیل تولید و شکار ریلز (<code>rozetext-persona-dna</code>)، <strong>اسکیل جدید استوری تعاملی روزانه (<code>rozetext-story-engine</code> برای شکستن قفل ۲,۰۰۰ سین در پیج ۵۹,۸۵۰ نفری)</strong> و <strong>وب‌اپلیکیشن برنامه‌ریزی ۶ ریلز روزانه (<code>publisher.html</code>)</strong> است.
+      </p>
+
+      <div class="file-tree-box">
+        <div>📁 <strong>d:\rozetext-framework\</strong></div>
+        <div>├── 📂 <span class="highlight">.agents/skills/rozetext-persona-dna/</span> <span class="comment">← اسکیل شماره ۱: تولید، بازنویسی و شکار ۶×N ریلزهای میلیونی با متن خام اورجینال</span></div>
+        <div>│   ├── 📄 <span class="highlight">SKILL.md</span></div>
+        <div>│   └── 📂 <strong>references/</strong> (<code>published-content-history.md</code>, <code>viral-hunter-browser-protocol.md</code>, ...)</div>
+        <div>├── 📂 <span class="highlight">.agents/skills/rozetext-story-engine/</span> <span class="comment">← 🆕 اسکیل شماره ۲: موتور طراحی استوری تعاملی روزانه (افزایش سین از ۲,۰۰۰ به ۴,۵۰۰+)</span></div>
+        <div>│   ├── 📄 <span class="highlight">SKILL.md</span> <span class="comment">← قوانین ۴گانه الگوریتم استوری، فرمول تک‌استوری ساعت ۲۱:۱۵ و پل کامنت پین‌شده</span></div>
+        <div>│   └── 📂 <strong>references/</strong></div>
+        <div>│       └── 📄 <span class="highlight">story-formulas-and-7day-calendar.md</span> <span class="comment">← تقویم ۷ روزه استوری تعاملی (شنبه تا جمعه) آماده کپی</span></div>
+        <div>├── 📂 <span class="highlight">data/</span></div>
+        <div>│   └── 🗄️ <span class="highlight">scripts-db.json</span> <span class="comment">← دیتابیس JSON خودکار تمام اسکریپت‌های تولیدشده و برنامه ۶ اسلات روزانه</span></div>
+        <div>├── 🚀 <span class="highlight">publisher.html</span> <span class="comment">← وب‌اپلیکیشن استودیو انتشار ۶ ریلز روزانه + استوری تعاملی روز + تیک انتشار</span></div>
+        <div>├── ⚙️ <span class="highlight">server.py &amp; start-publisher.bat</span> <span class="comment">← سرور محلی و گیت ضدتکرار ۴-گرمی با تاریخچه ۲۳۳ ریلز</span></div>
+        <div>├── 🧪 <span class="highlight">tests/test_publisher_app.py</span> <span class="comment">← ۸ تست خودکار تضمین سلامت دیتابیس و گیت ضدتکرار</span></div>
+        <div>└── 🌐 <span class="highlight">index.html &amp; style.css</span> <span class="comment">← همین داشبورد مستندات و سازنده پرامپت ریلز و استوری</span></div>
+      </div>
+    </section>
+
+    <!-- کارت‌های آمار کلیدی پیج از داشبورد و گزارش -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">بازدید ۳۰ روز اخیر (Insights)</div>
+        <div class="kpi-value">43,900,521</div>
+        <div class="kpi-sub">۹۹.۸٪ از طریق Reels (نسبت ۷۳۷ برابر فالوور!)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">سهم غیرفالوورها (اکتشاف اکسپلور)</div>
+        <div class="kpi-value">86.5%</div>
+        <div class="kpi-sub">۳۷.۹۵ میلیون بازدید از مخاطبان جدید</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">کل تعاملات ۳۰ روزه (Interactions)</div>
+        <div class="kpi-value">3,745,312</div>
+        <div class="kpi-sub">نرخ تعامل فالوورها ۲.۳۷ برابر غیرفالوورهاست</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">فرمول طلایی طول متن وایرال</div>
+        <div class="kpi-value">70 / 37</div>
+        <div class="kpi-sub">۷۰ کلمه متن ریلز (۱۵ خط) | ۳۷ کلمه کپشن</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">هدف انتشار روزانه در پابلیشر</div>
+        <div class="kpi-value">6 Reels / Day</div>
+        <div class="kpi-sub">۶ اسلات طلایی: ۰۹:۳۰، ۱۲:۱۵، ۱۵:۰۰، ۱۸:۱۵، ۲۱:۰۰، ۲۳:۴۵</div>
+      </div>
+    </section>
+
+    <!-- بخش ۱: چطور از این اسکیل استفاده کنیم؟ -->
+    <section id="how-to-use" class="section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="section-num">۱</span>
+          <span>این اسکیل چطور کار می‌کند و چگونه از آن استفاده کنید؟</span>
+        </div>
+        <span class="badge badge-emerald">فعال و خودکار در فضای کاری شما</span>
+      </div>
+
+      <div class="cards-grid-3">
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <div class="card-title">گام اول: شناسایی خودکار (Auto-Discovery)</div>
+              <span class="badge badge-rose">بدون نیاز به نصب مجدد</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 14px;">
+              چون اسکیل در پوشه استاندارد <code>.agents/skills/rozetext-persona-dna/SKILL.md</code> قرار گرفته است، هر زمان که در چت کلماتی مثل <strong>«متن ریلز»، «کپشن»، «هوک»، «سناریو»، «بازنویسی» یا «وایرال»</strong> بنویسید، هوش مصنوعی <strong>به‌صورت خودکار</strong> اسکیل شما را فعال می‌کند و قبل از نوشتن، فایل تاریخچه <code>published-content-history.md</code> را چک می‌کند تا متن تکراری نباشد.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <div class="card-title">گام دوم: ذخیره خودکار در دیتابیس JSON</div>
+              <span class="badge badge-amber">ورود خودکار به وب‌اپ</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 14px;">
+              طبق <strong>گام ششم اسکیل</strong>، هر بار که ایجنت در چت برایتان اسکریپت ریلز تولید می‌کند، <strong>خودبه‌خود</strong> آن را از طریق <code>scripts/add_script_to_db.py</code> وارد فایل دیتابیس <code>data/scripts-db.json</code> می‌کند. یعنی نیازی به کپی‌پیست دستی نیست و اسکریپت بلافاصله در صفحه <a href="publisher.html" style="color:var(--rose-light); font-weight:700;">وب‌اپ پابلیشر (publisher.html)</a> ظاهر می‌شود!
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <div class="card-title">گام سوم: زمان‌بندی ۶ پسته و تیک انتشار</div>
+              <span class="badge badge-indigo">ثبت در تاریخچه اصلی</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 14px;">
+              وارد وب‌اپ پابلیشر می‌شوید، روز انتشار را تعیین می‌کنید تا بهترین ساعت انتشار (از بین ۶ تایم طلایی روز) به شما پیشنهاد شود، متن و کپشن را با یک کلیک کپی و در اینستاگرام منتشر می‌کنید و در پایان دکمه <strong>«☑️ تیک انتشار»</strong> را می‌زنید تا به تاریخچه اصلی (از شماره <code>#234</code> به بعد) اضافه شود.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- بخش جدید ۱.۵: راهنمای جامع گام‌به‌گام استفاده از وب‌اپلیکیشن پابلیشر (Publisher Studio) -->
+    <section id="publisher-guide" class="section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="section-num">🚀</span>
+          <span>آموزش گام‌به‌گام کار با «وب‌اپلیکیشن انتشار ۶ ریلز روزانه» (Publisher Studio)</span>
+        </div>
+        <a href="publisher.html" class="copy-btn" style="text-decoration:none; font-size:13.5px; padding:9px 18px;">ورود به وب‌اپ پابلیشر (http://127.0.0.1:8765/publisher.html) ⬅</a>
+      </div>
+
+      <div class="builder-box" style="border-color: rgba(16, 185, 129, 0.4); margin-bottom: 24px;">
+        <h3 style="font-size: 18px; font-weight: 900; color: #34d399; margin-bottom: 10px;">
+          ⚙️ روش راه‌اندازی وب‌اپلیکیشن روی کامپیوتر شما (در ۵ ثانیه)
+        </h3>
+        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 14px;">
+          برای اینکه دکمه‌های <strong>«تعیین روز انتشار»</strong> و <strong>«☑️ تیک انتشار (ثبت در فایل تاریخچه)»</strong> بتوانند فایل‌های <code>data/scripts-db.json</code> و <code>published-content-history.md</code> را مستقیماً روی هارد شما آپدیت کنند، وب‌اپلیکیشن دارای یک سرور سبک پایتون (<code>server.py</code>) است:
+        </p>
+        <div class="cards-grid-2">
+          <div class="prompt-box" style="margin-top:0;">
+            <strong style="color: var(--rose-light); font-size: 13.5px;">روش اول (ساده‌ترین روش — با دابل‌کلیک):</strong>
+            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 6px;">
+              در پوشه <code>d:\rozetext-framework</code> روی فایل <strong><code>start-publisher.bat</code></strong> دابل‌کلیک کنید. سرور به‌طور خودکار روشن می‌شود و آدرس <code>http://127.0.0.1:8765/publisher.html</code> در مرورگر شما باز خواهد شد.
+            </p>
+          </div>
+          <div class="prompt-box" style="margin-top:0;">
+            <strong style="color: #818cf8; font-size: 13.5px;">روش دوم (از طریق ترمینال یا محیط Antigravity):</strong>
+            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 6px;">
+              دستور <code>python server.py</code> را اجرا کنید (در حال حاضر این سرور در پس‌زمینه برای شما روشن است) و در مرورگر وارد آدرس <strong><code>http://127.0.0.1:8765/publisher.html</code></strong> شوید.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ۵ مرحله کار با پابلیشر -->
+      <div class="cards-grid-2" style="margin-bottom: 26px;">
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <div class="card-title">مرحله ۱: انتخاب روز انتشار از نوار تقویم بالا</div>
+              <span class="badge badge-rose">گام اول در وب‌اپ</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 13.8px;">
+              در بالای صفحه <code>publisher.html</code>، بخش <strong>«📅 انتخاب روز انتشار»</strong> قرار دارد. می‌توانید:
+              <br>• از دکمه‌های سریع (<code>امروز</code>، <code>فردا</code>، <code>پنج‌شنبه 🔥</code>، <code>جمعه 🔥</code>) یک روز را انتخاب کنید، یا از تقویم تاریخ دقیق بدهید.
+              <br>• به‌محض انتخاب روز، وب‌اپ بر اساس دیتای واقعی داشبورد اینسایت شما (<code>ONLINE_FOLLOWERS_AVG</code>)، <strong>تعداد دقیق فالوورهای آنلاین در هر ۶ ساعت طلایی آن روز هفته</strong> را محاسبه و نمایش می‌دهد (مثلاً در جمعه ساعت ۲۱:۰۰، عدد <strong>۱۷,۶۸۲ فالوور آنلاین</strong> را نشان می‌دهد).
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <div class="card-title">مرحله ۲: چیدمان خودکار یا دستی ۶ ریلز روزانه</div>
+              <span class="badge badge-amber">الگوریتم ۶ اسلات در روز</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 13.8px;">
+              چون هدف شما انتشار <strong>۶ ریلز در روز</strong> است، روز شما به ۶ موج طلایی تقسیم شده است:
+              <br>• اگر روی دکمه <strong>«⚡ چیدمان خودکار ۶ ریلز در ۶ تایم طلایی این روز»</strong> کلیک کنید، هوش مصنوعی پابلیشر ۶ اسکریپت منتشرنشده را بر اساس آرکتایپشان در بهترین ساعت آن روز می‌چیند (مثلاً <em>آدم همیشه قوی</em> را در اسلات ۵ ساعت <code>21:00</code> و <em>خداحافظی باوقار</em> را در اسلات ۶ ساعت <code>23:45</code> قرار می‌دهد).
+              <br>• همچنین روی هر کارت اسکریپت می‌توانید <strong>تاریخ</strong> و <strong>اسلات (۱ تا ۶)</strong> را به‌صورت تکی تغییر دهید تا ساعت پیشنهادی جدید به شما اعلام شود.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <div class="card-title">مرحله ۳: کپی یک‌کلیکی متن ریلز و کپشن</div>
+              <span class="badge badge-indigo">آماده ساخت ویدیو</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 13.8px;">
+              روی هر کارت اسکریپت در وب‌اپ، دو جعبه مجزا وجود دارد:
+              <br>۱) <strong>🎬 متن داخل ریلز (Manual Content):</strong> با تقطیع استاندارد ۱۲ تا ۱۶ خط کوتاه (۳ تا ۶ کلمه در هر خط)؛ با زدن دکمه <strong>«کپی متن ریلز»</strong> مستقیم وارد ادیتور ویدیو کنید.
+              <br>۲) <strong>📝 کپشن مکمل (Companion Caption):</strong> شامل حکم طلایی + سوال تعاملی کامنت؛ با زدن دکمه <strong>«کپی کپشن»</strong> هنگام پست کردن در اینستاگرام پیست کنید.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <div class="card-title">مرحله ۴: زدن دکمه «☑️ تیک انتشار» (ثبت در تاریخچه)</div>
+              <span class="badge badge-emerald">همگام‌سازی اتمیک و ضدتکرار</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 13.8px;">
+              به‌محض اینکه ریلز را در اینستاگرام منتشر کردید، در وب‌اپ روی دکمه سبز <strong>«☑️ تیک انتشار (ثبت خودکار در تاریخچه اصلی #234+)»</strong> کلیک کنید. چه اتفاقی می‌افتد؟
+              <br>• کارت به رنگ سبز درمی‌آید و یک شماره سریال دائمی (مثلاً <code>Reel #234</code>، <code>Reel #235</code>) می‌گیرد.
+              <br>• سرور به‌طور همزمان آن پست را به <strong>هر ۳ بخش فایل <code>published-content-history.md</code></strong> (هم در ریشه پروژه و هم در پوشه اسکیل) اضافه می‌کند تا هوش مصنوعی در آینده هرگز متن یا هوک مشابهی تولید نکند!
+              <br>• <strong>امنیت کامل:</strong> اگر به اشتباه تیک زدید، با کلیک روی <strong>«لغو تیک انتشار»</strong>، پست بدون کوچک‌ترین آسیبی به ۲۳۳ پست قبلی، از تاریخچه خارج می‌شود.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- جدول راهنمای ۶ اسلات روزانه در پابلیشر -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>شماره اسلات در پابلیشر</th>
+              <th>ساعت دقیق انتشار (به وقت ایران)</th>
+              <th>موج مخاطب در داشبورد Insights</th>
+              <th>بهترین آرکتایپ برای این اسلات</th>
+              <th>چرا پابلیشر این ساعت را پیشنهاد می‌دهد؟</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>اسلات #1</strong></td>
+              <td><span class="badge badge-indigo">۰۹:۳۰ صبح</span></td>
+              <td>باکس <code>9p</code> (۸,۸۶۲ تا ۱۱,۱۸۲ فالوور آنلاین)</td>
+              <td>آرکتایپ ۵ و ۶ (اصالت، رفتاربینی، داستان کوتاه)</td>
+              <td>شروع بیداری صبح و مسیر رفت‌وآمد؛ مخاطب پذیرای جملات قدرت‌بخش و مرزگذاری است.</td>
+            </tr>
+            <tr>
+              <td><strong>اسلات #2</strong></td>
+              <td><span class="badge badge-indigo">۱۲:۱۵ ظهر</span></td>
+              <td>باکس <code>12a</code> (۱۱,۹۰۲ تا ۱۵,۵۵۳ فالوور آنلاین)</td>
+              <td>آرکتایپ ۳ و ۶ (آدم امن، رفیق، مینی‌روایت)</td>
+              <td>تایم استراحت ظهر؛ مخاطبان پست‌های قدردانی را در دایرکت برای دوستانشان می‌فرستند.</td>
+            </tr>
+            <tr>
+              <td><strong>اسلات #3</strong></td>
+              <td><span class="badge badge-emerald">۱۵:۰۰ بعدازظهر</span></td>
+              <td>باکس <code>3a</code> (۱۳,۰۹۸ تا ۱۶,۶۲۰ فالوور آنلاین)</td>
+              <td>آرکتایپ ۱ و ۴ (خستگی روزانه، گلایه در رابطه)</td>
+              <td>موج بزرگ استراحت بعدازظهر؛ جهش عالی بازدید اکسپلور و کامنت.</td>
+            </tr>
+            <tr>
+              <td><strong>اسلات #4</strong></td>
+              <td><span class="badge badge-amber">۱۸:۱۵ عصر</span></td>
+              <td>باکس <code>6a</code> (۱۲,۴۵۲ تا ۱۵,۸۸۳ فالوور آنلاین)</td>
+              <td>آرکتایپ ۳ (تقدیم‌نامه به خواهر / پارتنر / رفیق)</td>
+              <td>کاشت پست پیش از شروع پیک شبانه برای جمع کردن موتور Share در دایرکت.</td>
+            </tr>
+            <tr>
+              <td class="cell-peak"><strong>اسلات #5 🔥</strong></td>
+              <td class="cell-peak"><span class="badge badge-rose">۲۱:۰۰ شب (پیک ۱)</span></td>
+              <td class="cell-peak">باکس <code>9a</code> (۱۴,۰۵۰ تا <strong>۱۷,۶۸۲</strong> فالوور آنلاین!)</td>
+              <td class="cell-peak">آرکتایپ ۱، ۳ و ۴ (قوی‌ترین بمب روز شما)</td>
+              <td class="cell-peak">شلوغ‌ترین ساعت کل شبانه‌روز در داشبورد شما + بالاترین نرخ تبدیل به وایرال میلیونی.</td>
+            </tr>
+            <tr>
+              <td class="cell-peak"><strong>اسلات #6 🔥</strong></td>
+              <td class="cell-peak"><span class="badge badge-rose">۲۳:۴۵ شب (پیک ۲)</span></td>
+              <td class="cell-peak">باکس <code>12p</code> (۱۳,۸۴۹ تا <strong>۱۷,۰۹۱</strong> فالوور آنلاین!)</td>
+              <td class="cell-peak">آرکتایپ ۱ و ۲ (تنهایی سنگ صبور / خداحافظی باوقار)</td>
+              <td class="cell-peak">ساعت خلوت، بی‌خوابی و بغض شبانه؛ بالاترین نرخ فالو و Save در کل پیج.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- بخش ۲: سازنده تعاملی پرامپت -->
+    <section id="prompt-builder" class="section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="section-num">۲</span>
+          <span>سازنده هوشمند پرامپت (Interactive Prompt Builder)</span>
+        </div>
+        <span class="badge badge-indigo">انتخاب کنید و با یک کلیک کپی کنید</span>
+      </div>
+
+      <div class="builder-box">
+        <div class="builder-controls">
+          <div class="control-group">
+            <label for="goalSelect">۱. هدف اصلی شما از این پست چیست؟</label>
+            <select id="goalSelect" onchange="updatePromptBuilder()">
+              <option value="تولید اسکریپت کامل ریلز + کپشن برای جذب حداکثری فالوور جدید (Follow Magnet)">🔥 جذب فالوور حداکثری (Follow Magnet - الگوی +5,685 فالوور)</option>
+              <option value="تولید اسکریپت ریلز + کپشن برای انفجار اشتراک‌گذاری در دایرکت (Share Magnet)">🚀 انفجار Share در دایرکت (Share Magnet - الگوی 111,000 شیر)</option>
+              <option value="تولید اسکریپت ریلز + کپشن برای جذب Save بالا و ماندگاری در ذهن (Save Magnet)">📌 جذب Save حداکثری (Save Magnet - الگوی 34,000 سیو)</option>
+              <option value="بازنویسی و تبدیل متن خام من به فرمول میلیون‌بازدید پیج + امتیازدهی از ۱۰۰">✍️ بازنویسی و ارتقای متن خام من به DNA پیج</option>
+              <option value="تولید ۱۰ هوک (خط اول) و ۵ ضربه نهایی (Mic-Drop) برای تست روی این موضوع">⚡ تولید ۱۰ هوک خط اول + ۵ پایانبندی کوبنده</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="archetypeSelect">۲. کدام آرکتایپ وایرال پیج استفاده شود؟</label>
+            <select id="archetypeSelect" onchange="updatePromptBuilder()">
+              <option value="آرکتایپ ۱ (سندرم آدم همیشه قوی، بی‌صدا خوب و خسته که همیشه گفته عیبی نداره)">آرکتایپ ۱: آدمِ همیشه قوی و بی‌صدا خوب (میانگین ۱.۸M ویو)</option>
+              <option value="آرکتایپ ۲ (خداحافظی آرام و باوقار، پذیرش پایان رابطه بدون جنگ و دعوا)">آرکتایپ ۲: خداحافظی باوقار و پذیرش پایان (میانگین ۱.۲M ویو)</option>
+              <option value="آرکتایپ ۳ (تقدیم‌نامه احساسی به آدم امن زندگی: خواهر، رفیق روز سخت یا پارتنر همراه)">آرکتایپ ۳: تقدیم‌نامه به آدم امن و ریشه‌دار (رکورد ۱۱۱ هزار شیر)</option>
+              <option value="آرکتایپ ۴ (گلایه بی‌دفاع در رابطه: من دنبال دعوا نبودم / با نقطه ضعفم اذیتم کردی)">آرکتایپ ۴: گلایه بی‌دفاع در رابطه (میانگین ۱.۳M ویو)</option>
+              <option value="آرکتایپ ۵ (مانیفست اصالت، رفتاربینی، بیزاری از دورویی و واگذاری به عدالت خدا)">آرکتایپ ۵: مانیفست رفتاربینی و عدالت خدا (رکورد ۲.۴۸M ویو)</option>
+              <option value="آرکتایپ ۶ (مینی‌روایت دیالوگی: گفتم... گفت... / پیام اشتباهی)">آرکتایپ ۶: مینی‌روایت دیالوگی و برش زندگی (میانگین ۶۰۰K ویو)</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="topicInput">۳. موضوع، حس یا مخاطب خاص پست (اختیاری):</label>
+            <input type="text" id="topicInput" placeholder="مثلاً: خستگی از توضیح دادن خودم به دیگران / یا: تقدیم به مادرم" oninput="updatePromptBuilder()" value="خستگی از اینکه همیشه سنگ صبور همه بودم ولی کسی حالمو نپرسید" />
+          </div>
+        </div>
+
+        <div class="generated-prompt-area">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+            <span style="font-size: 12.5px; color: var(--rose-light); font-weight: 700;">📋 پرامپت آماده شما (کپی کنید و مستقیم در چت Antigravity بفرستید):</span>
+            <button class="copy-btn" onclick="copyText('builderOutput', this)">کپی پرامپت</button>
+          </div>
+          <div id="builderOutput" class="generated-prompt-text"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- بخش ۳: ۸ سناریوی آماده کپی -->
+    <section id="prompt-library" class="section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="section-num">۳</span>
+          <span>بانک ۸ دستور (Prompt) آماده برای تمام نیازهای روزمره پیج</span>
+        </div>
+        <span class="badge badge-rose">کپی با یک کلیک</span>
+      </div>
+
+      <div class="cards-grid-2">
+        <!-- پرامپت ۱ -->
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <div class="card-title">۱. تولید پست جذب فالوور سنگین (آرکتایپ ۱)</div>
+              <span class="badge badge-rose">Follow Magnet</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 13.5px;">
+              مخصوص روزهایی که می‌خواهید مثل ریلز #2 (+3,647 فالوور) و ریلز #3 (+5,685 فالوور) موج فالوور جدید جذب کنید.
+            </p>
+            <div class="prompt-box">
+              <pre id="p1">با استفاده از اسکیل rozetext-persona-dna و بر اساس «آرکتایپ ۱ (آدم همیشه قوی و بی‌صدا خوب)»، ۲ اسکریپت ریلز جدید بنویس.
+نکات الزامی:
+- زاویه دید اول‌شخص («من / دلم / امشب فهمیدم»)
+- طول متن داخل ریلز بین ۶۵ تا ۸۰ کلمه در ۱۵ سطر کوتاه (۳ تا ۶ کلمه در هر خط)
+- استفاده از تکنیک «پله‌های تکراری» در میانه متن
+- پایان با یک ضربه نهایی باوقار (Mic-Drop)
+- کپشن مکمل ۳۵ کلمه‌ای + سوال تعاملی برای کامنت.</pre>
+              <div style="text-align: left; margin-top: 10px;">
+                <button class="copy-btn" onclick="copyText('p1', this)">کپی دستور</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- پرامپت ۲ -->
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <div class="card-title">۲. تولید پست انفجار Share در دایرکت (آرکتایپ ۳)</div>
+              <span class="badge badge-emerald">Share Magnet</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 13.5px;">
+              مخصوص باز کردن قفل اکسپلور از طریق ارسال پست در دایرکت (الگوی ریلز خواهر با ۱۱۱ هزار شیر و آدم امن با ۷۷ هزار شیر).
+            </p>
+            <div class="prompt-box">
+              <pre id="p2">با استفاده از اسکیل rozetext-persona-dna و «آرکتایپ ۳ (تقدیم‌نامه به آدم امن)»، یک اسکریپت ریلز احساسی و خودمانی بنویس که مخاطب بلافاصله برای [رفیق صمیمی / خواهر / پارتنر امنش] در دایرکت بفرستد.
+از جزئیات ملموس (مثل راحت خندیدن، بدون نقاب بودن، نترسیدن از قضاوت شدن) استفاده کن و کپشن را ۱ خطی و مستقیم برای ارسال («بفرست برای...») بنویس.</pre>
+              <div style="text-align: left; margin-top: 10px;">
+                <button class="copy-btn" onclick="copyText('p2', this)">کپی دستور</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- پرامپت ۳ -->
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <div class="card-title">۳. پست گلایه بی‌دفاع در رابطه (آرکتایپ ۴)</div>
+              <span class="badge badge-amber">Share + Save</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 13.5px;">
+              الگوی ریلز #8 (۱.۶۴ میلیون ویو) و ریلز #12 (۱.۳۶ میلیون ویو) برای حرف‌های نگفته میان زوج‌ها.
+            </p>
+            <div class="prompt-box">
+              <pre id="p3">با استفاده از اسکیل rozetext-persona-dna و «آرکتایپ ۴ (گلایه بی‌دفاع در رابطه)»، یک اسکریپت ریلز از زبان کسی بنویس که در رابطه دنبال دعوا و برنده شدن نبوده، فقط می‌خواسته شنیده و درک شود اما طرف مقابل با بی‌توجهی یا دفاع کردن از خودش دلش را سرد کرده است.
+بدون هیچ اصطلاح روانشناسی (مثل گسلایتینگ یا تاکسیک)، کاملاً با لحن صمیمی و واقعیِ پیج بنویس.</pre>
+              <div style="text-align: left; margin-top: 10px;">
+                <button class="copy-btn" onclick="copyText('p3', this)">کپی دستور</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- پرامپت ۴ -->
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <div class="card-title">۴. بازنویسی و تبدیل متن خام به DNA پیج</div>
+              <span class="badge badge-indigo">Rewrite & Polish</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 13.5px;">
+              وقتی متنی از جایی دیده‌اید یا خودتان پیش‌نویسی نوشته‌اید و می‌خواهید به فرمول وایرال پیج تبدیل شود.
+            </p>
+            <div class="prompt-box">
+              <pre id="p4">این متن خام را بر اساس اسکیل rozetext-persona-dna بازنویسی کن:
+«[متن خام خود را اینجا بگذارید]»
+
+لطفاً:
+۱. تمام کلمات کتابی، ترجمه‌ای یا آموزشی را حذف کن و به لحن «همدلِ زخمی اما باوقار» پیج من تبدیلش کن.
+۲. آن را در قالب ۴ پرده (هوک اعترافی، پله‌های تکراری، نقطه چرخش، و ضربه نهایی) در ۱۴ تا ۱۶ خط کوتاه تقطیع کن.
+۳. ابتدا با فایل تاریخچه published-content-history.md چک کن که هوک و جملاتش با ۲۳۳ پست قبلی تکراری نباشد.
+۴. امتیاز قبل و بعد از بازنویسی را با چک‌لیست ۱۰۰ امتیازی اسکیل به من بده.</pre>
+              <div style="text-align: left; margin-top: 10px;">
+                <button class="copy-btn" onclick="copyText('p4', this)">کپی دستور</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- پرامپت ۵: بررسی تکراری نبودن متن -->
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <div class="card-title">۵. بررسی تکراری نبودن متن در آرشیو ۲۳۳ پست</div>
+              <span class="badge badge-emerald">Anti-Duplication</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 13.5px;">
+              وقتی شک دارید که آیا متنی یا ایده‌ای را قبلاً در پیج منتشر کرده‌اید یا نه، از این دستور استفاده کنید.
+            </p>
+            <div class="prompt-box">
+              <pre id="p5">لطفاً این متن/ایده را با فایل تاریخچه متون منتشرشده پیجم (published-content-history.md) مقایسه کن:
+«[متن یا ایده موردنظر]»
+
+بررسی کن:
+۱. آیا این متن یا هوک قبلاً در بین ۲۳۳ ریلز پیج من منتشر شده است؟ (اگر بله، شماره ریلز و آمارش را بگو).
+۲. اگر قبلاً موضوع مشابهی کار شده، یک نسخه کاملاً جدید با زاویه دید، صحنه‌پردازی و جمله‌بندی تازه طبق اسکیل rozetext-persona-dna برایم بنویس که تکراری نباشد.</pre>
+              <div style="text-align: left; margin-top: 10px;">
+                <button class="copy-btn" onclick="copyText('p5', this)">کپی دستور</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- پرامپت ۶: ثبت پست جدید در تاریخچه -->
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <div class="card-title">۶. ثبت پست جدید منتشرشده در فایل تاریخچه</div>
+              <span class="badge badge-rose">Update History (#234+)</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 13.5px;">
+              هر بار که پست جدیدی در پیج منتشر کردید، با این دستور آن را به آرشیو تاریخچه اضافه کنید تا اسکیل دیگر هرگز مشابهش را ننویسد.
+            </p>
+            <div class="prompt-box">
+              <pre id="p6">من این پست جدید را در پیج منتشر کردم؛ لطفاً آن را به عنوان ریلز جدید در بخش ۱ هر دو فایل تاریخچه (published-content-history.md در ریشه پروژه و داخل پوشه references اسکیل) ثبت کن:
+
+• متن داخل ریلز:
+«[متن ریلز منتشرشده]»
+• کپشن:
+«[کپشن منتشرشده]»</pre>
+              <div style="text-align: left; margin-top: 10px;">
+                <button class="copy-btn" onclick="copyText('p6', this)">کپی دستور</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- بخش ۴: کالبدشکافی ۶ آرکتایپ و ساختار ۴ پرده‌ای -->
+    <section id="archetypes" class="section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="section-num">۴</span>
+          <span>معماری درونی اسکیل: ۶ آرکتایپ میلیون‌بازدید و ساختار ۴ پرده‌ای</span>
+        </div>
+        <span class="badge badge-rose">استخراج‌شده از ۷۰ ریلز وایرال</span>
+      </div>
+
+      <div class="table-wrap" style="margin-bottom: 26px;">
+        <table>
+          <thead>
+            <tr>
+              <th>کد آرکتایپ</th>
+              <th>عنوان کهن‌الگو در اسکیل</th>
+              <th>بهترین نمونه واقعی در پیج شما</th>
+              <th>موتور اصلی الگوریتم</th>
+              <th>فرمول هوک آغازین</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>آرکتایپ ۱</strong></td>
+              <td>سندرم آدمِ همیشه قوی و بی‌صدا خوب</td>
+              <td>ریلز #2 (2.26M ویو) و ریلز #3 (2.18M ویو / +5,685 فالوور)</td>
+              <td><span class="badge badge-rose">جذب فالوور حداکثری</span></td>
+              <td>«من برای همه بودم...» / «امشب فهمیدم دلم بیشتر از چیزی که فکر می‌کردم خسته است...»</td>
+            </tr>
+            <tr>
+              <td><strong>آرکتایپ ۲</strong></td>
+              <td>خداحافظی آرام و باوقار / پذیرش پایان</td>
+              <td>ریلز #5 (1.91M ویو / 34,295 سیو) و ریلز #9 (1.46M ویو)</td>
+              <td><span class="badge badge-indigo">Save + فالوور</span></td>
+              <td>«آخرین پیام من به تو؛ بالاخره پذیرفتم...» / «نبودنت بهتر از نصف و نیمه بودنته...»</td>
+            </tr>
+            <tr>
+              <td><strong>آرکتایپ ۳</strong></td>
+              <td>تقدیم‌نامه به آدمِ امن و ریشه‌دار</td>
+              <td>ریلز #7 (111,170 شیر!) و ریلز #6 (77,749 شیر!)</td>
+              <td><span class="badge badge-emerald">انفجار Share در دایرکت</span></td>
+              <td>«خطاب به خواهرم؛» / «من کنار بعضی از آدمای زندگیم خیلی خودمم...»</td>
+            </tr>
+            <tr>
+              <td><strong>آرکتایپ ۴</strong></td>
+              <td>گلایه بی‌دفاع در رابطه</td>
+              <td>ریلز #8 (1.64M ویو / 33K شیر) و ریلز #16 (930K ویو)</td>
+              <td><span class="badge badge-amber">Share به پارتنر + Save</span></td>
+              <td>«شاید یه روز بفهمی من هیچ‌وقت دنبال دعوا نبودم...» / «یادته چقدر پیگیرت بودم؟»</td>
+            </tr>
+            <tr>
+              <td><strong>آرکتایپ ۵</strong></td>
+              <td>مانیفست اصالت، رفتاربینی و عدالت خدا</td>
+              <td>ریلز #1 (2.48M ویو — رتبه ۱ پیج!) و ریلز #13 (+2,000 فالوور)</td>
+              <td><span class="badge badge-rose">ویو کلان اکسپلور</span></td>
+              <td>«آدم‌ها می‌توانند آبرویت را خراب کنند، اما...» / «به شدت آدم رفتاربینی شدم...»</td>
+            </tr>
+            <tr>
+              <td><strong>آرکتایپ ۶</strong></td>
+              <td>مینی‌روایت دیالوگی و برش زندگی</td>
+              <td>ریلز #28 (635K ویو) و ریلز #30 (611K ویو)</td>
+              <td><span class="badge badge-indigo">نگه‌داشت ۱۰۰٪ (Watch Time)</span></td>
+              <td>«یک پیام اشتباهی اومد:...» / «گفتم: بزرگ‌ترین حسرتی که از بچگی همراهته چیه؟ گفت:...»</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- بخش ۵: جدول حرارتی ساعات آنلاین بودن به وقت ایران -->
+    <section id="insights-schedule" class="section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="section-num">۵</span>
+          <span>ماتریس ساعات طلایی انتشار به وقت ایران (کالیبره‌شده با داشبورد Insights)</span>
+        </div>
+        <span class="badge badge-emerald">بر اساس ۵۹,۵۲۳ فالوور پیج @rozetext.ir</span>
+      </div>
+
+      <p style="color: var(--text-secondary); margin-bottom: 18px;">
+        جدول زیر تبدیل دقیق ماتریس <code>ONLINE_FOLLOWERS_AVG</code> داشبورد وب اینستاگرام شما از تایم سرور (<code>UTC-7</code>) به <strong>ساعت رسمی ایران (<code>IRST +03:30</code>)</strong> در تمام ۷ روز هفته است.
+        بازه <strong>۲۰:۳۰ شب تا ۰۲:۲۹ بامداد به وقت ایران</strong> هم در داشبورد اینسایت بالاترین تعداد فالوور آنلاین (تا <strong>۱۷,۶۸۲ نفر در جمعه شب</strong>) و هم در فایل گزارش بالاترین نرخ وایرال شدن (<strong>۴۳.۸٪ تا ۵۵.۶٪</strong>) را دارد:
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ساعت به وقت ایران (IRST)</th>
+              <th>باکس داشبورد</th>
+              <th>دوشنبه</th>
+              <th>سه‌شنبه</th>
+              <th>چهارشنبه</th>
+              <th>پنج‌شنبه</th>
+              <th>جمعه (اوج هفته)</th>
+              <th>شنبه (کف هفته)</th>
+              <th>یکشنبه</th>
+              <th>استراتژی انتشار</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>۲۰:۳۰ تا ۲۳:۲۹ شب</strong></td>
+              <td><code>9a</code></td>
+              <td class="cell-high">14,994</td>
+              <td class="cell-high">15,369</td>
+              <td class="cell-peak">15,908</td>
+              <td class="cell-peak">16,167</td>
+              <td class="cell-peak">17,682 🔥</td>
+              <td class="cell-high">14,050</td>
+              <td class="cell-high">14,594</td>
+              <td><span class="badge badge-rose">پنجره طلایی ۱: بمب اصلی شبانه</span></td>
+            </tr>
+            <tr>
+              <td><strong>۲۳:۳۰ شب تا ۰۲:۲۹ بامداد</strong></td>
+              <td><code>12p</code></td>
+              <td class="cell-high">14,794</td>
+              <td class="cell-high">15,145</td>
+              <td class="cell-peak">15,871</td>
+              <td class="cell-peak">16,382 🔥</td>
+              <td class="cell-peak">17,091 🔥</td>
+              <td class="cell-high">13,849</td>
+              <td class="cell-high">14,339</td>
+              <td><span class="badge badge-rose">پنجره طلایی ۲: پست‌های بغض و دلتنگی</span></td>
+            </tr>
+            <tr>
+              <td><strong>۱۴:۳۰ ظهر تا ۱۷:۲۹ عصر</strong></td>
+              <td><code>3a</code></td>
+              <td class="cell-high">14,094</td>
+              <td class="cell-high">14,536</td>
+              <td class="cell-high">14,999</td>
+              <td class="cell-peak">15,670</td>
+              <td class="cell-peak">16,620</td>
+              <td>13,098</td>
+              <td>13,698</td>
+              <td><span class="badge badge-emerald">پنجره طلایی ۳: بهترین تایم پست اول روز</span></td>
+            </tr>
+            <tr>
+              <td><strong>۱۷:۳۰ عصر تا ۲۰:۲۹ شب</strong></td>
+              <td><code>6a</code></td>
+              <td>13,260</td>
+              <td>13,646</td>
+              <td class="cell-high">14,205</td>
+              <td class="cell-high">14,511</td>
+              <td class="cell-peak">15,883</td>
+              <td>12,452</td>
+              <td>12,887</td>
+              <td><span class="badge badge-amber">پیش‌راه‌اندازی (کاشت ساعت ۲۰:۰۰ شب)</span></td>
+            </tr>
+            <tr>
+              <td><strong>۱۱:۳۰ ظهر تا ۱۴:۲۹ ظهر</strong></td>
+              <td><code>12a</code></td>
+              <td>12,787</td>
+              <td>13,196</td>
+              <td>13,652</td>
+              <td class="cell-high">14,372</td>
+              <td class="cell-high">15,553</td>
+              <td>11,902</td>
+              <td>12,538</td>
+              <td><span class="badge badge-indigo">تایم استراحت ظهرگاهی</span></td>
+            </tr>
+            <tr>
+              <td><strong>۰۸:۳۰ تا ۱۱:۲۹ صبح</strong></td>
+              <td><code>9p</code></td>
+              <td>9,647</td>
+              <td>10,136</td>
+              <td>10,216</td>
+              <td>9,702</td>
+              <td>11,182</td>
+              <td>8,862</td>
+              <td>9,291</td>
+              <td>شروع بیداری صبح</td>
+            </tr>
+            <tr>
+              <td><strong>۰۲:۳۰ تا ۰۵:۲۹ بامداد</strong></td>
+              <td><code>3p</code></td>
+              <td class="cell-low">6,122</td>
+              <td class="cell-low">6,271</td>
+              <td class="cell-low">6,830</td>
+              <td class="cell-low">8,097</td>
+              <td class="cell-low">7,091</td>
+              <td class="cell-low">5,847</td>
+              <td class="cell-low">6,017</td>
+              <td>❌ افت شدید بامداد (پست نگذارید)</td>
+            </tr>
+            <tr>
+              <td><strong>۰۵:۳۰ تا ۰۸:۲۹ صبح</strong></td>
+              <td><code>6p</code></td>
+              <td class="cell-low">4,732</td>
+              <td class="cell-low">5,020</td>
+              <td class="cell-low">4,792</td>
+              <td class="cell-low">4,586</td>
+              <td class="cell-low">5,510</td>
+              <td class="cell-low">4,316</td>
+              <td class="cell-low">4,595</td>
+              <td>❌ منطقه مرده خواب صبحگاهی</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- بخش ۶: جدول خط قرمزها (بنویس / ننویس) -->
+    <section id="dos-donts" class="section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="section-num">۶</span>
+          <span>فیلتر خط قرمزهای اسکیل (چرا ۲۳ پست Flop شکست خوردند؟)</span>
+        </div>
+        <span class="badge badge-amber">مقایسه مستقیم دیتای پیج</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>موضوع محتوا</th>
+              <th>❌ خط قرمز شکست‌خورده در پیج (FLOP - زیر ۱۰ هزار ویو)</th>
+              <th>🔥 فرمول برنده در اسکیل (VIRAL - بالای ۱ میلیون ویو)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>تفاوت زن و مرد</strong></td>
+              <td>فرمت جدولی و بولتی: «• زن‌ها چطور آروم میشن؟ حضور / • مردها چطور آروم میشن؟ خلوت» (ریلز #211: ۹.۳K ویو)</td>
+              <td>روایتِ حسِ انتخاب شدن و امنیت: «وقتی با یک مرد واقعی باشی، می‌فهمی دیگر لازم نیست برای هیچ‌چیزی التماس کنی...» (ریلز #19: ۸۵۱K ویو)</td>
+            </tr>
+            <tr>
+              <td><strong>نحوه بیان دلخوری</strong></td>
+              <td>لحن معلم‌گونه: «نگو: هر کاری داری بکن / بگو: برام مهمه حالت خوب باشه» (ریلز #222: ۶.۲K ویو)</td>
+              <td>مونولوگ صادقانه اول‌شخص: «شاید یه روز بفهمی من هیچ‌وقت دنبال دعوا نبودم... فقط می‌خواستم گوش بدی» (ریلز #8: ۱.۶۴M ویو)</td>
+            </tr>
+            <tr>
+              <td><strong>واژگان روانشناسی</strong></td>
+              <td>استفاده از کلمات «گسلایتینگ»، «طلاق عاطفی»، «هوش هیجانی (EQ)»، «شخص سبز»، «فروید می‌گوید» (ریلز #214، #217، #218، #221)</td>
+              <td>توصیف ملموسِ زخم بدون نام‌گذاری کلینیکی: «تمام نقطه‌ضعفامو بهت گفته بودم و دقیقاً با همونا اذیتم کردی...» (ریلز #16: ۹۳۰K ویو)</td>
+            </tr>
+            <tr>
+              <td><strong>داستان و تمثیل</strong></td>
+              <td>حکایت ترجمه‌ای: «یه افسانه ژاپنی هست که میگه اگر به اتوبوس نرسیدی...» (ریلز #213: ۸.۴K ویو)</td>
+              <td>برش واقعی از زندگی و خانواده ایرانی: «مامانم میگه تو بی‌اعصابی، بابام میگه وقتی از سر کار میای اصن حرف نمی‌زنی...» (ریلز #4: ۱.۹۳M ویو)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- بخش ۷: شکار هوشمند محتوای وایرال بر اساس پرسونای پیج + نمره احتمال وایرال شدن و کالبدشکافی بازخورد -->
+    <section id="viral-hunter-guide" class="section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="section-num">۷</span>
+          <span>شکار هوشمند محتوای میلیونی بر اساس پرسونا و DNA پیج + سیستم نمره احتمال وایرال شدن (۶×N روزانه)</span>
+        </div>
+        <span class="badge badge-rose">🔥 فیلتر دروازه‌بان پرسونا + کالبدشکافی پس از انتشار</span>
+      </div>
+
+      <div class="card" style="border-color: rgba(244, 63, 94, 0.45); margin-bottom: 20px;">
+        <h3 style="font-size:18px; font-weight:900; color:#fff; margin-bottom:10px;">
+          🧬 ۱. قانون طلایی شکارچی محتوا: «استفاده مستقیم از متن خامِ ۱۰۰٪ سازگار با DNA پیج» (بدون بازنویسی!)
+        </h3>
+        <p style="font-size:14.5px; color:var(--text-secondary); line-height:1.95; margin-bottom:14px;">
+          در شکار محتوای میلیونی، ما از <strong>خودِ متن خام داخل ویدیوی مرجع (<code>extracted_raw_text</code>) به‌صورت مستقیم و ۱ به ۱</strong> استفاده می‌کنیم و کلمات آن را بازنویسی یا بومی‌سازی <strong>نمی‌کنیم</strong> تا ریتم و فرمول تست‌شده‌ی وایرال دست‌نخورده بماند! به همین دلیل، شکارچی محتوا موظف است فیلتر پرسونا را مستقیماً روی <strong>«متن خام روی تصویر»</strong> اعمال کند و فقط ریلزهایی را انتخاب کند که متن خامشان از ابتدا ۱۰۰٪ شبیه استایل <code>@rozetext.ir</code> باشد:
+        </p>
+
+        <div class="cards-grid-3" style="margin-bottom:18px;">
+          <div class="card" style="background:rgba(16, 185, 129, 0.05); border-color:rgba(16, 185, 129, 0.35);">
+            <strong style="color:var(--emerald-accent); display:block; margin-bottom:6px;">✅ فیلتر ۱: سازگاری ۱۰۰٪ متن خام با DNA پیج (بدون نیاز به بازنویسی)</strong>
+            <p style="font-size:13px; color:var(--text-secondary);">متن خام باید کامل داخل فریم ویدیو باشد (۴۵ تا ۱۰۰ کلمه در ۷ تا ۱۶ سطر)، با زاویه دید اول‌شخص/دوم‌شخص صمیمی و لحن محاوره‌ای-ادبی تمیز. ریلزهای «ادامه در کپشن»، دیالوگ‌های داستانی (مولانا و شمس)، نقل‌قول شاعران و پیج‌های تکراری (مثل <code>@halekhoub</code>) اکیداً <strong>رد (Reject)</strong> می‌شوند.</p>
+          </div>
+          <div class="card" style="background:rgba(244, 63, 94, 0.05); border-color:rgba(244, 63, 94, 0.35);">
+            <strong style="color:var(--rose-light); display:block; margin-bottom:6px;">🎯 فیلتر ۲: نمره ۵ شاخصی احتمال وایرال شدن (از ۱۰۰)</strong>
+            <p style="font-size:13px; color:var(--text-secondary);">چه برای اسکریپت‌های تولیدی و چه شکارشده، ۵ شاخص بیست‌امتیازی ثبت می‌شود: <strong>۱. تطابق پرسونا (۲۰)</strong>، <strong>۲. قدرت هوک ۲ ثانیه (۲۰)</strong>، <strong>۳. ریتم و واچ‌تایم (۲۰)</strong>، <strong>۴. ضربه نهایی و سیو (۲۰)</strong>، <strong>۵. محرک شیر دایرکت (۲۰)</strong>.</p>
+          </div>
+          <div class="card" style="background:rgba(245, 158, 11, 0.05); border-color:rgba(245, 158, 11, 0.35);">
+            <strong style="color:#fbbf24; display:block; margin-bottom:6px;">📊 فیلتر ۳: کالبدشکافی اختلاف نمره با بازخورد واقعی</strong>
+            <p style="font-size:13px; color:var(--text-secondary);">در وب‌اپ پابلیشر (`publisher.html`) می‌توانید بعد از انتشار، بازدید واقعی را وارد کنید تا سیستم مشخص کند <strong>چرا مثلاً پستی با نمره ۹۷ از ۱۰۰ بازخورد کمتری گرفته</strong> (طول خط اول روی کاور، ساعت انتشار، کنتراست/موزیک یا ضعف محرک شیر).</p>
+          </div>
+        </div>
+
+        <!-- جدول ۵ شاخص نمره احتمال وایرال شدن -->
+        <div class="table-wrap" style="margin-bottom:18px;">
+          <table>
+            <thead>
+              <tr>
+                <th>ردیف شاخص</th>
+                <th>نام شاخص در دیتابیس</th>
+                <th>سهم از ۱۰۰ امتیاز</th>
+                <th>اگر نمره بالا بود ولی بازخورد نگرفتیم، چه چیزی را بررسی کنیم؟ (Post-Mortem Check)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>۱. تطابق با پرسونا و DNA پیج</strong></td>
+                <td><code>persona_fit</code></td>
+                <td><span class="badge badge-emerald">۲۰ امتیاز</span></td>
+                <td>آیا لحن متن واقعاً با مخاطب ۷۲.۱٪ خانم (۱۸–۳۴ سال) پیج هم‌ذات‌پنداری ایجاد کرده یا بیش از حد کلی/ادبی بوده است؟</td>
+              </tr>
+              <tr>
+                <td><strong>۲. قدرت قلاب ۲ ثانیه اول</strong></td>
+                <td><code>hook_power</code></td>
+                <td><span class="badge badge-emerald">۲۰ امتیاز</span></td>
+                <td>آیا سطر اول روی کاور ویدیو بیش از ۶ کلمه بوده که مخاطب قبل از خواندن کامل اسکرول کرده است؟</td>
+              </tr>
+              <tr>
+                <td><strong>۳. ریتم تقطیع و واچ‌تایم</strong></td>
+                <td><code>pacing_watchtime</code></td>
+                <td><span class="badge badge-emerald">۲۰ امتیاز</span></td>
+                <td>آیا پله‌های تکراری در میانه متن وجود داشته و مدت ویدیو بین ۷ تا ۱۰ ثانیه بوده است تا Watch Time بالای ۱۰۰٪ شود؟</td>
+              </tr>
+              <tr>
+                <td><strong>۴. ضربه نهایی باوقار (سیو)</strong></td>
+                <td><code>micdrop_saveability</code></td>
+                <td><span class="badge badge-emerald">۲۰ امتیاز</span></td>
+                <td>آیا خط آخر به اندازه کافی کوبنده و باوقار بوده که مخاطب برای روزهای دلتنگی آن را <code>Save</code> کند؟</td>
+              </tr>
+              <tr>
+                <td><strong>۵. محرک ارسال در دایرکت (شیر)</strong></td>
+                <td><code>share_trigger</code></td>
+                <td><span class="badge badge-emerald">۲۰ امتیاز</span></td>
+                <td>مهم‌ترین عامل رشد (۸۶.۵٪ Non-followers): آیا مخاطب با دیدن پست، چهره یک نفر (پارتنر، رفیق، اکس، خانواده) جلوی چشمش آمده تا برایش فوروارد کند؟</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- سازنده پرامپت شکار مرورگر -->
+        <div class="prompt-builder" style="margin-top:12px;">
+          <div class="builder-title">🤖 سازنده دستور شکار خودکار محتوای وایرال بر اساس پرسونا و DNA پیج (کپی کنید و در چت بفرستید)</div>
+          <div class="builder-controls">
+            <div class="control-group">
+              <label>تعداد روزها (هر روز = ۶ ریلز وایرال):</label>
+              <select id="huntDaysSelect" onchange="updateHunterPrompt()">
+                <option value="1" selected>۱ روز (۱ دسته ۶ تایی = ۶ ریلز وایرال)</option>
+                <option value="2">۲ روز (۲ دسته ۶ تایی = ۱۲ ریلز وایرال)</option>
+                <option value="3">۳ روز (۳ دسته ۶ تایی = ۱۸ ریلز وایرال)</option>
+                <option value="4">۴ روز (۴ دسته ۶ تایی = ۲۴ ریلز وایرال)</option>
+                <option value="7">۷ روز — یک هفته کامل (۷ دسته ۶ تایی = ۴۲ ریلز وایرال)</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <label>حداقل بازدید ریلزهای مرجع:</label>
+              <select id="huntMinViewsSelect" onchange="updateHunterPrompt()">
+                <option value="300,000 تا 500,000+ بازدید">حداقل ۳۰۰ الی ۵۰۰ هزار بازدید (+300K–500K)</option>
+                <option value="500,000 تا 1,000,000+ بازدید" selected>حداقل ۵۰۰ هزار تا بالای ۱ میلیون بازدید (+500K–1M)</option>
+                <option value="1,000,000+ بازدید (فقط میلیونی‌ها)">فقط ریلزهای بالای ۱ میلیون بازدید (+1M Club)</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <label>تاریخ شروع چیدمان در پابلیشر:</label>
+              <input type="date" id="huntStartDateInput" value="2026-09-28" onchange="updateHunterPrompt()" />
+            </div>
+          </div>
+
+          <div class="prompt-box" style="margin-bottom:0;">
+            <div class="prompt-box-header">
+              <span class="prompt-box-label">📋 پرامپت آماده شکار مرورگر با فیلتر پرسونا و نمره‌دهی احتمال وایرال شدن</span>
+              <button class="copy-btn" onclick="copyText('hunterPromptOutput', this)">کپی پرامپت شکار وایرال</button>
+            </div>
+            <pre id="hunterPromptOutput"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- بخش ۸: مستندات کامل اسکیل موتور استوری تعاملی روزانه (rozetext-story-engine) -->
+    <section id="story-skill-guide" class="section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="section-num">۸</span>
+          <span>اسکیل موتور استوری تعاملی روزانه (<code>rozetext-story-engine</code>) — شکستن قفل ۲,۰۰۰ سین در پیج ۵۹,۸۵۰ نفری</span>
+        </div>
+        <span class="badge badge-emerald">🆕 افزایش سین از ۳.۳۴٪ به ۷.۵٪+ (۴,۵۰۰+ سین)</span>
+      </div>
+
+      <div class="card" style="border-color: rgba(16, 185, 129, 0.45); margin-bottom: 22px;">
+        <h3 style="font-size: 18px; font-weight: 900; color: #34d399; margin-bottom: 10px;">
+          📊 چرا این اسکیل ساخته شد و چطور قفل ۲,۰۰۰ سین (از ۵۹,۸۵۰ فالوور) را می‌شکند؟
+        </h3>
+        <p style="font-size: 14.5px; color: var(--text-secondary); line-height: 1.95; margin-bottom: 16px;">
+          پیج شما دارای <strong>۵۹,۸۵۰ فالوور</strong> و بیش از <strong>۱۵,۰۰۰ فالوور آنلاین در پیک شبانه</strong> است، اما ماکزیمم سین استوری روی <strong>۲,۰۰۰ نفر (۳.۳۴٪)</strong> قفل شده و سهم استوری از تعاملات پیج فقط <strong>۰.۲٪</strong> است. علت این پدیده، <strong>«فالوورهای ریلزیِ خفته» (حدود ۴۰,۰۰۰ نفر)</strong> هستند که شما را از داخل فید Reels فالو کرده‌اند اما به دلیل ری‌استوری شدنِ خشکِ پست‌ها، الگوریتم اینستاگرام دایره استوری شما را از نوار بالای صفحه (<code>Story Tray</code>) آن‌ها حذف کرده است. اسکیل <code>.agents/skills/rozetext-story-engine/SKILL.md</code> با ۴ قانون الگوریتمی زیر این قفل را باز می‌کند:
+        </p>
+
+        <div class="cards-grid-2" style="margin-bottom: 18px;">
+          <div class="card" style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.35);">
+            <strong style="color: #34d399; display: block; margin-bottom: 6px;">۱. قانون ریست ۲۴ ساعته + تک‌استوری شوک ساعت ۲۱:۱۵</strong>
+            <p style="font-size: 13px; color: var(--text-secondary);">هرگز اولین استوری روز نباید «ری‌استوری پست» باشد! بعد از خالی شدن دایره استوری برای چند ساعت، راس ساعت <strong>۲۱:۱۵ شب</strong> فقط <strong>۱ استوری مشکی مات با ۳ خط متن عمیق + نظرسنجی ۲ گزینه‌ای احساسی (Poll)</strong> می‌گذارید تا بالای ۲۰٪ از ۲,۰۰۰ نفر اول کلیک کنند و الگوریتم مجبور شود استوری را به ۱۰,۰۰۰ فالوور خفته نشان دهد.</p>
+          </div>
+          <div class="card" style="background: rgba(244, 63, 94, 0.05); border-color: rgba(244, 63, 94, 0.35);">
+            <strong style="color: var(--rose-light); display: block; margin-bottom: 6px;">۲. تکنیک «سانسور خط آخر» + «پلِ کامنت پین‌شده زیر ریلز»</strong>
+            <p style="font-size: 13px; color: var(--text-secondary);">یک ساعت بعد (ساعت <strong>۲۲:۱۵</strong>)، ریلزِ جدید را در استوری دوم می‌گذارید اما <strong>خط آخر آن را با یک کادر می‌پوشانید</strong> تا مخاطب برای خواندن ضربه نهایی روی ریلز کلیک کند. هم‌زمان زیر ریلز ساعت ۲۱:۰۰ کامنت پین‌شده می‌گذارید تا بازدیدکنندگان ریلز با پای خودشان وارد دایره استوری شوند.</p>
+          </div>
+        </div>
+
+        <!-- جدول تقویم ۷ روزه آرکتایپ‌های استوری تعاملی -->
+        <div class="table-wrap" style="margin-bottom: 20px;">
+          <table>
+            <thead>
+              <tr>
+                <th>روز هفته</th>
+                <th>وضعیت مخاطب در اینسایت</th>
+                <th>فرمول اختصاصی استوری تعاملی آن روز (ساعت ۲۱:۱۵)</th>
+                <th>ابزار تعاملی</th>
+                <th>هدف الگوریتمی</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>شنبه</strong></td>
+                <td>شروع هفته (<code>51.1M</code>)</td>
+                <td>دوراهیِ «آدم همیشه قوی و بی‌صدا خسته» (ریختن بغض در خود یا فاصله گرفتن از جمع)</td>
+                <td><span class="badge badge-emerald">Poll دوگزینه‌ای</span></td>
+                <td>ریست هفتگی نوار استوری و جذب ۲۵٪ کلیک اول</td>
+              </tr>
+              <tr>
+                <td><strong>یکشنبه</strong></td>
+                <td>رشد تعامل (<code>53.5M</code>)</td>
+                <td>محاکمه عاطفی: «اگر کسی که دلت رو شکسته برگرده، واقعاً عوض شده یا فقط دلتنگِ توجهته؟»</td>
+                <td><span class="badge badge-rose">Poll چالشی + Reply</span></td>
+                <td>تحریک بحث و ریپلای در دایرکت</td>
+              </tr>
+              <tr>
+                <td><strong>دوشنبه</strong></td>
+                <td>اوج میانه هفته (<code>56.7M</code>)</td>
+                <td>زخمِ «نقشِ فرزند صبور و سنگ‌صبورِ خانه که خودش حق نداره خسته بشه»</td>
+                <td><span class="badge badge-indigo">Poll همذات‌پنداری</span></td>
+                <td>افزایش نرخ تکمیل استوری (Completion Rate)</td>
+              </tr>
+              <tr>
+                <td><strong>سه‌شنبه</strong></td>
+                <td>تثبیت مخاطب (<code>57.0M</code>)</td>
+                <td>تستِ «رفتاربینی»: کدوم رفتارِ یه آدم درجا از چشمت میندازتش؟ (نادیده گرفتن vs زخم زبان)</td>
+                <td><span class="badge badge-amber">Poll / Quiz</span></td>
+                <td>نگه‌داشتن انگشت مخاطب روی صفحه (Hold Retention)</td>
+              </tr>
+              <tr>
+                <td><strong>چهارشنبه 🔥</strong></td>
+                <td>جهش آخر هفته (<code>59.5M</code>)</td>
+                <td>کالبدشکافی «قهرِ از سرِ دوست داشتن (بیا از دلم دربیار) در برابر سرد شدنِ بی‌صدا»</td>
+                <td><span class="badge badge-rose">Poll مخصوص پارتنرها</span></td>
+                <td>بالاترین نرخ فوروارد استوری در دایرکت (Story Share)</td>
+              </tr>
+              <tr>
+                <td class="cell-peak"><strong>پنجشنبه 🔥🔥</strong></td>
+                <td class="cell-peak"><strong>پیک مطلق هفته (<code>60.5M</code>)</strong></td>
+                <td class="cell-peak">باکس ناشناس نیمه‌شب: «یه جمله بنویس برای کسی که دیگه هیچ‌وقت پیامش رو نمی‌بینی...»</td>
+                <td class="cell-peak"><span class="badge badge-emerald">Question Box</span></td>
+                <td class="cell-peak">انفجار ریپلای و تعاملات متنی (بالاترین امتیاز الگوریتم)</td>
+              </tr>
+              <tr>
+                <td><strong>جمعه</strong></td>
+                <td>غروب دلتنگی (<code>58.3M</code>)</td>
+                <td>انتشار ۳ پیام برگزیده از باکس پنجشنبه‌شب روی تم مشکی + نظرسنجیِ «دلتنگِ یه آدم یا خودِ قدیمیت؟»</td>
+                <td><span class="badge badge-indigo">Poll همدلی</span></td>
+                <td>ایجاد حسِ «جامعه صمیمی» و چک کردن روزانه استوری‌ها</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- سازنده هوشمند پرامپت استوری تعاملی روزانه -->
+        <div class="builder-box" style="border-color: rgba(16, 185, 129, 0.45); margin-top: 16px;">
+          <h4 style="font-size: 16.5px; font-weight: 900; color: #34d399; margin-bottom: 12px;">
+            🛠️ سازنده هوشمند پرامپت «ایده استوری تعاملی روزانه» (متصل به اسکیل <code>rozetext-story-engine</code>)
+          </h4>
+          <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 14px;">
+            روز هفته و نوع تعامل استوری را انتخاب کنید، دکمه <strong>«کپی پرامپت استوری»</strong> را بزنید و در چت برای ایجنت بفرستید تا پکیج کامل استوری آن روز (اسلاید ۱ ساعت ۲۱:۱۵ + اسلاید ۲ ساعت ۲۲:۱۵ + کامنت پین‌شده زیر ریلز) را برایتان طراحی کند:
+          </p>
+
+          <div class="builder-controls">
+            <div class="control-group">
+              <label for="storyDaySelect">۱. انتخاب روز هفته (متناسب با منحنی اینسایت پیج):</label>
+              <select id="storyDaySelect" onchange="updateStoryPrompt()">
+                <option value="شنبه (شروع هفته — آرکتایپ ۱: آدم همیشه قوی و بی‌صدا خسته)">شنبه — آدم همیشه قوی و بی‌صدا خسته</option>
+                <option value="یکشنبه (رشد تعامل — آرکتایپ ۲: مرزگذاری و برگشتن آدم قبلی)">یکشنبه — دوراهی بخشش یا بستن درها</option>
+                <option value="دوشنبه (میانه هفته — آرکتایپ ۳ و ۴: فرزند صبور و سنگ‌صبور خانه)" selected>دوشنبه — فرزند صبور و سنگ‌صبور خانواده</option>
+                <option value="سه‌شنبه (آرکتایپ ۵: مانیفست رفتاربینی و خودساختگی)">سه‌شنبه — رفتاربینی در برابر حرف‌های قشنگ</option>
+                <option value="چهارشنبه (جهش آخر هفته ۵۹.۵M — قهر از سر دوست داشتن یا سرد شدن؟)">چهارشنبه 🔥 — قهرِ از سرِ دلتنگی یا سرد شدن؟</option>
+                <option value="پنجشنبه (پیک مطلق هفته ۶۰.۵M — باکس ناشناس حرف‌های نگفته)">پنجشنبه 🔥🔥 — باکس ناشناس حرف‌های نگفته نیمه‌شب</option>
+                <option value="جمعه (غروب دلتنگی — ویترین همدردی و شروع دوباره)">جمعه — غروب دلتنگی و آرامش خودارزشمندی</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label for="storyToolSelect">۲. ابزار تعاملی اصلی در اسلاید اول (ساعت ۲۱:۱۵):</label>
+              <select id="storyToolSelect" onchange="updateStoryPrompt()">
+                <option value="نظرسنجی ۲ گزینه‌ای احساسی و چالشی (Poll)" selected>نظرسنجی ۲ گزینه‌ای احساسی و چالشی (Poll)</option>
+                <option value="باکس ناشناس حرف‌های نگفته (Question Box)">باکس ناشناس حرف‌های نگفته (Question Box)</option>
+                <option value="تست ۳ گزینه‌ای رفتاربینی (Quiz) + اسلایدر ایموجی">تست ۳ گزینه‌ای رفتاربینی (Quiz) + اسلایدر ایموجی</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label for="storyTopicInput">۳. موضوع خاص یا ارتباط با ریلز امشب (اختیاری):</label>
+              <input type="text" id="storyTopicInput" placeholder="مثلاً: مرتبط با ریلزِ بچه‌ی اول خانواده و خستگی از قوی بودن..." oninput="updateStoryPrompt()" />
+            </div>
+          </div>
+
+          <div class="prompt-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <strong style="color:#34d399; font-size:13px;">📋 پرامپت آماده ارسال به ایجنت:</strong>
+              <button class="copy-btn" onclick="copyText('storyPromptOutput', this)">کپی پرامپت استوری</button>
+            </div>
+            <pre id="storyPromptOutput"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    طراحی و مستندسازی شده برای پیج <strong>رز تکست (@rozetext.ir — ۵۹,۸۵۰ فالوور)</strong> | متصل به اسکیل‌های <code>rozetext-persona-dna</code> و <code>rozetext-story-engine</code> و وب‌اپ <code>publisher.html</code>
+  </footer>
+
+  <script src="persian-datepicker.js"></script>
+  <script>
+    function updatePromptBuilder() {
+      const goal = document.getElementById('goalSelect').value;
+      const archetype = document.getElementById('archetypeSelect').value;
+      const topic = document.getElementById('topicInput').value.trim() || 'موضوع پیشنهادی خودت بر اساس پرسونای پیج';
+
+      const prompt = `با استفاده از اسکیل rozetext-persona-dna لطفاً این درخواست را اجرا کن:
+• هدف: ${goal}
+• کهن‌الگو: ${archetype}
+• موضوع / حس محوری: «${topic}»
+
+لطفاً خروجی را دقیقاً با استانداردهای آماری پیج من (@rozetext.ir) شامل:
+۱. متن داخل ریلز (Manual Content) در ۱۲ تا ۱۸ سطر کوتاه (۶۰ تا ۸۰ کلمه) با زاویه دید اول‌شخص، لحن محاوره‌ایِ باوقار، تکنیک «پله‌های تکراری» و ضربه نهایی (Mic-Drop)
+۲. کپشن مکمل (۲۰ تا ۴۰ کلمه) + سوال تعاملی باز برای کامنت
+۳. فیلتر ضدتکرار: حتماً با فایل تاریخچه published-content-history.md چک کن که هوک، داستان و جملات با هیچ‌کدام از ۲۳۳ پست قبلی پیج تکراری نباشد.
+۴. محاسبه «نمره احتمال وایرال شدن (از ۱۰۰)» به همراه ریزنمرات ۵ شاخص (تطابق پرسونا، قدرت هوک، ریتم و واچ‌تایم، ضربه نهایی، محرک شیر) و دلیل تطابق با پرسونا (persona_fit_reason) و ذخیره خودکار در دیتابیس پابلیشر (data/scripts-db.json).`;
+
+      document.getElementById('builderOutput').textContent = prompt;
+    }
+
+    function updateHunterPrompt() {
+      const days = Number(document.getElementById('huntDaysSelect').value || 1);
+      const totalReels = days * 6;
+      const minViews = document.getElementById('huntMinViewsSelect').value;
+      const startDate = document.getElementById('huntStartDateInput').value || '2026-09-28';
+      const jInfo = window.RozeDatePicker ? window.RozeDatePicker.getJalaliInfo(startDate) : { fullLabel: startDate };
+
+      const p = `/browser
+اکانت فرعی/خالی اینستاگرامم توی مرورگر بازه.
+با استفاده از اسکیل rozetext-persona-dna و پروتکل شکار وایرال (viral-hunter-browser-protocol.md)، برو برای ${days} روز محتوا (${days} دسته ریلز ۶ عددی = جمعاً ${totalReels} ریلز وایرال) با بازدید بالای ${minViews} پیدا کن.
+
+نکات الزامی که باید با دقت ۱۰۰٪ رعایت بشه:
+۱. سیاست استفاده مستقیم از متن خام (Direct Raw-Text Policy): من می‌خوام از خودِ متن خام داخل ویدیوی ریلزهای وایرال بدون بومی‌سازی یا بازنویسی استفاده کنم؛ بنابراین فقط ریلزهایی رو انتخاب کن که «متن خام داخل تصویر ویدیوی اون‌ها» کامل (۷ تا ۱۶ سطر روی تصویر، نه ادامه در کپشن)، اول‌شخص/دوم‌شخص صمیمی و با لحن محاوره‌ای-ادبیِ ۱۰۰٪ سازگار با پیج من (@rozetext.ir) باشه (بدون دیالوگ مولانا/شمس و بدون نقل‌قول شاعران و بدون استفاده از پیج @halekhoub).
+۲. متن داخل ویدیوی ریلزها (On-Screen Video Text) رو با توقف ویدیو و اسکرین‌شات از فریم‌ها کلمه به کلمه و با دقت کامل استخراج کن و عیناً در فیلدهای extracted_raw_text و content قرار بده.
+۳. برای هر ریلز حتماً در بخش توضیحات اضافی این موارد رو ثبت کن:
+   - لینک مستقیم ریلز مرجع (source_url)، آیدی پیج مادر (source_page) و بازدید دقیق (source_views)
+   - نمره احتمال وایرال شدن از ۱۰۰ (score) + ریزنمرات ۵ شاخص (score_breakdown) و دلیل سازگاری متن خام با پرسونا (persona_fit_reason)
+۴. با الگوریتم ضدتکرار ۴-گرمی و فایل تاریخچه published-content-history.md چک کن که هیچ‌کدوم با ۲۳۳ ریلز قبلی تکراری نباشه.
+۵. همه ${totalReels} ریلز رو با دستور python scripts/add_script_to_db.py --batch-json از تاریخ شروع ${startDate} (${jInfo.fullLabel}) وارد دیتابیس پابلیشر (data/scripts-db.json) کن.`;
+
+      document.getElementById('hunterPromptOutput').textContent = p;
+    }
+
+    function updateStoryPrompt() {
+      const day = document.getElementById('storyDaySelect').value;
+      const tool = document.getElementById('storyToolSelect').value;
+      const topic = document.getElementById('storyTopicInput').value.trim() || 'منطبق با قوی‌ترین زخم عاطفی همین روز هفته و ریلز ساعت ۲۱:۰۰ امشب';
+
+      const sp = `با استفاده از اسکیل rozetext-story-engine لطفاً یک سناریوی کامل «استوری تعاملی روزانه» برای پیج من (@rozetext.ir با ۵۹,۸۵۰ فالوور) طراحی کن تا قفل ۲,۰۰۰ سین استوری شکسته بشه:
+• روز هفته: ${day}
+• ابزار تعاملی اصلی: ${tool}
+• موضوع / پیوند با ریلز امشب: «${topic}»
+
+لطفاً خروجی رو دقیقاً در ۴ بخش استاندارد اسکیل تحویل بده:
+۱. روانشناسی ایده و دلیل انتخاب برای مخاطب ۷۲٪ خانم (۱۸ تا ۳۴ سال)
+۲. اسلاید اول (ساعت ۲۱:۱۵ شب — استوری شوک تعاملی روی پس‌زمینه مشکی مات): متن کوتاه ۳ تا ۴ خطی + سوال چالشی + متن دقیق دو گزینه نظرسنجی (Poll) یا باکس سوال (بدون بله/خیر خشک)
+۳. اسلاید دوم (ساعت ۲۲:۱۵ شب — پل تعامل و معرفی ریلز امشب با تکنیک «سانسور خط آخر» برای گرفتن کلیک روی پست)
+۴. متن آماده کپی برای «کامنت پین‌شده (Pinned Comment)» زیر ریلز ساعت ۲۱:۰۰ و ۲۳:۴۵ تا فالوورهای ریلزی خفته با پای خودشون وارد دایره استوری بشن.`;
+
+      document.getElementById('storyPromptOutput').textContent = sp;
+    }
+
+    function copyText(elementId, btn) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const original = btn.textContent;
+        btn.textContent = '✓ کپی شد!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 1800);
+      });
+    }
+
+    // Initialize builders on load
+    updatePromptBuilder();
+    updateHunterPrompt();
+    updateStoryPrompt();
+  </script>
+</body>
+</html>

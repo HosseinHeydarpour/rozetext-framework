@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استودیو استوری روزانه RozeText | موتور تعامل ۵K تا ۷K سین</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    :root {
+      --bg-base: #09090b;
+      --bg-card: #121215;
+      --bg-card-hover: #18181b;
+      --rose-primary: #e11d48;
+      --rose-light: #fb7185;
+      --rose-glow: rgba(225, 29, 72, 0.2);
+      --purple-accent: #6366f1;
+      --gold-accent: #f59e0b;
+      --emerald-accent: #10b981;
+      --text-main: #fafafa;
+      --text-muted: #a1a1aa;
+      --text-dim: #71717a;
+      --border-subtle: #27272a;
+      --border-rose: rgba(225, 29, 72, 0.25);
+      --glass-blur: blur(12px);
+      --shadow-elevation: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 80px;
+      line-height: 1.6;
+    }
+
+    /* هدر ناوبری */
+    header {
+      background: rgba(9, 9, 11, 0.85);
+      backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 12px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose-primary), #be123c);
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px var(--rose-glow);
+    }
+
+    .brand-avatar-inner {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .brand-title h1 {
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-title p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .badge-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(225, 29, 72, 0.15);
+      color: var(--rose-light);
+      border: 1px solid var(--border-rose);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-nav {
+      background: #18181b;
+      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+      padding: 0 14px;
+      height: 34px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-nav:hover {
+      background: #27272a;
+      border-color: #3f3f46;
+      color: #fafafa;
+    }
+
+    .btn-reels {
+      border-color: rgba(99, 102, 241, 0.4);
+      background: rgba(99, 102, 241, 0.1);
+      color: #c7d2fe;
+    }
+
+    .btn-reels:hover {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: #818cf8;
+    }
+
+    /* بدنه و چیدمان */
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px 28px;
+    }
+
+    /* نوار آمار و اهداف درآمدزایی */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .kpi-card {
+      background: #121215;
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 18px 22px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.15s ease;
+    }
+
+    .kpi-card:hover {
+      background: #18181b;
+      border-color: #3f3f46;
+    }
+
+    .kpi-card.gold::before { background: var(--gold-accent); }
+    .kpi-card.purple::before { background: var(--purple-accent); }
+    .kpi-card.emerald::before { background: var(--emerald-accent); }
+
+    .kpi-label {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .kpi-value {
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .kpi-sub {
+      font-size: 11.5px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* ناوبری روزهای هفته شنبه تا جمعه */
+    .week-nav-panel {
+      background: var(--bg-card);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 28px;
+    }
+
+    .week-nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .week-nav-title {
+      font-size: 15px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 992px) {
+      .days-grid {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      }
+    }
+
+    .day-chip {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 12px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .day-chip:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .day-chip.active {
+      background: linear-gradient(145deg, rgba(225, 29, 72, 0.2), rgba(190, 18, 60, 0.35));
+      border-color: var(--rose-primary);
+      box-shadow: 0 0 20px var(--rose-glow);
+    }
+
+    .day-chip-name {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 3px;
+    }
+
+    .day-chip-date {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .day-chip-status {
+      font-size: 10px;
+      margin-top: 6px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    .status-published {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .status-ready {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    /* بدنه اصلی کاربری: ستون چپ پری‌ویو آیفون، ستون راست سناریو و ابزارها */
+    .studio-workspace {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 1100px) {
+      .studio-workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ماک‌آپ استوری گوشی آیفون 9:16 */
+    .device-preview-wrapper {
+      position: sticky;
+      top: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .iphone-frame {
+      width: 350px;
+      height: 680px;
+      background: #000;
+      border-radius: 46px;
+      padding: 12px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.12);
+      position: relative;
+    }
+
+    .iphone-notch {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 25px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .notch-camera {
+      width: 11px;
+      height: 11px;
+      background: #111;
+      border-radius: 50%;
+      border: 1px solid #222;
+    }
+
+    .story-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 36px;
+      background: #0d0f12;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 42px 18px 24px 18px;
+      box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+      transition: background 0.3s ease;
+    }
+
+    /* نوار وضعیت بالای استوری اینستاگرام */
+    .story-top-bars {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 12px;
+      z-index: 10;
+    }
+
+    .story-bar-segment {
+      flex: 1;
+      height: 2.5px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+    }
+
+    .story-bar-segment.active {
+      background: #fff;
+    }
+
+    .story-header-user {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      z-index: 10;
+    }
+
+    .story-user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .story-user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose-primary), #be123c);
+      padding: 1.5px;
+    }
+
+    .story-user-avatar-inner {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .story-user-name {
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .story-user-time {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-right: 4px;
+    }
+
+    .story-close-btn {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    /* محتوای متن استوری */
+    .story-middle-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 10;
+      padding: 0 6px;
+    }
+
+    .story-quote-text {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.8;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+      white-space: pre-line;
+      margin-bottom: 24px;
+    }
+
+    /* رندر زنده استیکر نظرسنجی اینستاگرام */
+    .poll-sticker-box {
+      width: 100%;
+      max-width: 280px;
+      background: rgba(30, 32, 40, 0.92);
+      backdrop-filter: blur(10px);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .poll-question {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .poll-options {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .poll-opt-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .poll-opt-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    /* رندر استیکر اسلایدر ایموجی */
+    .slider-sticker-box {
+      width: 100%;
+      max-width: 270px;
+      background: rgba(30, 32, 40, 0.92);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .slider-track {
+      height: 18px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+      position: relative;
+      margin-top: 10px;
+    }
+
+    .slider-thumb {
+      position: absolute;
+      top: -6px;
+      right: 70%;
+      font-size: 22px;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+    }
+
+    /* رندر استیکر کوئسشن‌باکس */
+    .question-sticker-box {
+      width: 100%;
+      max-width: 280px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 14px;
+      color: #000;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    }
+
+    .qb-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+
+    .qb-input-fake {
+      background: #f1f5f9;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 11px;
+      color: #64748b;
+      text-align: right;
+    }
+
+    /* پایین استوری */
+    .story-bottom-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .story-reply-pill {
+      flex: 1;
+      height: 36px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .story-action-icon {
+      font-size: 18px;
+      color: #fff;
+    }
+
+    /* سوئیچر استوری ۱ و ۲ در پایین ماک‌آپ */
+    .device-step-toggle {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      background: var(--bg-card);
+      padding: 6px;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .toggle-step-btn {
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .toggle-step-btn.active {
+      background: var(--rose-primary);
+      color: #fff;
+      box-shadow: 0 0 12px var(--rose-glow);
+    }
+
+    /* بخش سناریو و جزئیات روزانه (ستون راست) */
+    .day-details-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .content-box {
+      background: var(--bg-card);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow-elevation);
+    }
+
+    .content-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .content-box-title {
+      font-size: 17px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .step-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .step-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .step-badge {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--rose-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .step-time {
+      font-size: 12px;
+      color: #fbbf24;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-weight: 800;
+    }
+
+    .step-text-display {
+      background: #090b0e;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #f1f5f9;
+      white-space: pre-line;
+      margin-bottom: 14px;
+    }
+
+    .interactive-specs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .spec-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .spec-label {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .spec-val {
+      font-size: 12.5px;
+      color: #e2e8f0;
+      font-weight: 700;
+    }
+
+    /* جعبه حال و هوای بصری */
+    .visual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .visual-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .visual-card-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--rose-light);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .visual-card-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* کارت پرامپت هوش مصنوعی */
+    .ai-prompt-box {
+      grid-column: 1 / -1;
+      background: linear-gradient(145deg, rgba(99, 102, 241, 0.1), rgba(15, 23, 42, 0.75));
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 6px;
+    }
+
+    .ai-prompt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .ai-prompt-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #c7d2fe;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ai-prompt-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .ai-badge {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: #e0e7ff;
+      font-weight: 700;
+    }
+
+    .ai-prompt-code {
+      background: #06080b;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      direction: ltr;
+      text-align: left;
+      user-select: all;
+      word-break: break-word;
+    }
+
+    .ai-prompt-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .ai-prompt-note {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* جعبه پرامپت موزیک هوش مصنوعی */
+    .ai-music-box {
+      grid-column: 1 / -1;
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.08), rgba(15, 23, 42, 0.85));
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 10px;
+    }
+
+    .ai-music-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .ai-music-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #6ee7b7;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ai-music-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .ai-music-badge {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(16, 185, 129, 0.18);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #a7f3d0;
+      font-weight: 700;
+    }
+
+    .ai-music-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .ai-music-spec-item {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .ai-music-spec-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+
+    .ai-music-spec-val {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #e2e8f0;
+    }
+
+    .ai-music-section {
+      margin-top: 12px;
+      background: rgba(6, 8, 12, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .ai-music-section-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #a7f3d0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .ai-music-code {
+      background: #040507;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      direction: ltr;
+      text-align: left;
+      user-select: all;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+
+    .ai-music-footer {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 11.5px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    /* کامنت پین ریلز */
+    .pinned-box {
+      background: linear-gradient(145deg, rgba(139, 92, 246, 0.1), rgba(15, 23, 42, 0.6));
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 16px;
+      padding: 18px;
+      margin-top: 6px;
+    }
+
+    .pinned-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .pinned-text {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #e0e7ff;
+      line-height: 1.7;
+    }
+
+    /* استراتژی کسب درآمد و تبلیغات */
+    .monetize-card {
+      background: linear-gradient(145deg, rgba(245, 158, 11, 0.08), rgba(20, 24, 33, 0.8));
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    .monetize-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fbbf24;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .monetize-desc {
+      font-size: 12.5px;
+      color: #cbd5e1;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .monetize-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.15);
+      color: #fde68a;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    /* دکمه‌های اکشن کپی و انتشار */
+    .btn-action {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-action:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
+
+    .btn-publish-story {
+      background: linear-gradient(135deg, var(--rose-primary), #be123c);
+      border: none;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px var(--rose-glow);
+      transition: all 0.25s;
+    }
+
+    .btn-publish-story:hover {
+      background: linear-gradient(135deg, #f43f5e, var(--rose-primary));
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px var(--rose-glow);
+    }
+
+    .btn-publish-story.published {
+      background: #10b981;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+    }
+
+    /* تست توست کپی */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1e293b;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- هدر ناوبری -->
+  <header>
+    <div class="brand-section">
+      <div class="brand-avatar">
+        <div class="brand-avatar-inner">RT</div>
+      </div>
+      <div class="brand-title">
+        <h1>
+          استودیو استوری روزانه RozeText
+          <span class="badge-pill">⚡ ۵,۰۰۰ تا ۷,۰۰۰ سین</span>
+        </h1>
+        <p>موتور استوری‌های تعاملی ۲۴ ساعته بر پایه روانشناسی و درآمدزایی از تبلیغات</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <a href="/publisher.html" class="btn-nav btn-reels">
+        🎬 استودیو ریلز پیج
+      </a>
+      <button class="btn-nav" onclick="refreshStories()">
+        🔄 بازخوانی آمار
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ردیف کارت‌های KPI استوری و درآمدزایی -->
+    <section class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-label">تعداد فالوورهای کل اکانت</div>
+        <div class="kpi-value">۷۱,۳۷۱ <span style="font-size:13px; color:#34d399; font-weight:700;">(+۱۹.۹٪)</span></div>
+        <div class="kpi-sub">جامعه هدف در انتظار بیدار شدن دایره استوری</div>
+      </div>
+      <div class="kpi-card gold">
+        <div class="kpi-label">هدف سین استوری (Monetization Benchmark)</div>
+        <div class="kpi-value">۵,۰۰۰ - ۷,۰۰۰+</div>
+        <div class="kpi-sub">رسیدن به سقف ۷٪ تا ۱۰٪ تعامل جهت جذب تبلیغات پیوسته</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-label">تعرفه پیشنهادی هر استوری تبلیغاتی</div>
+        <div class="kpi-value">۱.۵ تا ۲.۵ میلیون</div>
+        <div class="kpi-sub">تومان به ازای ۲۴ ساعت نمایش بعد از شکستن قفل ۵K سین</div>
+      </div>
+      <div class="kpi-card emerald">
+        <div class="kpi-label">پتانسیل درآمدزایی ماهانه استوری</div>
+        <div class="kpi-value">۳۰ تا ۶۰ میلیون</div>
+        <div class="kpi-sub">با جذب ۱۰ تا ۲۵ کمپین تبلیغاتی در ماه بدون افت تعامل</div>
+      </div>
+    </section>
+
+    <!-- نوار ناوبری تقویم شنبه تا جمعه -->
+    <section class="week-nav-panel">
+      <div class="week-nav-header">
+        <div class="week-nav-title">
+          📅 تقویم هفتگی سناریوهای استوری (شنبه تا جمعه):
+          <span id="activeDayRoleBadge" class="badge-pill" style="font-size:12px;"></span>
+        </div>
+        <div style="font-size:12.5px; color:var(--text-dim);">
+          برای مشاهده اسکریپت، ماک‌آپ بصری و راهنمای درآمدزایی روی هر روز کلیک کنید:
+        </div>
+      </div>
+
+      <div class="days-grid" id="daysGridContainer">
+        <!-- داینامیک از جاوااسکریپت پر می‌شود -->
+      </div>
+    </section>
+
+    <!-- محیط کاربری استودیو استوری -->
+    <section class="studio-workspace">
+
+      <!-- ستون چپ: ماک‌آپ آیفون زنده 9:16 -->
+      <div class="device-preview-wrapper">
+        <div class="iphone-frame">
+          <div class="iphone-notch">
+            <div class="notch-camera"></div>
+          </div>
+
+          <div class="story-screen" id="storyLiveScreen">
+            
+            <!-- نوار خطوط بالای استوری -->
+            <div>
+              <div class="story-top-bars">
+                <div class="story-bar-segment active" id="barStep1"></div>
+                <div class="story-bar-segment" id="barStep2"></div>
+              </div>
+
+              <!-- هدر کاربری اینستاگرام -->
+              <div class="story-header-user">
+                <div class="story-user-info">
+                  <div class="story-user-avatar">
+                    <div class="story-user-avatar-inner">RT</div>
+                  </div>
+                  <div>
+                    <span class="story-user-name">rozetext.ir</span>
+                    <span class="story-user-time" id="storyLiveTime">15m</span>
+                  </div>
+                </div>
+                <div class="story-close-btn">✕</div>
+              </div>
+            </div>
+
+            <!-- محتوای میانی استوری -->
+            <div class="story-middle-content">
+              <div class="story-quote-text" id="liveStoryText">
+                متن استوری در حال بارگذاری...
+              </div>
+
+              <!-- کانتینر استیکر تعاملی زنده -->
+              <div id="liveStickerContainer"></div>
+            </div>
+
+            <!-- پایین استوری -->
+            <div class="story-bottom-bar">
+              <div class="story-reply-pill">ارسال پیام...</div>
+              <div class="story-action-icon">🤍</div>
+              <div class="story-action-icon">↗️</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- سوئیچر استوری ۱ و استوری ۲ -->
+        <div class="device-step-toggle">
+          <button class="toggle-step-btn active" id="btnToggleStep1" onclick="switchLiveStep(1)">
+            🔥 استوری ۱ (ساعت ۲۱:۱۵)
+          </button>
+          <button class="toggle-step-btn" id="btnToggleStep2" onclick="switchLiveStep(2)">
+            🔗 استوری ۲ (ساعت ۲۲:۱۵)
+          </button>
+        </div>
+      </div>
+
+      <!-- ستون راست: سناریوی روز، حال و هوای بصری و راهنمای درآمدزایی -->
+      <div class="day-details-panel">
+
+        <!-- باکس سناریوی کامل روز -->
+        <div class="content-box">
+          <div class="content-box-header">
+            <div>
+              <div class="content-box-title" id="dayTitleHeader">
+                سناریوی استوری روز
+              </div>
+              <p style="font-size:12.5px; color:var(--text-muted); margin-top:4px;" id="dayThemeDesc">
+                موضوع و روانشناسی روز
+              </p>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:10px;">
+              <button class="btn-publish-story" id="btnPublishStory" onclick="togglePublishCurrentStory()">
+                ✓ ثبت انتشار استوری‌های امروز
+              </button>
+            </div>
+          </div>
+
+          <!-- استوری ۱ -->
+          <div class="step-card">
+            <div class="step-card-header">
+              <span class="step-badge" id="step1Badge">🔥 استوری ۱: شوک و احتراق اولیه</span>
+              <span class="step-time" id="step1Time">۲۱:۱۵ شب</span>
+            </div>
+
+            <div class="step-text-display" id="step1FullText"></div>
+
+            <div class="interactive-specs" id="step1Specs"></div>
+
+            <div style="display:flex; justify-content:flex-end; gap:8px;">
+              <button class="btn-action" onclick="copyStepText(1)">
+                📋 کپی متن استوری ۱
+              </button>
+              <button class="btn-action" onclick="copyStickerData()">
+                🎯 کپی گزینه‌های نظرسنجی
+              </button>
+            </div>
+          </div>
+
+          <!-- استوری ۲ -->
+          <div class="step-card">
+            <div class="step-card-header">
+              <span class="step-badge" id="step2Badge">🔗 استوری ۲: کلیف‌هنگر ریلز و پلِ دایرکت</span>
+              <span class="step-time" id="step2Time">۲۲:۱۵ شب</span>
+            </div>
+
+            <div class="step-text-display" id="step2FullText"></div>
+
+            <div class="interactive-specs" id="step2Specs"></div>
+
+            <div style="display:flex; justify-content:flex-end; gap:8px;">
+              <button class="btn-action" onclick="copyStepText(2)">
+                📋 کپی متن استوری ۲
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- باکس حال و هوای بصری (Visual Aesthetic & Mood Guide) -->
+        <div class="content-box">
+          <div class="content-box-title" style="margin-bottom:14px;">
+            🎨 راهنمای حال و هوای بصری و ادیت استوری (Visual Aesthetic Guide)
+          </div>
+
+          <div class="visual-grid" id="visualGrid">
+            <!-- داینامیک پر می‌شود -->
+          </div>
+        </div>
+
+        <!-- باکس پلِ معکوس کامنت پین ریلز -->
+        <div class="pinned-box">
+          <div class="pinned-header">
+            <div style="font-size:13.5px; font-weight:800; color:#c7d2fe; display:flex; align-items:center; gap:8px;">
+              📌 متن کامنت پین‌شده زیر ریلز ساعت ۲۱:۰۰ (پل ترافیک به استوری):
+            </div>
+            <button class="btn-action" style="border-color:rgba(139,92,246,0.5); background:rgba(139,92,246,0.2);" onclick="copyPinnedComment()">
+              📋 کپی کامنت پین
+            </button>
+          </div>
+          <div class="pinned-text" id="pinnedCommentText">
+            در حال بارگذاری...
+          </div>
+        </div>
+
+        <!-- باکس استراتژی کسب درآمد و جذب تبلیغات اسپانسر -->
+        <div class="monetize-card">
+          <div class="monetize-title">
+            💰 استراتژی درآمدزایی و جذب تبلیغات برای این روز (Monetization Blueprint)
+          </div>
+          <div class="monetize-desc" id="monetizeDesc">
+            در حال بارگذاری استراتژی تبلیغاتی...
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <span class="monetize-tag" id="monetizeBadge">تعرفه پیشنهادی</span>
+            <button class="btn-action" style="border-color:rgba(245,158,11,0.5); background:rgba(245,158,11,0.2); color:#fef3c7;" onclick="copyMonetizePitch()">
+              💼 کپی متن آماده پاسخ به اسپانسر در دایرکت
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <div class="toast" id="toastBox">
+    <span>✅</span>
+    <span id="toastMsg">کپی شد!</span>
+  </div>
+
+  <script>
+    let storiesData = [];
+    let activeStoryIndex = 0;
+    let currentPreviewStep = 1;
+
+    // بارگذاری اولیه از API
+    async function init() {
+      await refreshStories();
+    }
+
+    async function refreshStories() {
+      try {
+        const res = await fetch('/api/stories');
+        const data = await res.json();
+        if (data && data.stories && data.stories.length > 0) {
+          storiesData = data.stories;
+          // پیش‌فرض: یافتن روز امروز اگر موجود باشد، در غیر این صورت ایندکس ۰
+          const today = new Date().toISOString().split('T')[0];
+          const todayIdx = storiesData.findIndex(s => s.date === today);
+          activeStoryIndex = todayIdx >= 0 ? todayIdx : 0;
+          renderDaysNav();
+          renderActiveStory();
+        }
+      } catch (err) {
+        console.error('Error fetching stories:', err);
+      }
+    }
+
+    // رندر منوی روزهای هفته
+    function renderDaysNav() {
+      const container = document.getElementById('daysGridContainer');
+      container.innerHTML = '';
+
+      storiesData.forEach((s, idx) => {
+        const chip = document.createElement('div');
+        chip.className = `day-chip ${idx === activeStoryIndex ? 'active' : ''}`;
+        chip.onclick = () => selectDay(idx);
+
+        const statusClass = s.published ? 'status-published' : 'status-ready';
+        const statusText = s.published ? '✓ منتشرشده' : 'آماده انتشار';
+
+        chip.innerHTML = `
+          <div class="day-chip-name">${s.weekday}</div>
+          <div class="day-chip-date">${s.date_fa.split(' ')[1] || ''} ${s.date_fa.split(' ')[2] || ''}</div>
+          <span class="day-chip-status ${statusClass}">${statusText}</span>
+        `;
+        container.appendChild(chip);
+      });
+    }
+
+    // انتخاب روز
+    function selectDay(index) {
+      activeStoryIndex = index;
+      currentPreviewStep = 1;
+      renderDaysNav();
+      renderActiveStory();
+    }
+
+    // رندر جزئیات روز فعال
+    function renderActiveStory() {
+      const s = storiesData[activeStoryIndex];
+      if (!s) return;
+
+      document.getElementById('activeDayRoleBadge').innerText = s.weekday_role || s.weekday;
+      document.getElementById('dayTitleHeader').innerText = `${s.date_fa} (${s.online_followers_peak || ''})`;
+      document.getElementById('dayThemeDesc').innerText = s.daily_theme || '';
+
+      // دکمه انتشار
+      const pubBtn = document.getElementById('btnPublishStory');
+      if (s.published) {
+        pubBtn.innerText = '✓ استوری امروز منتشر شد (لغو تیک)';
+        pubBtn.className = 'btn-publish-story published';
+      } else {
+        pubBtn.innerText = '✓ ثبت انتشار استوری‌های امروز';
+        pubBtn.className = 'btn-publish-story';
+      }
+
+      // استوری ۱
+      const step1 = s.story_sequence[0] || {};
+      document.getElementById('step1Badge').innerText = step1.badge || 'استوری ۱';
+      document.getElementById('step1Time').innerText = step1.time || '۲۱:۱۵ شب';
+      document.getElementById('step1FullText').innerText = step1.text_content || '';
+
+      const specs1 = document.getElementById('step1Specs');
+      specs1.innerHTML = '';
+      if (step1.sticker) {
+        const st = step1.sticker;
+        if (st.type === 'poll') {
+          specs1.innerHTML = `
+            <div class="spec-item"><div class="spec-label">نوع استیکر</div><div class="spec-val">نظرسنجی دوگزینه‌ای (Poll)</div></div>
+            <div class="spec-item"><div class="spec-label">سوال نظرسنجی</div><div class="spec-val">${st.question}</div></div>
+            <div class="spec-item"><div class="spec-label">گزینه اول (A)</div><div class="spec-val">${st.option_a}</div></div>
+            <div class="spec-item"><div class="spec-label">گزینه دوم (B)</div><div class="spec-val">${st.option_b}</div></div>
+          `;
+        } else if (st.type === 'slider') {
+          specs1.innerHTML = `
+            <div class="spec-item"><div class="spec-label">نوع استیکر</div><div class="spec-val">ایموجی اسلایدر (Slider)</div></div>
+            <div class="spec-item"><div class="spec-label">سوال اسلایدر</div><div class="spec-val">${st.question}</div></div>
+            <div class="spec-item"><div class="spec-label">ایموجی</div><div class="spec-val">${st.emoji}</div></div>
+          `;
+        } else if (st.type === 'question_box') {
+          specs1.innerHTML = `
+            <div class="spec-item"><div class="spec-label">نوع استیکر</div><div class="spec-val">باکس سوال ناشناس (Question Box)</div></div>
+            <div class="spec-item"><div class="spec-label">تیتر باکس</div><div class="spec-val">${st.prompt}</div></div>
+          `;
+        }
+      }
+
+      // استوری ۲
+      const step2 = s.story_sequence[1] || {};
+      document.getElementById('step2Badge').innerText = step2.badge || 'استوری ۲';
+      document.getElementById('step2Time').innerText = step2.time || '۲۲:۱۵ شب';
+      document.getElementById('step2FullText').innerText = step2.text_content || '';
+
+      const specs2 = document.getElementById('step2Specs');
+      specs2.innerHTML = '';
+      if (step2.sticker) {
+        const st2 = step2.sticker;
+        specs2.innerHTML = `
+          <div class="spec-item"><div class="spec-label">استراتژی پل ریلز</div><div class="spec-val">${step2.goal || 'اتصال به ریلز'}</div></div>
+          <div class="spec-item"><div class="spec-label">تکنیک کلیف‌هنگر</div><div class="spec-val">${st2.reels_cover_overlay || st2.action_text || 'پوشاندن خط آخر ریلز'}</div></div>
+        `;
+      }
+
+      // حال و هوای بصری
+      renderVisualGuide(step1.visual_aesthetic || {});
+
+      // کامنت پین
+      document.getElementById('pinnedCommentText').innerText = s.pinned_comment || '';
+
+      // مانیتایز و تبلیغات
+      if (s.monetization_guide) {
+        document.getElementById('monetizeDesc').innerText = s.monetization_guide.ad_slot_strategy || '';
+        document.getElementById('monetizeBadge').innerText = s.monetization_guide.estimated_cpm || '';
+      }
+
+      // رندر لایو در آیفون
+      updateLiveDevice();
+    }
+
+    // رندر کارت‌های حال و هوای بصری
+    function renderVisualGuide(v) {
+      const container = document.getElementById('visualGrid');
+      const aiPrompt = v.ai_image_prompt || 'Vertical 9:16 background for Instagram text typography, dark moody minimalist aesthetic, empty negative space in center --ar 9:16';
+
+      container.innerHTML = `
+        <div class="visual-card">
+          <div class="visual-card-title">🎨 پس‌زمینه و اتمسفر</div>
+          <div class="visual-card-desc">${v.background_desc || 'مشکی زغالی مات با افکت فیلم گرین'} (کد: <code>${v.background_hex || '#0d0f12'}</code>)</div>
+        </div>
+        <div class="visual-card">
+          <div class="visual-card-title">✍️ تایپوگرافی و چیدمان</div>
+          <div class="visual-card-desc">${v.typography || 'فونت سفید با فاصله خطوط باز و کنتراست شفاف'}</div>
+        </div>
+        <div class="visual-card">
+          <div class="visual-card-title">🎵 موسیقی پیشنهادی</div>
+          <div class="visual-card-desc">${v.music_suggestion || 'پیانو ملایم و بی کلام'}</div>
+        </div>
+        <div class="visual-card">
+          <div class="visual-card-title">💡 تریک جذب کلیک</div>
+          <div class="visual-card-desc">${v.layout_tip || 'استیکر در یک‌سوم پایینی صفحه در دسترس شست کاربر'}</div>
+        </div>
+
+        <div class="ai-prompt-box">
+          <div class="ai-prompt-header">
+            <div class="ai-prompt-title">
+              <span>🤖 پرامپت هوش مصنوعی برای تولید تصویر پس‌زمینه (Midjourney / Flux / DALL-E)</span>
+            </div>
+            <div class="ai-prompt-badges">
+              <span class="ai-badge">ابعاد عمودی 9:16</span>
+              <span class="ai-badge">فضای خالی در مرکز برای متن</span>
+              <span class="ai-badge">بدون چهره و متن اضافه</span>
+            </div>
+          </div>
+          <div class="ai-prompt-code" id="aiPromptText">${aiPrompt}</div>
+          <div class="ai-prompt-footer">
+            <div class="ai-prompt-note">
+              💡 این پرامپت مهندسی شده تا وسط تصویر خالی باشد تا متن استوری و استیکر نظرسنجی با وضوح ۱۰۰٪ خوانده شود.
+            </div>
+            <button class="btn-action" style="border-color:rgba(99,102,241,0.5); background:rgba(99,102,241,0.25); color:#e0e7ff;" onclick="copyAiPrompt()">
+              📋 کپی پرامپت هوش مصنوعی
+            </button>
+          </div>
+        </div>
+
+        <!-- باکس جامع تولید موزیک با هوش مصنوعی (Suno / Gemini) -->
+        <div class="ai-music-box">
+          <div class="ai-music-header">
+            <div class="ai-music-title">
+              <span>🎵 پرامپت هوش مصنوعی برای تولید موزیک پس‌زمینه (Suno AI v3.5/v4 & Gemini MusicFX)</span>
+            </div>
+            <div class="ai-music-badges">
+              <span class="ai-music-badge">۱۰۰٪ بی‌کلام [Instrumental]</span>
+              <span class="ai-music-badge">تمپو: ${(v.ai_music_prompt && v.ai_music_prompt.tempo_bpm) || '62 BPM'}</span>
+              <span class="ai-music-badge">بدون وکال و کلام</span>
+              <span class="ai-music-badge">نئوکلاسیک امبینت</span>
+            </div>
+          </div>
+
+          <!-- شناسنامه و مشخصات قطعه -->
+          <div class="ai-music-specs-grid">
+            <div class="ai-music-spec-item">
+              <div class="ai-music-spec-label">عنوان پیشنهادی قطعه:</div>
+              <div class="ai-music-spec-val">${(v.ai_music_prompt && v.ai_music_prompt.track_title) || 'قطعه بی‌کلام امبینت'}</div>
+            </div>
+            <div class="ai-music-spec-item">
+              <div class="ai-music-spec-label">حس و اتمسفر احساسی:</div>
+              <div class="ai-music-spec-val">${(v.ai_music_prompt && v.ai_music_prompt.mood) || 'ملایم، بغض‌آلود و باوقار'}</div>
+            </div>
+            <div class="ai-music-spec-item">
+              <div class="ai-music-spec-label">سرعت و تمپو (BPM):</div>
+              <div class="ai-music-spec-val">${(v.ai_music_prompt && v.ai_music_prompt.tempo_bpm) || '62 BPM'}</div>
+            </div>
+            <div class="ai-music-spec-item">
+              <div class="ai-music-spec-label">سازبندی تخصصی:</div>
+              <div class="ai-music-spec-val">${(v.ai_music_prompt && v.ai_music_prompt.instruments) || 'پیانو نمدی، ویولنسل، پد امبینت'}</div>
+            </div>
+          </div>
+
+          <!-- بخش اول: تنظیمات و پرامپت‌های سونو (Suno AI) -->
+          <div class="ai-music-section">
+            <div class="ai-music-section-title">
+              <span>🎶 ۱. کادر سبک موزیک در سونو (Style of Music):</span>
+              <button class="btn-action" style="padding:4px 10px; font-size:11px; border-color:rgba(16,185,129,0.5); background:rgba(16,185,129,0.2); color:#a7f3d0;" onclick="copySunoStyle()">
+                📋 کپی استایل سونو
+              </button>
+            </div>
+            <div class="ai-music-code" id="sunoStyleText">${(v.ai_music_prompt && v.ai_music_prompt.suno_style_tags) || 'cinematic felt piano, emotive solo cello, slow 62 bpm, dark ambient, neoclassical, instrumental, no vocals'}</div>
+          </div>
+
+          <div class="ai-music-section">
+            <div class="ai-music-section-title">
+              <span>🎼 ۲. دستور ساختار و متاتگ‌های قطعه در سونو (Lyrics / Structure Prompt):</span>
+              <button class="btn-action" style="padding:4px 10px; font-size:11px; border-color:rgba(16,185,129,0.5); background:rgba(16,185,129,0.2); color:#a7f3d0;" onclick="copySunoStructure()">
+                🎼 کپی متاتگ‌های سونو
+              </button>
+            </div>
+            <div class="ai-music-code" id="sunoStructureText">${(v.ai_music_prompt && v.ai_music_prompt.suno_lyrics_structure) || '[Instrumental]\n[Intro: Delicate acoustic felt piano, slow 62 BPM]\n[Build: Solo cello enters]\n[Climax: Emotional peak]\n[Outro: Fading piano notes]\n[End]'}</div>
+          </div>
+
+          <!-- بخش دوم: پرامپت تشریحی کامل جمنای و ابزارهای گوگل (Gemini / MusicFX) -->
+          <div class="ai-music-section" style="border-color:rgba(99,102,241,0.25);">
+            <div class="ai-music-section-title" style="color:#c7d2fe;">
+              <span>🤖 ۳. پرامپت تشریحی کامل برای Gemini / Google MusicFX / Lyria:</span>
+              <button class="btn-action" style="padding:4px 10px; font-size:11px; border-color:rgba(99,102,241,0.5); background:rgba(99,102,241,0.2); color:#e0e7ff;" onclick="copyGeminiPrompt()">
+                🤖 کپی پرامپت انگلیسی جمنای
+              </button>
+            </div>
+            <div class="ai-music-code" id="geminiMusicPromptText">${(v.ai_music_prompt && v.ai_music_prompt.gemini_detailed_prompt) || 'A slow, poignant neoclassical instrumental track tailored for dark moody Persian poetry...'}</div>
+          </div>
+
+          <div class="ai-music-footer">
+            💡 <strong>راهنمای سریع تولید در Suno:</strong> در سایت <code>suno.com</code> وارد Create شوید، حالت <strong>Custom</strong> را فعال کرده و تیک <strong>Instrumental</strong> را حتماً روشن کنید. سپس تگ‌های بخش ۱ را در Style of Music و دستور متاتگ‌های بخش ۲ را در Lyrics قرار دهید. در <strong>Google Gemini / MusicFX</strong> نیز مستقیماً متن بخش ۳ را ارسال کنید.
+          </div>
+        </div>
+      `;
+    }
+
+    // رندر داخل ماک‌آپ گوشی آیفون
+    function updateLiveDevice() {
+      const s = storiesData[activeStoryIndex];
+      if (!s) return;
+
+      const step = s.story_sequence[currentPreviewStep - 1] || s.story_sequence[0];
+      const screen = document.getElementById('storyLiveScreen');
+      const textElem = document.getElementById('liveStoryText');
+      const stickerContainer = document.getElementById('liveStickerContainer');
+
+      // اعمال رنگ پس زمینه
+      if (step.visual_aesthetic && step.visual_aesthetic.background_hex) {
+        screen.style.background = step.visual_aesthetic.background_hex;
+      }
+
+      textElem.innerText = step.text_content || '';
+      document.getElementById('storyLiveTime').innerText = step.time || '21:15';
+
+      // نوار بالای استوری
+      document.getElementById('barStep1').className = `story-bar-segment ${currentPreviewStep >= 1 ? 'active' : ''}`;
+      document.getElementById('barStep2').className = `story-bar-segment ${currentPreviewStep >= 2 ? 'active' : ''}`;
+
+      // دکمه‌های سوئیچ زیر ماک‌آپ
+      document.getElementById('btnToggleStep1').className = `toggle-step-btn ${currentPreviewStep === 1 ? 'active' : ''}`;
+      document.getElementById('btnToggleStep2').className = `toggle-step-btn ${currentPreviewStep === 2 ? 'active' : ''}`;
+
+      // رندر استیکر
+      stickerContainer.innerHTML = '';
+      if (step.sticker) {
+        const st = step.sticker;
+        if (st.type === 'poll') {
+          stickerContainer.innerHTML = `
+            <div class="poll-sticker-box" onclick="simulatePollVote(this)">
+              <div class="poll-question">${st.question}</div>
+              <div class="poll-options">
+                <div class="poll-opt-btn" id="optA">${st.option_a}</div>
+                <div class="poll-opt-btn" id="optB">${st.option_b}</div>
+              </div>
+            </div>
+          `;
+        } else if (st.type === 'slider') {
+          stickerContainer.innerHTML = `
+            <div class="slider-sticker-box">
+              <div class="poll-question">${st.question}</div>
+              <div class="slider-track">
+                <div class="slider-thumb">${st.emoji || '🖤'}</div>
+              </div>
+            </div>
+          `;
+        } else if (st.type === 'question_box') {
+          stickerContainer.innerHTML = `
+            <div class="question-sticker-box">
+              <div class="qb-title">${st.prompt}</div>
+              <div class="qb-input-fake">پاسخ خود را بنویسید...</div>
+            </div>
+          `;
+        } else if (st.type === 'reels_share') {
+          stickerContainer.innerHTML = `
+            <div class="poll-sticker-box" style="background:rgba(20,24,35,0.95); border-color:var(--rose-primary);">
+              <div style="font-size:11px; color:#fb7185; font-weight:800; margin-bottom:4px;">🎬 ریلز ساعت ۲۱:۰۰ پیج</div>
+              <div style="font-size:12.5px; font-weight:800; color:#fff;">${st.reels_title || 'مشاهده ریلز جدید'}</div>
+              <div style="font-size:10.5px; color:#94a3b8; margin-top:6px;">👆 برای تماشا لمس کنید</div>
+            </div>
+          `;
+        }
+      }
+    }
+
+    // سوییچ بین استوری ۱ و ۲
+    function switchLiveStep(stepNum) {
+      currentPreviewStep = stepNum;
+      updateLiveDevice();
+    }
+
+    // شبیه‌سازی کلیک روی نظرسنجی
+    function simulatePollVote(el) {
+      const optA = el.querySelector('#optA');
+      const optB = el.querySelector('#optB');
+      if (optA && optB) {
+        optA.innerHTML = `${optA.innerText.split('(')[0]} <span style="color:#fb7185; float:left;">۷۸٪</span>`;
+        optB.innerHTML = `${optB.innerText.split('(')[0]} <span style="color:#94a3b8; float:left;">۲۲٪</span>`;
+        showToast('رای ثبت شد! ۷۸٪ به گزینه اول رای دادند.');
+      }
+    }
+
+    // توابع کپی
+    function copyStepText(stepNum) {
+      const s = storiesData[activeStoryIndex];
+      const step = s.story_sequence[stepNum - 1];
+      if (step && step.text_content) {
+        navigator.clipboard.writeText(step.text_content);
+        showToast(`متن استوری ${stepNum} کپی شد!`);
+      }
+    }
+
+    function copyStickerData() {
+      const s = storiesData[activeStoryIndex];
+      const step1 = s.story_sequence[0];
+      if (step1 && step1.sticker) {
+        const st = step1.sticker;
+        let textToCopy = `سوال: ${st.question}\nگزینه اول: ${st.option_a}\nگزینه دوم: ${st.option_b}`;
+        navigator.clipboard.writeText(textToCopy);
+        showToast('سوال و گزینه‌های نظرسنجی کپی شد!');
+      }
+    }
+
+    function copyPinnedComment() {
+      const s = storiesData[activeStoryIndex];
+      if (s && s.pinned_comment) {
+        navigator.clipboard.writeText(s.pinned_comment);
+        showToast('متن کامنت پین‌شده کپی شد!');
+      }
+    }
+
+    function copyMonetizePitch() {
+      const pitch = `سلام و احترام 🤍\nاستوری‌های پیج @rozetext.ir با میانگین ۵,۰۰۰ الی ۷,۰۰۰+ بازدید روزانه و جامعه مخاطب فوق‌العاده متمرکز (بانوان و آقایان جوان ۱۸ تا ۳۴ سال)، نرخ تعامل بی‌نظیری برای معرفی برند شما دارد.\nتعرفه نمایش ۲۴ ساعته: ۲.۰ میلیون تومان.\nدر صورت تمایل بفرمایید تا رزرو زمان را برای شما هماهنگ کنیم.`;
+      navigator.clipboard.writeText(pitch);
+      showToast('پیام آماده اسپانسر کپی شد!');
+    }
+
+    function copyAiPrompt() {
+      const s = storiesData[activeStoryIndex];
+      const step1 = s && s.story_sequence ? s.story_sequence[0] : null;
+      const prompt = (step1 && step1.visual_aesthetic && step1.visual_aesthetic.ai_image_prompt)
+                     ? step1.visual_aesthetic.ai_image_prompt
+                     : (document.getElementById('aiPromptText')?.innerText || '');
+      if (prompt) {
+        navigator.clipboard.writeText(prompt);
+        showToast('پرامپت هوش مصنوعی کپی شد! در Midjourney یا Flux پیست کنید.');
+      }
+    }
+
+    function copySunoStyle() {
+      const s = storiesData[activeStoryIndex];
+      const step1 = s && s.story_sequence ? s.story_sequence[0] : null;
+      const text = (step1 && step1.visual_aesthetic && step1.visual_aesthetic.ai_music_prompt)
+                   ? step1.visual_aesthetic.ai_music_prompt.suno_style_tags
+                   : (document.getElementById('sunoStyleText')?.innerText || '');
+      if (text) {
+        navigator.clipboard.writeText(text);
+        showToast('تگ‌های سبک سونو (Style of Music) کپی شد!');
+      }
+    }
+
+    function copySunoStructure() {
+      const s = storiesData[activeStoryIndex];
+      const step1 = s && s.story_sequence ? s.story_sequence[0] : null;
+      const text = (step1 && step1.visual_aesthetic && step1.visual_aesthetic.ai_music_prompt)
+                   ? step1.visual_aesthetic.ai_music_prompt.suno_lyrics_structure
+                   : (document.getElementById('sunoStructureText')?.innerText || '');
+      if (text) {
+        navigator.clipboard.writeText(text);
+        showToast('متاتگ‌های ساختار سونو (Lyrics / Structure) کپی شد!');
+      }
+    }
+
+    function copyGeminiPrompt() {
+      const s = storiesData[activeStoryIndex];
+      const step1 = s && s.story_sequence ? s.story_sequence[0] : null;
+      const text = (step1 && step1.visual_aesthetic && step1.visual_aesthetic.ai_music_prompt)
+                   ? step1.visual_aesthetic.ai_music_prompt.gemini_detailed_prompt
+                   : (document.getElementById('geminiMusicPromptText')?.innerText || '');
+      if (text) {
+        navigator.clipboard.writeText(text);
+        showToast('پرامپت تشریحی انگلیسی جمنای (Gemini / MusicFX) کپی شد!');
+      }
+    }
+
+    // ثبت یا لغو انتشار
+    async function togglePublishCurrentStory() {
+      const s = storiesData[activeStoryIndex];
+      if (!s) return;
+
+      try {
+        const res = await fetch('/api/stories/toggle-publish', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: s.id })
+        });
+        const data = await res.json();
+        if (data.ok && data.story) {
+          storiesData[activeStoryIndex] = data.story;
+          renderDaysNav();
+          renderActiveStory();
+          showToast(data.story.published ? 'انتشار استوری با موفقیت ثبت شد!' : 'تیک انتشار لغو شد.');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('خطا در برقراری ارتباط با سرور.');
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastBox');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2600);
+    }
+
+    // راه‌اندازی در هنگام بارگذاری
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

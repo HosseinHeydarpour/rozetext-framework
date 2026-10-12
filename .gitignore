@@ -1,0 +1,27 @@
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Environments and secrets
+.env
+.venv
+env/
+venv/
+ENV/
+data/telegram_config.json
+
+# OS specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+
+# Test outputs
+tests/output/

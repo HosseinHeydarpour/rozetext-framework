@@ -1,0 +1,9 @@
+{
+  "bot_token": "",
+  "channel_id": "@rozetext_content",
+  "proxy_url": "",
+  "send_as_document": true,
+  "include_slot_time": true,
+  "send_daily_banner": true,
+  "custom_template": ""
+}

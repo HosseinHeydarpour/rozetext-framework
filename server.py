@@ -34,6 +34,11 @@ SKILL_HISTORY_PATH = os.path.join(
 
 DB_LOCK = threading.Lock()
 
+# Content rules version for this publisher build: v4.1 (24 Oct 2026).
+# v4.1 keeps the 6-slot schedule (09:30, 12:15, 15:00, 18:15, 21:00, 23:45 IRST)
+# and the Direct Raw-Text viral-copy policy. The v4.0 3-slot test and the
+# Original-First policy were cancelled by the page owner in v4.1.
+
 def get_posts_output_dir(shamsi_str: str) -> str:
     """Returns the preferred posts output directory (D:\رز تکست\<shamsi_date> with fallback to outputs/posts)."""
     d_dir = r"D:\رز تکست"
@@ -41,7 +46,7 @@ def get_posts_output_dir(shamsi_str: str) -> str:
         return os.path.join(d_dir, shamsi_str)
     return os.path.join(BASE_DIR, "outputs", "posts", shamsi_str)
 
-# Instagram Insights ONLINE_FOLLOWERS_AVG matrix (from @rozetext.ir live dashboard - October 2026 / 71.4K followers)
+# Instagram Insights ONLINE_FOLLOWERS_AVG matrix (historical, from @rozetext.ir live dashboard - October 2026; page was about 88,491 followers on 24 Oct 2026, so re-measure this matrix before treating its absolute online counts as current)
 WEEKDAY_INSIGHTS = {
     0: {"name_fa": "دوشنبه", "peak": 19159, "avg": 14351, "slots": {1: 12448, 2: 16217, 3: 17859, 4: 16836, 5: 19159, 6: 18702}},
     1: {"name_fa": "سه‌شنبه", "peak": 19590, "avg": 14743, "slots": {1: 12934, 2: 16684, 3: 18379, 4: 17327, 5: 19590, 6: 19029}},
@@ -261,7 +266,7 @@ class PublisherEngine:
 
     def load_stories_db(self) -> dict:
         if not os.path.exists(self.stories_db_path):
-            return {"meta": {"page_handle": "@rozetext.ir", "total_followers": 71371}, "stories": []}
+            return {"meta": {"page_handle": "@rozetext.ir", "total_followers": 88491}, "stories": []}
         with open(self.stories_db_path, "r", encoding="utf-8") as f:
             return json.load(f)
 

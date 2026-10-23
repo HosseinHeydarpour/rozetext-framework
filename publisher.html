@@ -31,6 +31,26 @@
       src: local('IRLotus'), local('IRlotus');
       font-weight: normal;
     }
+    @font-face {
+      font-family: 'IRTitr';
+      src: url('/assets/fonts/IRTitr.ttf') format('truetype'), local('IRTitr'), local('IR Titr'), local('B Titr');
+      font-weight: normal;
+    }
+    @font-face {
+      font-family: 'IRTitr';
+      src: url('/assets/fonts/IRTitr.ttf') format('truetype'), local('IRTitr'), local('IR Titr'), local('B Titr');
+      font-weight: bold;
+    }
+    @font-face {
+      font-family: 'IRTitr';
+      src: url('/assets/fonts/IRTitr.ttf') format('truetype'), local('IRTitr'), local('IR Titr'), local('B Titr');
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: 'IRTitr';
+      src: url('/assets/fonts/IRTitr.ttf') format('truetype'), local('IRTitr'), local('IR Titr'), local('B Titr');
+      font-weight: 900;
+    }
 
     .studio-top-bar {
       display: grid;
@@ -690,49 +710,65 @@
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get("date")) {
         APP_STATE.selectedDate = urlParams.get("date");
-      } else if (!APP_STATE.selectedDate) {
-        // انتخاب خودکار روز فعلی سیستم در بارگذاری اولیه
-        APP_STATE.selectedDate = getSystemTodayIso();
+      } else {
+        const todayIso = getSystemTodayIso();
+        const hasTodayScripts = (APP_STATE.scripts || []).some(s => s.scheduled_date === todayIso);
+        if (!hasTodayScripts) {
+          const futureDates = (APP_STATE.scripts || [])
+            .map(s => s.scheduled_date)
+            .filter(d => d && d >= todayIso)
+            .sort();
+          APP_STATE.selectedDate = futureDates.length > 0 ? futureDates[0] : todayIso;
+        } else {
+          APP_STATE.selectedDate = todayIso;
+        }
       }
       initQuickDays();
       renderAll();
     }
 
-    const WEEK_DEFINITIONS = {
-      current: {
-        id: "current",
-        title: "هفته جاری (۱۲ تا ۱۸ مهر ۱۴۰۵)",
-        range_fa: "یکشنبه ۱۲ مهر تا شنبه ۱۸ مهر ۱۴۰۵",
-        range_en: "2026-10-04 تا 2026-10-10",
-        badge: "🚀 ۴۲ ریلز آماده انتشار 🔥",
-        badge_style: "background:rgba(244,63,94,0.22); color:#fda4af; border:1px solid rgba(244,63,94,0.5);",
-        accent_color: "#fb7185",
-        border_color: "rgba(244,63,94,0.55)",
-        dates: ["2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08", "2026-10-09", "2026-10-10"]
-      },
-      upcoming: {
-        id: "upcoming",
-        title: "هفته آینده (۱۹ تا ۲۵ مهر ۱۴۰۵)",
-        range_fa: "یکشنبه ۱۹ مهر و دوشنبه ۲۰ مهر ۱۴۰۵",
-        range_en: "2026-10-11 تا 2026-10-12",
-        badge: "🌟 ۱۲ ریلز شکارشده جدید",
-        badge_style: "background:rgba(56,189,248,0.2); color:#38bdf8; border:1px solid rgba(56,189,248,0.5);",
-        accent_color: "#38bdf8",
-        border_color: "rgba(56,189,248,0.45)",
-        dates: ["2026-10-11", "2026-10-12"]
-      },
-      past: {
-        id: "past",
-        title: "هفته گذشته (۶ تا ۱۱ مهر ۱۴۰۵)",
-        range_fa: "یکشنبه ۶ مهر تا شنبه ۱۱ مهر ۱۴۰۵",
-        range_en: "2026-09-27 تا 2026-10-03",
-        badge: "📁 ۳۶ ریلز منتشرشده (آرشیو)",
-        badge_style: "background:rgba(100,116,139,0.2); color:#cbd5e1; border:1px solid rgba(100,116,139,0.4);",
-        accent_color: "#94a3b8",
-        border_color: "rgba(100,116,139,0.35)",
-        dates: ["2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03"]
+    function computeWeekDefinitions() {
+      const today = new Date();
+      today.setHours(12, 0, 0, 0);
+      const sun = new Date(today);
+      sun.setDate(today.getDate() - today.getDay());
+
+      function getWeekObj(id, offsetWeeks, titlePrefix, badgeStyle, accentColor, borderColor) {
+        const start = new Date(sun);
+        start.setDate(sun.getDate() + (offsetWeeks * 7));
+        const dates = [];
+        for (let i = 0; i < 7; i++) {
+          const d = new Date(start);
+          d.setDate(start.getDate() + i);
+          const y = d.getFullYear();
+          const m = String(d.getMonth() + 1).padStart(2, "0");
+          const day = String(d.getDate()).padStart(2, "0");
+          dates.push(`${y}-${m}-${day}`);
+        }
+        const sIso = dates[0];
+        const eIso = dates[6];
+        const jStart = (window.RozeDatePicker && window.RozeDatePicker.getJalaliInfo) ? window.RozeDatePicker.getJalaliInfo(sIso) : { shortLabel: sIso };
+        const jEnd = (window.RozeDatePicker && window.RozeDatePicker.getJalaliInfo) ? window.RozeDatePicker.getJalaliInfo(eIso) : { shortLabel: eIso };
+        return {
+          id: id,
+          title: `${titlePrefix} (${jStart.shortLabel} تا ${jEnd.shortLabel})`,
+          range_fa: `یکشنبه ${jStart.shortLabel} تا شنبه ${jEnd.shortLabel}`,
+          range_en: `${sIso} تا ${eIso}`,
+          badge_style: badgeStyle,
+          accent_color: accentColor,
+          border_color: borderColor,
+          dates: dates
+        };
       }
-    };
+
+      return {
+        current: getWeekObj("current", 0, "هفته جاری", "background:rgba(244,63,94,0.22); color:#fda4af; border:1px solid rgba(244,63,94,0.5);", "#fb7185", "rgba(244,63,94,0.55)"),
+        upcoming: getWeekObj("upcoming", 1, "هفته آینده", "background:rgba(56,189,248,0.2); color:#38bdf8; border:1px solid rgba(56,189,248,0.5);", "#38bdf8", "rgba(56,189,248,0.45)"),
+        past: getWeekObj("past", -1, "هفته گذشته", "background:rgba(100,116,139,0.2); color:#cbd5e1; border:1px solid rgba(100,116,139,0.4);", "#94a3b8", "rgba(100,116,139,0.35)")
+      };
+    }
+
+    const WEEK_DEFINITIONS = computeWeekDefinitions();
 
     function initQuickDays() {
       const container = document.getElementById("quickDaysContainer");
@@ -753,6 +789,8 @@
         const w = WEEK_DEFINITIONS[key];
         const isSelectedInWeek = w.dates.includes(currentSelected);
         const hasToday = w.dates.includes(todayIso);
+        const weekReelsCount = w.dates.reduce((sum, d) => sum + (countsByDate[d] || 0), 0);
+        const dynamicBadge = weekReelsCount > 0 ? `🚀 ${weekReelsCount} ریلز آماده انتشار 🔥` : '📁 بدون ریلز / آرشیو';
 
         let borderStyle = w.border_color;
         let shadowStyle = "0 4px 16px rgba(0,0,0,0.3)";
@@ -775,7 +813,7 @@
                   ${w.title}
                 </span>
                 <span class="badge" style="${w.badge_style}; font-size:11px; padding:3px 8px;">
-                  ${w.badge}
+                  ${dynamicBadge}
                 </span>
               </div>
               <div style="font-size:12.5px; color:#94a3b8; line-height:1.6; margin-bottom:12px;">
@@ -838,16 +876,20 @@
       const grid = document.getElementById("weekDaysModalGrid");
       if (!modal || !grid) return;
 
-      titleEl.innerHTML = `<span>${w.title}</span> <span class="badge" style="${w.badge_style}; margin-right:8px;">${w.badge}</span>`;
-      subEl.innerHTML = `بازه تاریخ: <strong style="color:#e2e8f0;">${w.range_fa}</strong> (${w.range_en}) — روی هر روز کلیک کنید تا جدول اسلات‌ها باز شود:`;
-
-      const faDays = ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه 🔥", "جمعه 🔥", "شنبه"];
       const countsByDate = {};
       (APP_STATE.scripts || []).forEach(s => {
         if (s.scheduled_date) {
           countsByDate[s.scheduled_date] = (countsByDate[s.scheduled_date] || 0) + 1;
         }
       });
+
+      const weekReelsCount = w.dates.reduce((sum, d) => sum + (countsByDate[d] || 0), 0);
+      const dynamicBadge = weekReelsCount > 0 ? `🚀 ${weekReelsCount} ریلز آماده انتشار 🔥` : '📁 بدون ریلز / آرشیو';
+
+      titleEl.innerHTML = `<span>${w.title}</span> <span class="badge" style="${w.badge_style}; margin-right:8px;">${dynamicBadge}</span>`;
+      subEl.innerHTML = `بازه تاریخ: <strong style="color:#e2e8f0;">${w.range_fa}</strong> (${w.range_en}) — روی هر روز کلیک کنید تا جدول اسلات‌ها باز شود:`;
+
+      const faDays = ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه 🔥", "جمعه 🔥", "شنبه"];
 
       const todayIso = getSystemTodayIso();
       const currentSelected = APP_STATE.selectedDate;
@@ -934,7 +976,7 @@
       document.getElementById("kpiDailySub").textContent = `در تاریخ ${jInfo.fullLabel}`;
       document.getElementById("kpiTotalScripts").textContent = APP_STATE.scripts.length;
       document.getElementById("kpiPublishedNew").textContent = pubNewCount;
-      document.getElementById("kpiHistoryTotal").textContent = 233 + pubNewCount;
+      document.getElementById("kpiHistoryTotal").textContent = APP_STATE.total_history_count || (233 + pubNewCount);
 
       renderSlotsTimeline(dateStr, wInfo, dayScripts);
       renderScriptsCards(wInfo);
@@ -950,6 +992,14 @@
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+    }
+
+    function isScriptHunted(sc) {
+      if (!sc) return false;
+      const url = (sc.source_url || "").trim();
+      const page = (sc.source_page || "").trim();
+      const hasValidSource = (url.includes("http") || url.includes("instagram.com")) || (page.startsWith("@") && page.length > 2);
+      return Boolean(sc.is_viral_hunted && hasValidSource);
     }
 
     function copyScriptContent(scriptId, btn) {
@@ -1032,10 +1082,11 @@
         else if (isPeak) cls += " slot-peak";
 
         const scriptTitle = assigned ? assigned.title : "خالی";
+        const isHunted = isScriptHunted(assigned);
         const originBadge = assigned ? (
-          (assigned.is_viral_hunted || assigned.source_url || assigned.source_page || assigned.source_views) ?
+          isHunted ?
           `<span class="badge badge-rose">🔥 شکارشده (${escapeHtml(assigned.source_page || 'اینستاگرام')})</span>` :
-          `<span class="badge badge-indigo">✨ هوش مصنوعی</span>`
+          `<span class="badge badge-indigo">✨ تولید اختصاصی (AI)</span>`
         ) : '';
 
         return `
@@ -1112,13 +1163,18 @@
 
                 <!-- هوک ۲ ثانیه اول -->
                 <div style="background:#09090b; border:1px solid #27272a; border-radius:8px; padding:12px 14px; margin-bottom:12px;">
-                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                    <span style="font-size:12px; font-weight:700; color:#fda4af;">🎣 هوک ۲ ثانیه اول:</span>
-                    <button type="button" class="btn btn-outline btn-sm" onclick="copyScriptHook('${assigned.id}', this)">
-                      📋 کپی هوک
-                    </button>
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                    <span style="font-size:12px; font-weight:700; color:#fda4af;">🎣 هوک ۲ ثانیه اول (متن روی کاور):</span>
+                    <div style="display:flex; align-items:center; gap:6px;">
+                      <button type="button" class="btn btn-outline btn-sm" onclick="openLivePreviewModal(${sMeta.slot}, 'cover')" style="border-color:rgba(245,158,11,0.5); color:#fde047; font-size:11.5px; padding:3px 9px; background:rgba(245,158,11,0.08);" title="ویرایش متن، اندازه و شکست خطوط کاور">
+                        🎯 ویرایش متن روی کاور
+                      </button>
+                      <button type="button" class="btn btn-outline btn-sm" onclick="copyScriptHook('${assigned.id}', this)">
+                        📋 کپی هوک
+                      </button>
+                    </div>
                   </div>
-                  <div style="font-size:14px; font-weight:600; color:#fafafa; line-height:1.7;">«${escapeHtml(assigned.hook)}»</div>
+                  <div id="card_hook_text_${sMeta.slot}" style="font-size:14px; font-weight:600; color:#fafafa; line-height:1.7;">«${escapeHtml(assigned.hook)}»</div>
                 </div>
 
                 <!-- گرید ۲ ستونه: متن داخل ریلز و کپشن مکمل -->
@@ -1151,7 +1207,7 @@
                 </div>
 
                 <!-- شناسنامه ریلز مرجع شکار وایرال (در صورت وجود) -->
-                ${(assigned.is_viral_hunted || assigned.source_url || assigned.source_page || assigned.source_views || assigned.extracted_raw_text || assigned.extra_notes) ? `
+                ${isScriptHunted(assigned) ? `
                   <div style="background:rgba(244, 63, 94, 0.05); border:1px solid rgba(244, 63, 94, 0.25); border-radius:8px; padding:12px 14px; margin-bottom:10px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
                       <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
@@ -1166,12 +1222,34 @@
                         </button>
                       ` : ''}
                     </div>
-                    ${assigned.extracted_raw_text ? `
+                    ${assigned.local_frame_url ? `
+                      <div style="margin-top:10px; padding:10px; background:#0f1117; border-radius:8px; border:1px solid #334155;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                          <span style="font-size:12px; font-weight:700; color:#38bdf8;">🪞 تطبیق بصری متن با تصویر فریم ویدیو:</span>
+                          <span class="badge badge-emerald">🛡️ فریم ثانیه ۲ موجود است</span>
+                        </div>
+                        <div style="display:grid; grid-template-columns:minmax(160px, 220px) 1fr; gap:12px; align-items:start;">
+                          <div style="text-align:center;">
+                            <img src="${assigned.local_frame_url}" alt="فریم ویدیوی مرجع" style="max-height:240px; max-width:100%; border-radius:6px; border:1px solid #475569; object-fit:contain; cursor:pointer;" onclick="window.open('${assigned.local_frame_url}', '_blank')" title="کلیک برای مشاهده فریم در اندازه اصلی" />
+                            <div style="font-size:11px; color:#94a3b8; margin-top:4px;">(برای بزرگنمایی روی عکس کلیک کنید)</div>
+                          </div>
+                          <div>
+                            <div style="font-size:12px; color:#f1f5f9; background:#09090b; padding:10px 12px; border-radius:6px; border:1px solid #27272a; white-space:pre-wrap; line-height:1.8;">
+                              <strong style="color:#fda4af; display:block; margin-bottom:4px;">📝 متن استخراج‌شده برای تطبیق چشمی:</strong>
+                              ${escapeHtml(assigned.extracted_raw_text || assigned.content)}
+                            </div>
+                            <div style="font-size:11.5px; color:#a1a1aa; margin-top:6px; line-height:1.6;">
+                              🔍 <strong style="color:#e2e8f0;">راهنمای بازرسی:</strong> کلمات تصویر را با متن تطبیق دهید. در صورت مشاهده هرگونه اختلاف یا توهم هوش مصنوعی، می‌توانید فوراً متن را اصلاح کنید.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ` : (assigned.extracted_raw_text ? `
                       <div style="font-size:12px; color:#cbd5e1; background:#09090b; padding:10px 12px; border-radius:6px; border:1px solid #27272a; white-space:pre-wrap; line-height:1.7; margin-top:6px;">
                         <strong style="color:#fda4af; display:block; margin-bottom:4px;">📝 متن دقیق داخل ویدیوی مرجع:</strong>
                         ${escapeHtml(assigned.extracted_raw_text)}
                       </div>
-                    ` : ''}
+                    ` : '')}
                     ${assigned.extra_notes ? `
                       <div style="font-size:12px; color:#fbbf24; margin-top:6px; line-height:1.6;">
                         <strong>💡 نکات اجرا:</strong> ${escapeHtml(assigned.extra_notes)}
@@ -1252,7 +1330,7 @@
       const container = document.getElementById("scriptsContainer");
       let list = APP_STATE.scripts.slice();
       if (APP_STATE.filter === "pending") list = list.filter(s => !s.published);
-      if (APP_STATE.filter === "viral") list = list.filter(s => s.is_viral_hunted || s.source_url || s.source_views || s.source_page);
+      if (APP_STATE.filter === "viral") list = list.filter(s => isScriptHunted(s));
       if (APP_STATE.filter === "published") list = list.filter(s => s.published);
 
       if (!list.length) {
@@ -1262,7 +1340,7 @@
 
       container.innerHTML = list.map(sc => {
         const isPub = Boolean(sc.published);
-        const hasViralMeta = Boolean(sc.is_viral_hunted || sc.source_url || sc.source_page || sc.source_views || sc.extracted_raw_text || sc.extra_notes);
+        const hasViralMeta = isScriptHunted(sc);
         const safeRaw = (sc.extracted_raw_text || "").replace(/`/g, "\\`");
         const bd = sc.score_breakdown || {
           persona_fit: 20,
@@ -1475,7 +1553,7 @@
             <div class="cards-grid-2" style="margin-top:14px;">
               <div class="reel-preview">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                  <strong style="color:var(--rose-light);">${sc.is_viral_hunted ? '🎬 متن خامِ ۱۰۰٪ اورجینال داخل ویدیو (بدون بازنویسی — منطبق با DNA پیج):' : '🎬 متن اصلی داخل ریلز (منطبق با DNA پیج RozeText):'}</strong>
+                  <strong style="color:var(--rose-light);">${isScriptHunted(sc) ? '🎬 متن خامِ ۱۰۰٪ اورجینال داخل ویدیو (بدون بازنویسی — منطبق با DNA پیج):' : '🎬 متن اصلی داخل ریلز (تولید اختصاصی بر اساس DNA پیج RozeText):'}</strong>
                   <button class="copy-btn" onclick="copyRawText(\`${sc.content.replace(/`/g, '\\`')}\`, this)">کپی متن ریلز</button>
                 </div>
                 <pre style="font-family:'Vazirmatn',sans-serif; white-space:pre-wrap; line-height:1.95; color:#f8fafc;">${sc.content}</pre>
@@ -1514,7 +1592,7 @@
           method: "POST",
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify({
-            is_viral_hunted: Boolean(source_url || source_page || source_views),
+            is_viral_hunted: Boolean((source_url && (source_url.includes("http") || source_url.includes("instagram.com"))) || (source_page && source_page.startsWith("@"))),
             source_url,
             source_page,
             source_views,
@@ -1634,7 +1712,7 @@
           body: JSON.stringify({
             title, archetype, goal, content, caption,
             scheduled_date: APP_STATE.selectedDate,
-            is_viral_hunted: Boolean(source_url || source_page || source_views),
+            is_viral_hunted: Boolean((source_url && (source_url.includes("http") || source_url.includes("instagram.com"))) || (source_page && source_page.startsWith("@"))),
             source_url, source_page, source_views, extracted_raw_text, extra_notes
           })
         });
@@ -1662,7 +1740,7 @@
     }
 
     function copyPublisherHunterPrompt() {
-      const startDate = APP_STATE.selectedDate || "2026-09-28";
+      const startDate = APP_STATE.selectedDate || getSystemTodayIso();
       const jInfo = window.RozeDatePicker ? window.RozeDatePicker.getJalaliInfo(startDate) : { fullLabel: startDate };
       const cmd = `/browser\nاکانت فرعی/خالی اینستاگرامم توی مرورگر بازه.\nبا استفاده از اسکیل rozetext-persona-dna و پروتکل شکار وایرال، برو برای ۴ روز محتوا (۴ دسته ریلز ۶ عددی = ۲۴ ریلز وایرال) با بازدید بالای ۳۰۰ الی ۵۰۰ هزار بر اساس پرسونای پیجم پیدا کن.\nمتن داخل ویدیوی ریلزها رو با دقت ۱۰۰٪ استخراج کن، لینک ریلز و پیج مادر و مقدار بازدید رو در توضیحات اضافی ثبت کن و همه ۲۴ ریلز رو از تاریخ شروع ${startDate} (${jInfo.fullLabel}) وارد دیتابیس پابلیشر کن تا ۶ تا ۶ تا بر اساس ساعت و آرکتایپ هر ساعت برام چیدمان بشن.`;
       navigator.clipboard.writeText(cmd).then(() => {
@@ -2101,17 +2179,418 @@
       }
     }
 
+    function applyExtractedAudioTrack(slot, track) {
+      if (!track || !track.relative_path) return;
+      const fsSel = document.getElementById("fs_audio_select");
+      const pmSel = document.getElementById(`pm_audio_${slot}`);
+      const cleanTitle = (track.title || "موزیک ریلز").replace(/^🎯 🌟 \[موزیک ریلز مرجع\]\s*/, "").replace(/^🎬 🌟 \[صدای ریلز انتخابی\]\s*/, "");
+      const optHtml = `<option value="${track.relative_path}">🎬 🌟 [صدای ریلز دانلودی] ${cleanTitle} (${track.duration_seconds || 7}s)</option>`;
+      
+      if (fsSel) {
+        let existing = Array.from(fsSel.options).find(o => o.value === track.relative_path);
+        if (!existing) {
+          fsSel.insertAdjacentHTML("afterbegin", optHtml);
+        }
+        fsSel.value = track.relative_path;
+      }
+      if (pmSel) {
+        let existing = Array.from(pmSel.options).find(o => o.value === track.relative_path);
+        if (!existing) {
+          pmSel.insertAdjacentHTML("afterbegin", optHtml);
+        }
+        pmSel.value = track.relative_path;
+      }
+
+      // Persist in memory state
+      if (currentPostMakerData && currentPostMakerData.items) {
+        const item = currentPostMakerData.items.find(x => x.slot === slot);
+        if (item) {
+          item.default_soundtrack = track.relative_path;
+          item.source_soundtrack = track;
+          item.has_source_soundtrack = true;
+          item.confirmed_audio_path = track.audio_path || track.relative_path;
+        }
+      }
+      if (!SLOT_CUSTOMIZATIONS[slot]) {
+        SLOT_CUSTOMIZATIONS[slot] = {};
+      }
+      SLOT_CUSTOMIZATIONS[slot].audio = track.relative_path;
+
+      playAudioPreview(track.relative_path, null);
+    }
+
+    let currentExtractSlot = 1;
+    let selectedReelVideoFile = null;
+
+    function openExtractAudioDialog(slot) {
+      currentExtractSlot = slot || activePreviewSlot || 1;
+      const modal = document.getElementById("extractAudioModal");
+      if (!modal) return;
+      modal.style.display = "flex";
+
+      const badge = document.getElementById("extractAudioSlotBadge");
+      if (badge) badge.textContent = `اسلات ${currentExtractSlot}`;
+
+      // Reset fields
+      selectedReelVideoFile = null;
+      const fileInput = document.getElementById("modalReelVideoFile");
+      if (fileInput) fileInput.value = "";
+      const pathInput = document.getElementById("modalReelVideoPath");
+      if (pathInput) pathInput.value = "";
+      const selectedBox = document.getElementById("selectedVideoFileBox");
+      if (selectedBox) selectedBox.style.display = "none";
+      const statusBox = document.getElementById("extractAudioStatusBox");
+      if (statusBox) statusBox.innerHTML = "";
+
+      // Load system downloaded reels
+      loadSystemReelsList();
+    }
+
+    function closeExtractAudioDialog() {
+      const modal = document.getElementById("extractAudioModal");
+      if (modal) modal.style.display = "none";
+      selectedReelVideoFile = null;
+    }
+
+    async function loadSystemReelsList() {
+      const container = document.getElementById("systemReelsListContainer");
+      if (!container) return;
+      container.innerHTML = `<div style="color:#a1a1aa; font-size:12px; padding:12px; text-align:center;">⏳ در حال اسکن سیستم و یافتن ریلزهای دانلودشده...</div>`;
+
+      try {
+        const curDate = (currentPostMakerData && currentPostMakerData.date) || APP_STATE.selectedDate || "";
+        const res = await fetch(`/api/media/list-system-reels?date=${encodeURIComponent(curDate)}`);
+        const data = await res.json();
+        if (!data.ok || !data.reels || data.reels.length === 0) {
+          container.innerHTML = `<div style="color:#71717a; font-size:12px; padding:12px; text-align:center;">فایل ویدیویی دانلودی در کش یا Downloads یافت نشد. می‌توانید از گزینه بالا برای انتخاب فایل از سیستم استفاده کنید.</div>`;
+          return;
+        }
+
+        let html = "";
+        data.reels.forEach(r => {
+          const safePath = r.path.replace(/\\/g, '/').replace(/'/g, "\\'");
+          html += `
+            <div style="display:flex; justify-content:space-between; align-items:center; background:#121215; border:1px solid #27272a; border-radius:8px; padding:8px 12px; margin-bottom:6px; flex-wrap:wrap; gap:8px;">
+              <div style="flex:1; min-width:200px;">
+                <div style="font-size:12.5px; font-weight:700; color:#fafafa; display:flex; align-items:center; gap:6px;">
+                  <span>🎬</span>
+                  <span dir="ltr">${escapeHtml(r.filename)}</span>
+                  <span class="badge badge-zinc" style="font-size:10px;">${r.size_mb} MB</span>
+                </div>
+                <div style="font-size:11px; color:#71717a; margin-top:2px; display:flex; align-items:center; gap:8px;">
+                  <span>📍 ${escapeHtml(r.location)}</span>
+                  <span>🕒 ${escapeHtml(r.modified)}</span>
+                </div>
+              </div>
+              <button type="button" onclick="extractAudioFromSpecifiedPath('${safePath}')" style="background:linear-gradient(135deg, #10b981, #059669); color:#fff; border:none; padding:5px 12px; border-radius:7px; font-size:11.5px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:4px; box-shadow:0 2px 6px rgba(16,185,129,0.3);">
+                🎵 استخراج صدا و اعمال
+              </button>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+      } catch (err) {
+        container.innerHTML = `<div style="color:#ef4444; font-size:12px; padding:8px;">خطا در دریافت لیست ویدیوها: ${escapeHtml(err.message)}</div>`;
+      }
+    }
+
+    function onModalVideoFileSelected(input) {
+      if (!input || !input.files || !input.files[0]) return;
+      selectedReelVideoFile = input.files[0];
+      const selectedBox = document.getElementById("selectedVideoFileBox");
+      const nameEl = document.getElementById("selectedVideoFileName");
+      const sizeEl = document.getElementById("selectedVideoFileSize");
+
+      if (selectedBox && nameEl && sizeEl) {
+        nameEl.textContent = selectedReelVideoFile.name;
+        sizeEl.textContent = `${(selectedReelVideoFile.size / (1024 * 1024)).toFixed(2)} MB`;
+        selectedBox.style.display = "block";
+      }
+
+      // Automatically trigger extraction for seamless UX
+      extractAudioFromSelectedFile();
+    }
+
+    async function extractAudioFromSelectedFile() {
+      if (!selectedReelVideoFile) {
+        showToast("⚠️ لطفاً ابتدا یک فایل ویدیو انتخاب کنید!", true);
+        return;
+      }
+
+      const file = selectedReelVideoFile;
+      const statusBox = document.getElementById("extractAudioStatusBox");
+      if (statusBox) {
+        statusBox.innerHTML = `
+          <div style="background:rgba(99,102,241,0.1); border:1px solid #6366f1; border-radius:8px; padding:12px; text-align:center; color:#c7d2fe; font-size:13px; font-weight:700;">
+            ⏳ در حال خواندن فایل ویدیو و جداسازی صدای ۳۲۰kbps با FFmpeg... لطفاً چند لحظه صبر کنید.
+          </div>
+        `;
+      }
+
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const curDate = (currentPostMakerData && currentPostMakerData.date) || APP_STATE.selectedDate || new Date().toISOString().split("T")[0];
+          const itemData = currentPostMakerData && currentPostMakerData.items ? currentPostMakerData.items.find(x => x.slot === currentExtractSlot) : null;
+
+          const res = await fetch("/api/media/extract-audio-from-video", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              slot: currentExtractSlot,
+              date: curDate,
+              video_data: e.target.result,
+              filename: file.name,
+              title: itemData ? (itemData.title || "") : "",
+              script_id: itemData ? (itemData.script_id || "") : ""
+            })
+          });
+
+          const data = await res.json();
+          if (data.ok && data.track) {
+            applyExtractedAudioTrack(currentExtractSlot, data.track);
+            showToast(`✅ صدای ریلز با موفقیت جدا شد و روی ویدیوی اسلات ${currentExtractSlot} قرار گرفت!`);
+
+            if (statusBox) {
+              statusBox.innerHTML = `
+                <div style="background:rgba(16,185,129,0.12); border:1px solid #10b981; border-radius:8px; padding:14px; margin-top:10px;">
+                  <div style="color:#6ee7b7; font-weight:800; font-size:13.5px; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+                    <span>✅ صدای ریلز با موفقیت استخراج شد و روی ویدیوی اسلات ${currentExtractSlot} تنظیم گردید!</span>
+                  </div>
+                  <div style="font-size:12px; color:#cbd5e1; margin-bottom:8px;">
+                    نام فایل صوتی: <code style="color:#fde047;">${escapeHtml(data.audio_filename)}</code> (${data.duration_seconds || 7} ثانیه)
+                  </div>
+                  ${data.web_audio_url ? `<audio controls autoplay src="${data.web_audio_url}" style="width:100%; height:38px; margin-top:6px; outline:none;"></audio>` : ''}
+                  <div style="display:flex; justify-content:flex-end; margin-top:10px;">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="closeExtractAudioDialog()">تایید و بستن</button>
+                  </div>
+                </div>
+              `;
+            }
+          } else {
+            if (statusBox) {
+              statusBox.innerHTML = `
+                <div style="background:rgba(239,68,68,0.12); border:1px solid #ef4444; border-radius:8px; padding:12px; color:#fca5a5; font-size:12.5px;">
+                  ❌ خطا در استخراج صدا: ${escapeHtml(data.error || "خطای نامشخص")}
+                </div>
+              `;
+            }
+            showToast(data.error || "خطا در استخراج صدای ویدیو", true);
+          }
+        } catch (err) {
+          if (statusBox) {
+            statusBox.innerHTML = `
+              <div style="background:rgba(239,68,68,0.12); border:1px solid #ef4444; border-radius:8px; padding:12px; color:#fca5a5; font-size:12.5px;">
+                ❌ خطا در ارتباط با سرور محلی: ${escapeHtml(err.message)}
+              </div>
+            `;
+          }
+          showToast("خطا در ارسال فایل ویدیو به سرور", true);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
+
+    async function extractAudioFromSpecifiedPath(customPath) {
+      const pathVal = customPath || (document.getElementById("modalReelVideoPath") ? document.getElementById("modalReelVideoPath").value.trim() : "");
+      if (!pathVal) {
+        showToast("⚠️ لطفاً ابتدا مسیر فایل ویدیوی ریلز را وارد کنید!", true);
+        return;
+      }
+
+      const statusBox = document.getElementById("extractAudioStatusBox");
+      if (statusBox) {
+        statusBox.innerHTML = `
+          <div style="background:rgba(99,102,241,0.1); border:1px solid #6366f1; border-radius:8px; padding:12px; text-align:center; color:#c7d2fe; font-size:13px; font-weight:700;">
+            ⏳ در حال استخراج صدای ۳۲۰kbps از مسیر مستقیم با FFmpeg...
+          </div>
+        `;
+      }
+
+      try {
+        const curDate = (currentPostMakerData && currentPostMakerData.date) || APP_STATE.selectedDate || new Date().toISOString().split("T")[0];
+        const itemData = currentPostMakerData && currentPostMakerData.items ? currentPostMakerData.items.find(x => x.slot === currentExtractSlot) : null;
+
+        const res = await fetch("/api/media/extract-audio-from-video", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            slot: currentExtractSlot,
+            date: curDate,
+            video_path: pathVal,
+            title: itemData ? (itemData.title || "") : "",
+            script_id: itemData ? (itemData.script_id || "") : ""
+          })
+        });
+
+        const data = await res.json();
+        if (data.ok && data.track) {
+          applyExtractedAudioTrack(currentExtractSlot, data.track);
+          showToast(`✅ صدای ریلز با موفقیت استخراج و روی اسلات ${currentExtractSlot} قرار گرفت!`);
+
+          if (statusBox) {
+            statusBox.innerHTML = `
+              <div style="background:rgba(16,185,129,0.12); border:1px solid #10b981; border-radius:8px; padding:14px; margin-top:10px;">
+                <div style="color:#6ee7b7; font-weight:800; font-size:13.5px; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+                  <span>✅ صدای ریلز با موفقیت جدا شد و روی ویدیوی اسلات ${currentExtractSlot} تنظیم گردید!</span>
+                </div>
+                <div style="font-size:12px; color:#cbd5e1; margin-bottom:8px;">
+                  فایل صوتی: <code style="color:#fde047;">${escapeHtml(data.audio_filename)}</code> (${data.duration_seconds || 7} ثانیه)
+                </div>
+                ${data.web_audio_url ? `<audio controls autoplay src="${data.web_audio_url}" style="width:100%; height:38px; margin-top:6px; outline:none;"></audio>` : ''}
+                <div style="display:flex; justify-content:flex-end; margin-top:10px;">
+                  <button type="button" class="btn btn-primary btn-sm" onclick="closeExtractAudioDialog()">تایید و بستن</button>
+                </div>
+              </div>
+            `;
+          }
+        } else {
+          if (statusBox) {
+            statusBox.innerHTML = `
+              <div style="background:rgba(239,68,68,0.12); border:1px solid #ef4444; border-radius:8px; padding:12px; color:#fca5a5; font-size:12.5px;">
+                ❌ خطا در استخراج صدا: ${escapeHtml(data.error || "خطای نامشخص")}
+              </div>
+            `;
+          }
+          showToast(data.error || "خطا در استخراج صدای ویدیو", true);
+        }
+      } catch (err) {
+        if (statusBox) {
+          statusBox.innerHTML = `
+            <div style="background:rgba(239,68,68,0.12); border:1px solid #ef4444; border-radius:8px; padding:12px; color:#fca5a5; font-size:12.5px;">
+              ❌ خطا در ارتباط با سرور: ${escapeHtml(err.message)}
+            </div>
+          `;
+        }
+        showToast("خطا در ارسال درخواست به سرور", true);
+      }
+    }
+
     function selectSourceSoundtrackFs() {
       if (!activePreviewSlot) return;
       const itemData = currentPostMakerData && currentPostMakerData.items ? currentPostMakerData.items.find(x => x.slot === activePreviewSlot) : null;
       if (itemData && itemData.source_soundtrack) {
-        const fsSel = document.getElementById("fs_audio_select");
-        if (fsSel) {
-          fsSel.value = itemData.source_soundtrack.relative_path;
-          playAudioPreview(itemData.source_soundtrack.relative_path, null);
-          showToast(`🎯 موزیک ریلز شکارشده مرجع (${itemData.source_page || ''}) انتخاب و پخش شد!`);
-        }
+        applyExtractedAudioTrack(activePreviewSlot, itemData.source_soundtrack);
+        showToast(`🎯 موزیک ریلز شکارشده مرجع (${itemData.source_page || ''}) انتخاب و پخش شد!`);
       }
+    }
+
+    async function extractAudioFromFsModal() {
+      if (!activePreviewSlot) return;
+      const itemData = currentPostMakerData && currentPostMakerData.items ? currentPostMakerData.items.find(x => x.slot === activePreviewSlot) : null;
+      if (!itemData) return;
+
+      const btn1 = document.getElementById("fs_extract_audio_modal_btn");
+      const btn2 = document.getElementById("fs_hunted_extract_audio_btn");
+      const origText1 = btn1 ? btn1.innerHTML : "";
+      const origText2 = btn2 ? btn2.innerHTML : "";
+
+      const setBtnsLoading = (loading) => {
+        if (btn1) {
+          btn1.disabled = loading;
+          btn1.innerHTML = loading ? "⏳ در حال استخراج صدا..." : origText1;
+          btn1.style.opacity = loading ? "0.75" : "1";
+        }
+        if (btn2) {
+          btn2.disabled = loading;
+          btn2.innerHTML = loading ? "⏳ در حال استخراج صدا..." : origText2;
+          btn2.style.opacity = loading ? "0.75" : "1";
+        }
+      };
+
+      setBtnsLoading(true);
+
+      try {
+        const res = await fetch("/api/media/download-and-extract", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            script_id: itemData.script_id,
+            url: itemData.source_url,
+            title: itemData.title,
+            scheduled_slot: itemData.slot,
+            scheduled_date: APP_STATE.selectedDate
+          })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          showToast("🎵 صدای ریلز با موفقیت استخراج و روی این اسلات تنظیم شد!");
+          const relPath = data.audio_path ? data.audio_path.replace(/\\/g, '/') : "";
+          const newTrack = {
+            filename: data.audio_filename,
+            relative_path: relPath,
+            shortcode: data.shortcode,
+            title: `🎯 🌟 [موزیک ریلز مرجع] ${data.audio_filename}`,
+            duration_seconds: 7.0,
+            is_source_track: true
+          };
+
+          itemData.has_source_soundtrack = true;
+          itemData.source_soundtrack = newTrack;
+
+          applyExtractedAudioTrack(itemData.slot, newTrack);
+
+          if (btn1) { btn1.style.display = "none"; }
+          if (btn2) { btn2.innerHTML = "✅ صدای ریلز جدا شد"; btn2.disabled = false; btn2.style.opacity = "1"; }
+          const srcAudioBtn = document.getElementById("fs_select_src_audio_btn");
+          if (srcAudioBtn) srcAudioBtn.style.display = "inline-flex";
+          const huntedUseBtn = document.getElementById("fs_hunted_use_audio_btn");
+          if (huntedUseBtn) huntedUseBtn.style.display = "inline-flex";
+
+        } else {
+          showToast(data.error || "خطا در دانلود خودکار از اینستاگرام. از دکمه آپلود دستی استفاده کنید.", true);
+          setBtnsLoading(false);
+        }
+      } catch (err) {
+        showToast("خطا در ارتباط با سرور محلی", true);
+        setBtnsLoading(false);
+      }
+    }
+
+    async function uploadAudioFromFsModal(input) {
+      if (!input || !input.files || !input.files[0] || !activePreviewSlot) return;
+      const file = input.files[0];
+      const itemData = currentPostMakerData && currentPostMakerData.items ? currentPostMakerData.items.find(x => x.slot === activePreviewSlot) : null;
+      if (!itemData) return;
+
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          showToast("⏳ در حال آپلود و پردازش فایل صوتی...");
+          const res = await fetch("/api/media/upload-audio", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              audio_data: e.target.result,
+              filename: file.name,
+              script_id: itemData.script_id,
+              date: APP_STATE.selectedDate,
+              slot: itemData.slot,
+              shortcode: itemData.shortcode || ""
+            })
+          });
+          const data = await res.json();
+          if (data.ok && data.track) {
+            showToast(`✅ موزیک ریلز با موفقیت آپلود و روی اسلات ${itemData.slot} قرار گرفت!`);
+            itemData.has_source_soundtrack = true;
+            itemData.source_soundtrack = data.track;
+
+            applyExtractedAudioTrack(itemData.slot, data.track);
+
+            const srcAudioBtn = document.getElementById("fs_select_src_audio_btn");
+            if (srcAudioBtn) srcAudioBtn.style.display = "inline-flex";
+            const huntedUseBtn = document.getElementById("fs_hunted_use_audio_btn");
+            if (huntedUseBtn) huntedUseBtn.style.display = "inline-flex";
+          } else {
+            showToast(data.error || "خطا در آپلود فایل صوتی", true);
+          }
+        } catch (err) {
+          showToast("خطا در ارسال فایل به سرور", true);
+        }
+        input.value = "";
+      };
+      reader.readAsDataURL(file);
     }
 
     function toggleHuntedReelPreview(slot) {
@@ -2126,7 +2605,7 @@
     // ==========================================
     let activePreviewSlot = null;
 
-    function openLivePreviewModal(slot) {
+    function openLivePreviewModal(slot, initialTab = "text") {
       activePreviewSlot = slot;
       const modal = document.getElementById("livePreviewModal");
       if (!modal) return;
@@ -2176,6 +2655,52 @@
       document.getElementById("fs_bold_check").checked = curBold;
       document.getElementById("fs_hl_color").value = curHl;
 
+      // Sync cover form fields from slot card / customizations
+      const curHook = (document.getElementById(`pm_hook_${slot}`) ? document.getElementById(`pm_hook_${slot}`).value : (itemData ? itemData.hook : "")) || "";
+      const cachedCoverText = SLOT_CUSTOMIZATIONS[slot] ? (SLOT_CUSTOMIZATIONS[slot].cover_text || SLOT_CUSTOMIZATIONS[slot].hook) : null;
+      const coverTextVal = (cachedCoverText !== undefined && cachedCoverText !== null) ? cachedCoverText : curHook;
+
+      const cachedCoverStyle = (SLOT_CUSTOMIZATIONS[slot] && SLOT_CUSTOMIZATIONS[slot].cover_style) ? SLOT_CUSTOMIZATIONS[slot].cover_style : {};
+      const defCoverFs = isLight ? 90 : 95;
+      const defCoverLh = isLight ? 145 : 160;
+      const defCoverTop = 568;
+
+      const curCoverFs = cachedCoverStyle.font_size || defCoverFs;
+      const curCoverLh = cachedCoverStyle.line_height || defCoverLh;
+      const curCoverTop = cachedCoverStyle.top_offset !== undefined ? cachedCoverStyle.top_offset : defCoverTop;
+      const curCoverColor = cachedCoverStyle.color || "default";
+      const curCoverBold = cachedCoverStyle.is_bold !== undefined ? !!cachedCoverStyle.is_bold : false;
+
+      const coverInp = document.getElementById("fs_cover_input");
+      if (coverInp) coverInp.value = coverTextVal;
+
+      const coverFsEl = document.getElementById("fs_cover_fs");
+      const coverFsValEl = document.getElementById("fs_cover_fs_val");
+      if (coverFsEl) {
+        coverFsEl.value = curCoverFs;
+        if (coverFsValEl) coverFsValEl.textContent = curCoverFs + "px";
+      }
+
+      const coverLhEl = document.getElementById("fs_cover_line_height");
+      const coverLhValEl = document.getElementById("fs_cover_lh_val");
+      if (coverLhEl) {
+        coverLhEl.value = curCoverLh;
+        if (coverLhValEl) coverLhValEl.textContent = curCoverLh + "px";
+      }
+
+      const coverTopEl = document.getElementById("fs_cover_top_offset");
+      const coverTopValEl = document.getElementById("fs_cover_top_val");
+      if (coverTopEl) {
+        coverTopEl.value = curCoverTop;
+        if (coverTopValEl) coverTopValEl.textContent = curCoverTop + "px";
+      }
+
+      const coverColorEl = document.getElementById("fs_cover_color");
+      if (coverColorEl) coverColorEl.value = curCoverColor;
+
+      const coverBoldEl = document.getElementById("fs_cover_bold_check");
+      if (coverBoldEl) coverBoldEl.checked = curCoverBold;
+
       // Populate soundtrack dropdown in modal
       const audioSelect = document.getElementById("fs_audio_select");
       if (audioSelect && itemData && itemData.soundtracks) {
@@ -2205,6 +2730,18 @@
           if (srcAudioBtn) {
             srcAudioBtn.style.display = itemData.has_source_soundtrack ? "inline-flex" : "none";
           }
+          const extractModalBtn = document.getElementById("fs_extract_audio_modal_btn");
+          if (extractModalBtn) {
+            extractModalBtn.style.display = (!itemData.has_source_soundtrack && itemData.source_url) ? "inline-flex" : "none";
+          }
+          const huntedExtractBtn = document.getElementById("fs_hunted_extract_audio_btn");
+          if (huntedExtractBtn) {
+            huntedExtractBtn.style.display = (!itemData.has_source_soundtrack && itemData.source_url) ? "inline-flex" : "none";
+          }
+          const huntedUseBtn = document.getElementById("fs_hunted_use_audio_btn");
+          if (huntedUseBtn) {
+            huntedUseBtn.style.display = itemData.has_source_soundtrack ? "inline-flex" : "none";
+          }
 
           const mediaBox = document.getElementById("fs_hunted_media_box");
           if (mediaBox) {
@@ -2231,10 +2768,17 @@
 
           const rawTextEl = document.getElementById("fs_hunted_raw_text");
           const rawBox = document.getElementById("fs_hunted_raw_box");
+          const rawTitle = document.getElementById("fs_hunted_raw_title");
           if (rawTextEl && rawBox) {
             if (itemData.extracted_raw_text) {
               rawBox.style.display = "block";
               rawTextEl.textContent = itemData.extracted_raw_text;
+              if (rawTitle) {
+                const verifiedHtml = itemData.frame_transcript_verified
+                  ? `<span class="badge badge-emerald" style="font-size:10.5px; font-weight:800; padding:1px 6px;">✅ تاییدشده ۱۰۰٪ با فریم</span>`
+                  : '';
+                rawTitle.innerHTML = `📝 متن دقیق داخل ویدیو: ${verifiedHtml}`;
+              }
             } else {
               rawBox.style.display = "none";
             }
@@ -2294,7 +2838,7 @@
       applySideBySideState(false);
 
       updateModalThemeUI(slot, effectiveTheme);
-      updateFullscreenPhonePreview();
+      setFsRenderType(initialTab || "text");
     }
 
     function toggleSlotTheme(slot) {
@@ -2371,6 +2915,25 @@
     function toggleActiveModalTheme() {
       if (!activePreviewSlot) return;
       toggleSlotTheme(activePreviewSlot);
+    }
+
+    function copyHuntedTextToEditor() {
+      const rawTextEl = document.getElementById("fs_hunted_raw_text");
+      if (!rawTextEl || !rawTextEl.textContent) return;
+      const txt = rawTextEl.textContent.trim();
+      const inputEl = document.getElementById("fs_text_input");
+      if (inputEl) {
+        inputEl.value = txt;
+        updateFullscreenPhonePreview();
+      }
+      if (activePreviewSlot) {
+        const pmText = document.getElementById(`pm_text_${activePreviewSlot}`);
+        if (pmText) {
+          pmText.value = txt;
+          updateSlotPreview(activePreviewSlot);
+        }
+      }
+      showToast("📋 متن دقیق ویدیوی مرجع به کادر ویرایش کپی شد!");
     }
 
     function updateModalThemeUI(slot, theme) {
@@ -2573,12 +3136,108 @@
 
     function setFsRenderType(type) {
       currentFsRenderType = type;
+
+      // Update switcher buttons in right column header
+      const modeTextBtn = document.getElementById("fs_mode_text_btn");
+      const modeCoverBtn = document.getElementById("fs_mode_cover_btn");
+      if (modeTextBtn && modeCoverBtn) {
+        if (type === "text") {
+          modeTextBtn.style.background = "linear-gradient(135deg, #6366f1, #4f46e5)";
+          modeTextBtn.style.color = "#ffffff";
+          modeCoverBtn.style.background = "transparent";
+          modeCoverBtn.style.color = "#a1a1aa";
+        } else {
+          modeCoverBtn.style.background = "linear-gradient(135deg, #f59e0b, #d97706)";
+          modeCoverBtn.style.color = "#ffffff";
+          modeTextBtn.style.background = "transparent";
+          modeTextBtn.style.color = "#a1a1aa";
+        }
+      }
+
+      // Update bottom mockup tab buttons
       const btnText = document.getElementById("fs_tab_text");
       const btnCover = document.getElementById("fs_tab_cover");
       if (btnText) btnText.className = (type === "text" ? "fs-tab-btn active" : "fs-tab-btn");
       if (btnCover) btnCover.className = (type === "cover" ? "fs-tab-btn active" : "fs-tab-btn");
+
+      // Toggle editor and typo control panels
+      const textSec = document.getElementById("fs_text_section");
+      const textTypoSec = document.getElementById("fs_text_typo_section");
+      const coverSec = document.getElementById("fs_cover_section");
+      const coverTypoSec = document.getElementById("fs_cover_typo_section");
+
+      if (textSec) textSec.style.display = (type === "text" ? "block" : "none");
+      if (textTypoSec) textTypoSec.style.display = (type === "text" ? "flex" : "none");
+      if (coverSec) coverSec.style.display = (type === "cover" ? "block" : "none");
+      if (coverTypoSec) coverTypoSec.style.display = (type === "cover" ? "flex" : "none");
+
       updateFullscreenPhonePreview();
       scheduleLiveRender(100);
+    }
+
+    function onCoverFontSizeChanged() {
+      const fsEl = document.getElementById("fs_cover_fs");
+      const lhEl = document.getElementById("fs_cover_line_height");
+      const fsValEl = document.getElementById("fs_cover_fs_val");
+      const lhValEl = document.getElementById("fs_cover_lh_val");
+      if (!fsEl) return;
+      const fsVal = parseInt(fsEl.value);
+      if (fsValEl) fsValEl.textContent = fsVal + "px";
+      const autoLh = Math.round(fsVal * 1.65);
+      if (lhEl) {
+        lhEl.value = autoLh;
+        if (lhValEl) lhValEl.textContent = autoLh + "px";
+      }
+      updateFullscreenPhonePreview();
+    }
+
+    function splitHookIntoBalancedLines(hook) {
+      if (!hook) return [];
+      const clean = hook.replace(/[.،!؟:\s]+$/g, "").trim();
+      const words = clean.split(/\s+/).filter(w => w.length > 0);
+      if (words.length <= 4) {
+        return [clean + (clean.endsWith("...") ? "" : "...")];
+      }
+      let mid = Math.floor((words.length + 1) / 2);
+      for (let i = 0; i < words.length; i++) {
+        if (words[i].includes("،") || words[i].includes(",")) {
+          if (i + 1 >= 2 && i + 1 <= words.length - 2) {
+            mid = i + 1;
+            break;
+          }
+        }
+      }
+      const line1 = words.slice(0, mid).join(" ");
+      let line2 = words.slice(mid).join(" ");
+      if (!line2.endsWith("...")) line2 += "...";
+      return [line1, line2];
+    }
+
+    function autoBreakCoverLines() {
+      const input = document.getElementById("fs_cover_input");
+      if (!input || !input.value.trim()) {
+        showToast("⚠️ ابتدا متنی در کادر تیتر کاور وارد کنید!");
+        return;
+      }
+      const val = input.value.trim();
+      const singleLine = val.replace(/\n+/g, " ");
+      const lines = splitHookIntoBalancedLines(singleLine);
+      input.value = lines.join("\n");
+      updateFullscreenPhonePreview();
+      showToast("✂️ متن کاور به سطر‌های متوازن شکسته شد!");
+    }
+
+    function resetCoverToOriginal() {
+      if (!activePreviewSlot) return;
+      const slot = activePreviewSlot;
+      const itemData = currentPostMakerData && currentPostMakerData.items ? currentPostMakerData.items.find(x => x.slot === slot) : null;
+      const origHook = (itemData && itemData.hook) ? itemData.hook : "";
+      const input = document.getElementById("fs_cover_input");
+      if (input) {
+        input.value = origHook;
+        updateFullscreenPhonePreview();
+        showToast("🔄 متن کاور به هوک اولیه بازنشانی شد.");
+      }
     }
 
     function setFsViewMode(mode) {
@@ -2680,9 +3339,20 @@
       const isBold = document.getElementById("fs_bold_check") ? document.getElementById("fs_bold_check").checked : true;
       const hlColor = document.getElementById("fs_hl_color") ? document.getElementById("fs_hl_color").value : "default";
 
+      // Cover values from modal inputs
+      const isCover = (currentFsRenderType === "cover");
+      const coverInput = document.getElementById("fs_cover_input");
+      const coverVal = coverInput ? coverInput.value : "";
+      const coverFs = document.getElementById("fs_cover_fs") ? parseInt(document.getElementById("fs_cover_fs").value) : (themeVal === "light" ? 90 : 95);
+      const coverLh = document.getElementById("fs_cover_line_height") ? parseInt(document.getElementById("fs_cover_line_height").value) : (themeVal === "light" ? 145 : 160);
+      const coverTop = document.getElementById("fs_cover_top_offset") ? parseInt(document.getElementById("fs_cover_top_offset").value) : 568;
+      const coverColor = document.getElementById("fs_cover_color") ? document.getElementById("fs_cover_color").value : "default";
+      const coverBold = document.getElementById("fs_cover_bold_check") ? document.getElementById("fs_cover_bold_check").checked : false;
+
       // Hook from slot input if exists, or itemData.hook
       const hookInp = document.getElementById(`pm_hook_${slot}`);
-      const hookVal = hookInp ? hookInp.value.trim() : (itemData ? itemData.hook : "");
+      const fallbackHook = hookInp ? hookInp.value.trim() : (itemData ? itemData.hook : "");
+      const effectiveHook = isCover ? (coverVal || fallbackHook) : fallbackHook;
 
       const spinner = document.getElementById("fs_render_spinner");
       const badge = document.getElementById("fs_render_status_badge");
@@ -2698,10 +3368,22 @@
           slot: slot,
           date: folderVal,
           type: currentFsRenderType,
-          hook: hookVal,
+          hook: effectiveHook,
           content: textVal,
           theme: themeVal,
-          custom_style: {
+          custom_style: isCover ? {
+            font_size: coverFs,
+            line_height: coverLh,
+            top_offset: coverTop,
+            color: coverColor,
+            is_bold: coverBold,
+            cover_font_size: coverFs,
+            cover_line_height: coverLh,
+            cover_top_offset: coverTop,
+            cover_color: coverColor,
+            cover_is_bold: coverBold,
+            theme: themeVal
+          } : {
             font_size: fsVal,
             line_height: lhVal,
             top_offset: topVal,
@@ -2983,15 +3665,10 @@
       }
       if (phonePlate) phonePlate.style.backgroundImage = `url('${plateImg}')`;
 
-      const lines = textVal.split("\n").filter(l => l.trim().length > 0);
-      const hasExplicitHl = lines.some(l => l.includes("==") || l.includes("**"));
-      
       // Dynamic phone preview scale based on actual rendered wrapper dimensions
       const phoneWrapper = document.getElementById("fs_phone_wrapper");
       const currentPhoneW = (phoneWrapper && phoneWrapper.clientWidth > 100) ? phoneWrapper.clientWidth : 340;
       const scale = currentPhoneW / 1080;
-      const previewFs = Math.round(parseInt(fsVal) * scale);
-      const previewLineHeight = Math.round(parseInt(lhVal) * scale);
       const rightSafe = Math.round(165 * scale); // 165px safe zone from Instagram right action buttons
       const safeWidth = Math.round(806 * scale); // 806px safe box width
       const safeHeight = Math.round(1308 * scale); // 1308px safe box height
@@ -3006,6 +3683,71 @@
         safeBox.style.width = `${safeWidth}px`;
         safeBox.style.height = `${safeHeight}px`;
       }
+
+      const contentBox = document.getElementById("fs_phone_content");
+
+      // Branch: Cover rendering (IRTitr)
+      if (currentFsRenderType === "cover") {
+        const coverInput = document.getElementById("fs_cover_input");
+        let coverVal = coverInput ? coverInput.value : "";
+
+        const coverFs = parseInt(document.getElementById("fs_cover_fs") ? document.getElementById("fs_cover_fs").value : (isLight ? 90 : 95));
+        const coverLh = parseInt(document.getElementById("fs_cover_line_height") ? document.getElementById("fs_cover_line_height").value : (isLight ? 145 : 160));
+        const coverTop = parseInt(document.getElementById("fs_cover_top_offset") ? document.getElementById("fs_cover_top_offset").value : 568);
+        const coverColorVal = document.getElementById("fs_cover_color") ? document.getElementById("fs_cover_color").value : "default";
+        const coverBold = document.getElementById("fs_cover_bold_check") ? document.getElementById("fs_cover_bold_check").checked : false;
+
+        if (document.getElementById("fs_cover_fs_val")) document.getElementById("fs_cover_fs_val").textContent = coverFs + "px";
+        if (document.getElementById("fs_cover_lh_val")) document.getElementById("fs_cover_lh_val").textContent = coverLh + "px";
+        if (document.getElementById("fs_cover_top_val")) document.getElementById("fs_cover_top_val").textContent = coverTop + "px";
+
+        let actualCoverColor = isLight ? "#171717" : "#FFF7ED";
+        if (coverColorVal === "white") actualCoverColor = "#FFFFFF";
+        else if (coverColorVal === "cream") actualCoverColor = "#FFF7ED";
+        else if (coverColorVal === "dark") actualCoverColor = "#171717";
+        else if (coverColorVal === "gold") actualCoverColor = "#F4C466";
+
+        const coverLines = coverVal.includes("\n")
+          ? coverVal.split("\n").map(l => l.trim()).filter(l => l.length > 0)
+          : splitHookIntoBalancedLines(coverVal);
+
+        const previewCoverFs = Math.round(coverFs * scale);
+        const previewCoverLh = Math.round(coverLh * scale);
+        const previewCoverTop = Math.round(coverTop * scale);
+
+        contentBox.style.fontFamily = "'IRTitr', 'IRTitr Bold', 'B Titr', sans-serif";
+        contentBox.style.fontSize = `${previewCoverFs}px`;
+        contentBox.style.fontWeight = coverBold ? 'bold' : 'normal';
+        contentBox.style.lineHeight = `${previewCoverLh}px`;
+        contentBox.style.color = actualCoverColor;
+        contentBox.style.top = `${previewCoverTop}px`;
+        contentBox.style.right = '0';
+        contentBox.style.left = '0';
+        contentBox.style.width = '100%';
+        contentBox.style.maxHeight = 'none';
+        contentBox.style.overflow = 'visible';
+        contentBox.style.textAlign = 'center';
+
+        let coverHtml = "";
+        coverLines.forEach(l => {
+          coverHtml += `<div style="line-height:${previewCoverLh}px; margin-bottom:2px;">${l}</div>`;
+        });
+        contentBox.innerHTML = coverHtml;
+
+        if (currentFsViewMode === "render") {
+          contentBox.style.opacity = "0.75";
+        } else {
+          contentBox.style.opacity = isLight ? "0.85" : "1";
+        }
+
+        scheduleLiveRender(350);
+        return;
+      }
+
+      const lines = textVal.split("\n").filter(l => l.trim().length > 0);
+      const hasExplicitHl = lines.some(l => l.includes("==") || l.includes("**"));
+      const previewFs = Math.round(parseInt(fsVal) * scale);
+      const previewLineHeight = Math.round(parseInt(lhVal) * scale);
 
       // Safe vertical clamping within [306, 1614]
       const totalH = lines.length * previewLineHeight;
@@ -3028,7 +3770,6 @@
         }
       });
 
-      const contentBox = document.getElementById("fs_phone_content");
       contentBox.style.fontFamily = "'IRLotus', 'IRLotus Bold', sans-serif";
       contentBox.style.fontSize = `${previewFs}px`;
       contentBox.style.fontWeight = isBold ? '900' : '400';
@@ -3064,6 +3805,14 @@
       const hlColor = document.getElementById("fs_hl_color").value;
       const audioVal = document.getElementById("fs_audio_select").value;
 
+      // Cover fields
+      const coverVal = document.getElementById("fs_cover_input") ? document.getElementById("fs_cover_input").value.trim() : "";
+      const coverFs = document.getElementById("fs_cover_fs") ? parseInt(document.getElementById("fs_cover_fs").value) : 95;
+      const coverLh = document.getElementById("fs_cover_line_height") ? parseInt(document.getElementById("fs_cover_line_height").value) : 160;
+      const coverTop = document.getElementById("fs_cover_top_offset") ? parseInt(document.getElementById("fs_cover_top_offset").value) : 568;
+      const coverColor = document.getElementById("fs_cover_color") ? document.getElementById("fs_cover_color").value : "default";
+      const coverBold = document.getElementById("fs_cover_bold_check") ? document.getElementById("fs_cover_bold_check").checked : false;
+
       if (document.getElementById(`pm_text_${slot}`)) document.getElementById(`pm_text_${slot}`).value = textVal;
       if (document.getElementById(`pm_fs_${slot}`)) document.getElementById(`pm_fs_${slot}`).value = fsVal;
       if (document.getElementById(`pm_fs_val_${slot}`)) document.getElementById(`pm_fs_val_${slot}`).textContent = fsVal + "px";
@@ -3073,12 +3822,31 @@
       if (document.getElementById(`pm_hl_${slot}`)) document.getElementById(`pm_hl_${slot}`).value = hlColor;
       if (document.getElementById(`pm_audio_${slot}`)) document.getElementById(`pm_audio_${slot}`).value = audioVal;
 
+      if (coverVal) {
+        if (document.getElementById(`pm_hook_${slot}`)) document.getElementById(`pm_hook_${slot}`).value = coverVal;
+        const cardHookEl = document.getElementById(`card_hook_text_${slot}`);
+        if (cardHookEl) cardHookEl.textContent = `«${coverVal}»`;
+      }
+
       // Save to persistent customizations cache
       const itemData = currentPostMakerData && currentPostMakerData.items ? currentPostMakerData.items.find(x => x.slot === slot) : null;
+      if (itemData && coverVal) {
+        itemData.hook = coverVal;
+      }
       const currentTheme = (SLOT_CUSTOMIZATIONS[slot] && SLOT_CUSTOMIZATIONS[slot].theme)
         || (itemData ? itemData.theme : (([1, 2, 6].includes(slot)) ? "light" : "dark"));
 
       SLOT_CUSTOMIZATIONS[slot] = {
+        hook: coverVal,
+        cover_text: coverVal,
+        cover_style: {
+          font_size: coverFs,
+          line_height: coverLh,
+          top_offset: coverTop,
+          color: coverColor,
+          is_bold: coverBold,
+          theme: currentTheme
+        },
         content: textVal,
         font_size: parseInt(fsVal),
         line_height: parseInt(lhVal),
@@ -3089,9 +3857,18 @@
         theme: currentTheme
       };
 
+      // Persist hook to DB metadata
+      if (itemData && itemData.script_id && coverVal) {
+        fetch(`/api/scripts/${itemData.script_id}/metadata`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ hook: coverVal })
+        }).catch(e => console.warn("Could not save hook metadata:", e));
+      }
+
       updateSlotPreview(slot);
       closeLivePreviewModal();
-      showToast(`✅ تغییرات، موقعیت و فاصله خطوط اسلات ${slot} با موفقیت ثبت و اعمال شد!`);
+      showToast(`✅ تغییرات، متن کاور و استایل اسلات ${slot} با موفقیت ثبت و ذخیره شد!`);
     }
 
     async function generateSingleSlotDirect(slot) {
@@ -3107,8 +3884,9 @@
       const hlInp = document.getElementById(`pm_hl_${slot}`);
       const aInp = document.getElementById(`pm_audio_${slot}`);
 
-      const hookVal = hInp ? hInp.value.trim() : "";
+      const hookVal = (SLOT_CUSTOMIZATIONS[slot] && SLOT_CUSTOMIZATIONS[slot].cover_text) || (hInp ? hInp.value.trim() : "");
       const audioVal = aInp ? aInp.value.trim() : "";
+      const coverStyle = (SLOT_CUSTOMIZATIONS[slot] && SLOT_CUSTOMIZATIONS[slot].cover_style) || null;
 
       const itemData = currentPostMakerData && currentPostMakerData.items ? currentPostMakerData.items.find(x => x.slot === slot) : null;
       const currentTheme = (SLOT_CUSTOMIZATIONS[slot] && SLOT_CUSTOMIZATIONS[slot].theme)
@@ -3121,11 +3899,13 @@
         top_offset: topInp ? parseInt(topInp.value) : 400,
         is_bold: bInp ? bInp.checked : true,
         hl_color: hlInp ? hlInp.value : "default",
-        theme: currentTheme
+        theme: currentTheme,
+        cover_style: coverStyle
       };
 
       // Save to cache as well
       SLOT_CUSTOMIZATIONS[slot] = {
+        ...(SLOT_CUSTOMIZATIONS[slot] || {}),
         hook: hookVal,
         audio: audioVal,
         ...styleObj
@@ -3182,6 +3962,14 @@
       const hlColor = document.getElementById("fs_hl_color").value;
       const audioVal = document.getElementById("fs_audio_select").value;
 
+      // Cover fields
+      const coverVal = document.getElementById("fs_cover_input") ? document.getElementById("fs_cover_input").value.trim() : "";
+      const coverFs = document.getElementById("fs_cover_fs") ? parseInt(document.getElementById("fs_cover_fs").value) : 95;
+      const coverLh = document.getElementById("fs_cover_line_height") ? parseInt(document.getElementById("fs_cover_line_height").value) : 160;
+      const coverTop = document.getElementById("fs_cover_top_offset") ? parseInt(document.getElementById("fs_cover_top_offset").value) : 568;
+      const coverColor = document.getElementById("fs_cover_color") ? document.getElementById("fs_cover_color").value : "default";
+      const coverBold = document.getElementById("fs_cover_bold_check") ? document.getElementById("fs_cover_bold_check").checked : false;
+
       if (document.getElementById(`pm_text_${slot}`)) document.getElementById(`pm_text_${slot}`).value = textVal;
       if (document.getElementById(`pm_fs_${slot}`)) document.getElementById(`pm_fs_${slot}`).value = fsVal;
       if (document.getElementById(`pm_fs_val_${slot}`)) document.getElementById(`pm_fs_val_${slot}`).textContent = fsVal + "px";
@@ -3191,11 +3979,30 @@
       if (document.getElementById(`pm_hl_${slot}`)) document.getElementById(`pm_hl_${slot}`).value = hlColor;
       if (document.getElementById(`pm_audio_${slot}`)) document.getElementById(`pm_audio_${slot}`).value = audioVal;
 
+      if (coverVal) {
+        if (document.getElementById(`pm_hook_${slot}`)) document.getElementById(`pm_hook_${slot}`).value = coverVal;
+        const cardHookEl = document.getElementById(`card_hook_text_${slot}`);
+        if (cardHookEl) cardHookEl.textContent = `«${coverVal}»`;
+      }
+
       const itemData = currentPostMakerData && currentPostMakerData.items ? currentPostMakerData.items.find(x => x.slot === slot) : null;
+      if (itemData && coverVal) {
+        itemData.hook = coverVal;
+      }
       const currentTheme = (SLOT_CUSTOMIZATIONS[slot] && SLOT_CUSTOMIZATIONS[slot].theme)
         || (itemData ? itemData.theme : (([1, 2, 6].includes(slot)) ? "light" : "dark"));
 
       SLOT_CUSTOMIZATIONS[slot] = {
+        hook: coverVal,
+        cover_text: coverVal,
+        cover_style: {
+          font_size: coverFs,
+          line_height: coverLh,
+          top_offset: coverTop,
+          color: coverColor,
+          is_bold: coverBold,
+          theme: currentTheme
+        },
         content: textVal,
         font_size: parseInt(fsVal),
         line_height: parseInt(lhVal),
@@ -3205,6 +4012,14 @@
         audio: audioVal,
         theme: currentTheme
       };
+
+      if (itemData && itemData.script_id && coverVal) {
+        fetch(`/api/scripts/${itemData.script_id}/metadata`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ hook: coverVal })
+        }).catch(e => console.warn("Could not save hook metadata:", e));
+      }
 
       if (btn) {
         btn.disabled = true;
@@ -3219,9 +4034,84 @@
       }
     }
 
+    const slotPreviewTabs = {};
+
+    function setSlotPreviewTab(slot, tab) {
+      slotPreviewTabs[slot] = tab;
+      const tabText = document.getElementById(`pm_tab_text_${slot}`);
+      const tabCover = document.getElementById(`pm_tab_cover_${slot}`);
+      if (tabText && tabCover) {
+        if (tab === "cover") {
+          tabCover.style.background = "linear-gradient(135deg, #f59e0b, #d97706)";
+          tabCover.style.color = "#ffffff";
+          tabCover.style.borderColor = "transparent";
+          tabText.style.background = "transparent";
+          tabText.style.color = "#a1a1aa";
+          tabText.style.borderColor = "rgba(255,255,255,0.2)";
+        } else {
+          tabText.style.background = "linear-gradient(135deg, #6366f1, #4f46e5)";
+          tabText.style.color = "#ffffff";
+          tabText.style.borderColor = "transparent";
+          tabCover.style.background = "transparent";
+          tabCover.style.color = "#a1a1aa";
+          tabCover.style.borderColor = "rgba(255,255,255,0.2)";
+        }
+      }
+      updateSlotPreview(slot);
+    }
+
+    function onSlotHookInput(slot) {
+      if (slotPreviewTabs[slot] === "cover") {
+        updateSlotPreview(slot);
+      }
+    }
+
     function updateSlotPreview(slot) {
       const container = document.getElementById(`pm_preview_box_${slot}`);
       if (!container) return;
+
+      const itemData = currentPostMakerData && currentPostMakerData.items ? currentPostMakerData.items.find(x => x.slot === slot) : null;
+      const cachedTheme = SLOT_CUSTOMIZATIONS[slot] ? SLOT_CUSTOMIZATIONS[slot].theme : null;
+      const effectiveTheme = cachedTheme || (itemData ? itemData.theme : (([1, 2, 6].includes(slot)) ? "light" : "dark"));
+      const isLight = (effectiveTheme === "light");
+
+      if (slotPreviewTabs[slot] === "cover") {
+        const hookVal = document.getElementById(`pm_hook_${slot}`) ? document.getElementById(`pm_hook_${slot}`).value : ((itemData ? itemData.hook : "") || "");
+        const cachedCoverStyle = (SLOT_CUSTOMIZATIONS[slot] && SLOT_CUSTOMIZATIONS[slot].cover_style) ? SLOT_CUSTOMIZATIONS[slot].cover_style : {};
+
+        const coverFs = cachedCoverStyle.font_size || (isLight ? 90 : 95);
+        const coverLh = cachedCoverStyle.line_height || (isLight ? 145 : 160);
+        const coverBold = cachedCoverStyle.is_bold !== undefined ? !!cachedCoverStyle.is_bold : false;
+        const coverColorVal = cachedCoverStyle.color || "default";
+
+        let actualCoverColor = isLight ? "#171717" : "#FFF7ED";
+        if (coverColorVal === "white") actualCoverColor = "#FFFFFF";
+        else if (coverColorVal === "cream") actualCoverColor = "#FFF7ED";
+        else if (coverColorVal === "dark") actualCoverColor = "#171717";
+        else if (coverColorVal === "gold") actualCoverColor = "#F4C466";
+
+        const coverLines = hookVal.includes("\n")
+          ? hookVal.split("\n").map(l => l.trim()).filter(l => l.length > 0)
+          : splitHookIntoBalancedLines(hookVal);
+
+        container.style.background = isLight ? '#FBF9F5' : '#141416';
+        const previewScale = 0.35;
+        const previewCoverFs = Math.round(coverFs * previewScale);
+        const previewCoverLh = Math.round(coverLh * previewScale);
+
+        let coverHtml = "";
+        coverLines.forEach(l => {
+          coverHtml += `<div style="line-height:${previewCoverLh}px; margin-bottom:3px;">${l}</div>`;
+        });
+
+        container.innerHTML = `
+          <div style="font-family:'IRTitr', 'B Titr', sans-serif; font-size:${previewCoverFs}px; font-weight:${coverBold ? 'bold' : 'normal'}; line-height:${previewCoverLh}px; color:${actualCoverColor}; text-align:center; direction:rtl; padding:24px 16px;">
+            ${coverHtml}
+          </div>
+        `;
+        return;
+      }
+
       const textVal = document.getElementById(`pm_text_${slot}`) ? document.getElementById(`pm_text_${slot}`).value : "";
       const fsVal = document.getElementById(`pm_fs_${slot}`) ? document.getElementById(`pm_fs_${slot}`).value : "60";
       const lhVal = document.getElementById(`pm_lh_${slot}`) ? document.getElementById(`pm_lh_${slot}`).value : String(Math.round(parseInt(fsVal) * 1.65));
@@ -3232,10 +4122,6 @@
         document.getElementById(`pm_fs_val_${slot}`).textContent = fsVal + "px";
       }
 
-      const itemData = currentPostMakerData && currentPostMakerData.items ? currentPostMakerData.items.find(x => x.slot === slot) : null;
-      const cachedTheme = SLOT_CUSTOMIZATIONS[slot] ? SLOT_CUSTOMIZATIONS[slot].theme : null;
-      const effectiveTheme = cachedTheme || (itemData ? itemData.theme : (([1, 2, 6].includes(slot)) ? "light" : "dark"));
-      const isLight = (effectiveTheme === "light");
       const normalColor = isLight ? "#242424" : "#F1EFE8";
 
       container.style.background = isLight ? '#FBF9F5' : '#141416';
@@ -3283,7 +4169,7 @@
         if (!data.ok) throw new Error(data.error || "خطا در دریافت اطلاعات پیش‌نمایش");
 
         currentPostMakerData = data;
-        if (folderInput) folderInput.value = data.default_folder || `D:\\زر تکست\\${data.shamsi_date}`;
+        if (folderInput) folderInput.value = data.default_folder || `D:\\رز تکست\\${data.shamsi_date}`;
 
         let html = `
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; background:#121215; padding:10px 16px; border-radius:8px; border:1px solid #27272a; flex-wrap:wrap; gap:8px;">
@@ -3345,8 +4231,11 @@
                   <button type="button" onclick="openRenderPngPreviewModal(${it.slot}, 'text')" class="pm-action-btn pm-action-btn-outline">
                     🖼️ رندر PNG بدون ذخیره
                   </button>
-                  <button type="button" onclick="openLivePreviewModal(${it.slot})" class="pm-action-btn pm-action-btn-primary">
-                    🔍 پیش‌نمایش زنده
+                  <button type="button" onclick="openLivePreviewModal(${it.slot}, 'text')" class="pm-action-btn pm-action-btn-primary">
+                    🔍 پیش‌نمایش متن
+                  </button>
+                  <button type="button" onclick="openLivePreviewModal(${it.slot}, 'cover')" class="pm-action-btn pm-action-btn-outline" style="border-color:rgba(245,158,11,0.5); color:#fde047;">
+                    🎯 پیش‌نمایش کاور
                   </button>
                   <span id="pm_chevron_${it.slot}" class="pm-chevron" onclick="togglePostMakerSlotAccordion(${it.slot})">${it.slot === 1 ? '▲' : '▼'}</span>
                 </div>
@@ -3409,7 +4298,10 @@
                           <img src="${it.local_frame_url}" style="width:100%; height:100%; object-fit:cover;" />
                         </div>
                         <div style="flex:1; min-width:240px; font-size:12.5px; color:#cbd5e1; line-height:1.8;">
-                          <div style="font-weight:800; color:#38bdf8; margin-bottom:8px;">📸 فریم استخراج‌شده از ریلز مرجع</div>
+                          <div style="font-weight:800; color:#38bdf8; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
+                            <span>📸 فریم استخراج‌شده از ریلز مرجع</span>
+                            ${it.frame_transcript_verified ? `<span class="badge badge-emerald" style="font-size:10.5px; font-weight:800; padding:1px 6px;">✅ تایید انطباق ۱۰۰٪ با دست‌خط فریم</span>` : ''}
+                          </div>
                           ${it.extracted_raw_text ? `<div style="background:rgba(0,0,0,0.45); padding:10px 12px; border-radius:8px; white-space:pre-wrap;">${it.extracted_raw_text}</div>` : ''}
                         </div>
                       </div>
@@ -3433,15 +4325,27 @@
               <!-- تنظیمات کاور و موزیک -->
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
                 <div>
-                  <label style="font-size:12px; font-weight:800; color:#cbd5e1; display:block; margin-bottom:4px;">🎯 هوک روی کاور (فونت تیتر ثابت):</label>
-                  <input type="text" id="pm_hook_${it.slot}" value="${it.hook || ''}" placeholder="هوک ۶ تا ۸ کلمه‌ای برای کاور..." style="background:#040507; border:1px solid rgba(255,255,255,0.15); color:#fff; padding:9px 12px; border-radius:8px; font-family:'Vazirmatn',sans-serif; font-size:13px; width:100%; box-sizing:border-box;" />
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                    <label style="font-size:12px; font-weight:800; color:#cbd5e1;">🎯 هوک روی کاور (فونت تیتر ثابت):</label>
+                    <button type="button" onclick="openLivePreviewModal(${it.slot}, 'cover')" style="background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.4); color:#fde047; padding:2px 8px; border-radius:6px; font-size:11px; cursor:pointer; font-weight:700;" title="تنظیم فونت، فاصله خطوط و شکست سطرها">
+                      🎯 ویرایش متن و استایل کاور
+                    </button>
+                  </div>
+                  <input type="text" id="pm_hook_${it.slot}" oninput="onSlotHookInput(${it.slot})" value="${it.hook || ''}" placeholder="هوک ۶ تا ۸ کلمه‌ای برای کاور..." style="background:#040507; border:1px solid rgba(255,255,255,0.15); color:#fff; padding:9px 12px; border-radius:8px; font-family:'Vazirmatn',sans-serif; font-size:13px; width:100%; box-sizing:border-box;" />
                 </div>
 
                 <div>
-                  <label style="font-size:12px; font-weight:800; color:#38bdf8; display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                    <span>🎵 موزیک ریلز (${it.soundtracks ? it.soundtracks.length : 0} قطعه آرکتایپ ${it.archetype}):</span>
-                    <button type="button" onclick="playAudioPreview(document.getElementById('pm_audio_${it.slot}').value, this)" style="background:rgba(56,189,248,0.15); border:1px solid #38bdf8; color:#38bdf8; border-radius:6px; padding:2px 8px; font-size:11px; cursor:pointer;">▶ پخش موزیک</button>
-                  </label>
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; flex-wrap:wrap; gap:6px;">
+                    <label style="font-size:12px; font-weight:800; color:#38bdf8; display:flex; align-items:center; gap:6px;">
+                      <span>🎵 قطعه موسیقی / موزیک ریلز:</span>
+                    </label>
+                    <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                      <button type="button" onclick="openExtractAudioDialog(${it.slot})" style="background:linear-gradient(135deg, #8b5cf6, #6366f1); color:#fff; border:none; border-radius:6px; padding:3px 10px; font-size:11.5px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:4px; box-shadow:0 2px 6px rgba(99,102,241,0.35);" title="انتخاب فایل ویدیوی ریلز دانلودشده از روی سیستم و جداسازی خودکار صدا با FFmpeg">
+                        <span>🎬 جداسازی صدا از ریلز دانلودی</span>
+                      </button>
+                      <button type="button" onclick="playAudioPreview(document.getElementById('pm_audio_${it.slot}').value, this)" style="background:rgba(56,189,248,0.15); border:1px solid #38bdf8; color:#38bdf8; border-radius:6px; padding:2px 8px; font-size:11px; cursor:pointer;">▶ پخش موزیک</button>
+                    </div>
+                  </div>
                   <select id="pm_audio_${it.slot}" style="background:#040507; border:1px solid rgba(56,189,248,0.3); color:#e2e8f0; padding:9px 12px; border-radius:8px; font-family:'Vazirmatn',sans-serif; font-size:12.5px; width:100%; box-sizing:border-box; direction:rtl;">
                     ${audioOptionsHtml}
                   </select>
@@ -3498,9 +4402,15 @@
                   </div>
                   
                   <div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                      <label style="font-size:11.5px; color:#94a3b8;">👁️ پیش‌نمایش زنده در کادر پست:</label>
-                      <button type="button" onclick="openLivePreviewModal(${it.slot})" style="background:transparent; border:none; color:#a5b4fc; font-size:11.5px; cursor:pointer; text-decoration:underline;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                      <div style="display:flex; align-items:center; gap:6px;">
+                        <label style="font-size:11.5px; color:#94a3b8;">👁️ پیش‌نمایش در کادر:</label>
+                        <div style="display:inline-flex; background:#09090b; border:1px solid #27272a; padding:2px; border-radius:6px; gap:2px;">
+                          <button type="button" id="pm_tab_text_${it.slot}" onclick="setSlotPreviewTab(${it.slot}, 'text')" style="background:linear-gradient(135deg, #6366f1, #4f46e5); border:none; color:#ffffff; padding:2px 8px; border-radius:5px; font-size:11px; cursor:pointer; font-weight:700;">🎬 متن</button>
+                          <button type="button" id="pm_tab_cover_${it.slot}" onclick="setSlotPreviewTab(${it.slot}, 'cover')" style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:#a1a1aa; padding:2px 8px; border-radius:5px; font-size:11px; cursor:pointer; font-weight:700;">🎯 کاور</button>
+                        </div>
+                      </div>
+                      <button type="button" onclick="openLivePreviewModal(${it.slot}, slotPreviewTabs[${it.slot}] || 'text')" style="background:transparent; border:none; color:#a5b4fc; font-size:11.5px; cursor:pointer; text-decoration:underline;">
                         🔍 بزرگنمایی و جزئیات دقیق
                       </button>
                     </div>
@@ -3574,7 +4484,8 @@
 
       for (let s = 1; s <= 6; s++) {
         const hInp = document.getElementById(`pm_hook_${s}`);
-        if (hInp) hooks[s] = hInp.value.trim();
+        const customHook = (SLOT_CUSTOMIZATIONS[s] && SLOT_CUSTOMIZATIONS[s].cover_text) || (hInp ? hInp.value.trim() : "");
+        if (customHook) hooks[s] = customHook;
         const aInp = document.getElementById(`pm_audio_${s}`);
         if (aInp) audios[s] = aInp.value.trim();
 
@@ -3596,7 +4507,8 @@
           top_offset: topInp ? parseInt(topInp.value) : 306,
           is_bold: bInp ? bInp.checked : true,
           hl_color: hlInp ? hlInp.value : "default",
-          theme: currentTheme
+          theme: currentTheme,
+          cover_style: (SLOT_CUSTOMIZATIONS[s] && SLOT_CUSTOMIZATIONS[s].cover_style) || null
         };
       }
 
@@ -3757,6 +4669,16 @@
       const currentTheme = (SLOT_CUSTOMIZATIONS[slot] && SLOT_CUSTOMIZATIONS[slot].theme)
         || (itemData ? itemData.theme : (([1, 2, 6].includes(slot)) ? "light" : "dark"));
 
+      const isCover = (type === "cover");
+      const coverStyle = (SLOT_CUSTOMIZATIONS[slot] && SLOT_CUSTOMIZATIONS[slot].cover_style) || {};
+      const coverText = (SLOT_CUSTOMIZATIONS[slot] && (SLOT_CUSTOMIZATIONS[slot].cover_text || SLOT_CUSTOMIZATIONS[slot].hook)) || hookVal;
+
+      const effectiveCoverFs = coverStyle.font_size || (currentTheme === "light" ? 90 : 95);
+      const effectiveCoverLh = coverStyle.line_height || (currentTheme === "light" ? 145 : 160);
+      const effectiveCoverTop = coverStyle.top_offset !== undefined ? coverStyle.top_offset : 568;
+      const effectiveCoverColor = coverStyle.color || "default";
+      const effectiveCoverBold = !!coverStyle.is_bold;
+
       try {
         const res = await fetch("/api/post-maker/render-preview", {
           method: "POST",
@@ -3765,10 +4687,22 @@
             slot: slot,
             date: targetDate,
             type: type,
-            hook: hookVal,
+            hook: isCover ? coverText : hookVal,
             content: textVal,
             theme: currentTheme,
-            custom_style: {
+            custom_style: isCover ? {
+              font_size: effectiveCoverFs,
+              line_height: effectiveCoverLh,
+              top_offset: effectiveCoverTop,
+              color: effectiveCoverColor,
+              is_bold: effectiveCoverBold,
+              cover_font_size: effectiveCoverFs,
+              cover_line_height: effectiveCoverLh,
+              cover_top_offset: effectiveCoverTop,
+              cover_color: effectiveCoverColor,
+              cover_is_bold: effectiveCoverBold,
+              theme: currentTheme
+            } : {
               font_size: fsVal,
               line_height: lhVal,
               top_offset: topVal,
@@ -3914,7 +4848,7 @@
       if (editBtn) {
         editBtn.onclick = () => {
           closeOutputsReviewCarousel();
-          openLivePreviewModal(item.slot);
+          openLivePreviewModal(item.slot, item.type === "cover" ? "cover" : "text");
         };
       }
 
@@ -4340,7 +5274,7 @@
           <button type="button" id="fs_theme_toggle_btn" onclick="toggleActiveModalTheme()" class="publish-check-btn" style="padding:7px 14px; font-size:12.5px; background:rgba(255,255,255,0.08); border:1px solid #52525b; color:#e4e4e7; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
             🌙 تم قالب ⇄
           </button>
-          <button type="button" onclick="openRenderPngPreviewModal(activePreviewSlot, 'text')" class="publish-check-btn" style="padding:7px 14px; font-size:12.5px; background:rgba(56,189,248,0.12); border:1px solid #0284c7; color:#38bdf8; border-radius:8px; cursor:pointer;">
+          <button type="button" onclick="openRenderPngPreviewModal(activePreviewSlot, currentFsRenderType)" class="publish-check-btn" style="padding:7px 14px; font-size:12.5px; background:rgba(56,189,248,0.12); border:1px solid #0284c7; color:#38bdf8; border-radius:8px; cursor:pointer;">
             🖼️ مشاهده رندر در تب جدید
           </button>
           <button type="button" id="fs_instant_render_btn" onclick="renderCurrentSlotInstantlyFromModal()" class="publish-check-btn" style="padding:7px 16px; font-size:12.5px; background:linear-gradient(135deg, #f59e0b, #d97706); border-radius:8px; box-shadow:0 2px 10px rgba(245,158,11,0.3);">
@@ -4359,8 +5293,18 @@
         <!-- ستون راست: پنل ابزارها و ویرایشگر متن -->
         <div style="width:480px; min-width:400px; max-width:540px; padding:18px 22px; overflow-y:auto; border-left:1px solid #27272a; display:flex; flex-direction:column; gap:14px; background:#0c0e17;">
           
-          <!-- جعبه متن -->
-          <div style="background:rgba(255,255,255,0.02); border:1px solid #27272a; border-radius:12px; padding:14px;">
+          <!-- انتخابگر نوع فریم برای ویرایش زنده -->
+          <div style="background:#09090b; border:1px solid #27272a; border-radius:10px; padding:4px; display:flex; gap:6px;">
+            <button type="button" id="fs_mode_text_btn" onclick="setFsRenderType('text')" style="flex:1; padding:8px 10px; font-size:12px; font-weight:800; border-radius:8px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s; background:linear-gradient(135deg, #6366f1, #4f46e5); color:#fff;">
+              🎬 متن تکست‌گرافی (IRLotus)
+            </button>
+            <button type="button" id="fs_mode_cover_btn" onclick="setFsRenderType('cover')" style="flex:1; padding:8px 10px; font-size:12px; font-weight:800; border-radius:8px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s; background:transparent; color:#a1a1aa;">
+              🎯 متن روی کاور (IRTitr)
+            </button>
+          </div>
+
+          <!-- بخش ویرایش متن تکست‌گرافی -->
+          <div id="fs_text_section" style="background:rgba(255,255,255,0.02); border:1px solid #27272a; border-radius:12px; padding:14px;">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
               <label style="font-size:13px; font-weight:800; color:#fbbf24;">✍️ ویرایش متن تکست‌گرافی (همگام‌سازی زنده):</label>
               
@@ -4382,10 +5326,10 @@
             <textarea id="fs_text_input" oninput="updateFullscreenPhonePreview()" rows="6" style="background:#05070d; border:1px solid #27272a; color:#fff; padding:12px; border-radius:8px; font-family:'IRLotus', 'Vazirmatn', sans-serif; font-size:14px; width:100%; box-sizing:border-box; line-height:1.7; resize:vertical;"></textarea>
           </div>
 
-          <!-- جعبه کنترل فونت، فاصله خطوط و موقعیت عمودی متن -->
-          <div style="background:rgba(255,255,255,0.02); border:1px solid #27272a; border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:12px;">
+          <!-- جعبه کنترل فونت، فاصله خطوط و موقعیت عمودی متن تکست‌گرافی -->
+          <div id="fs_text_typo_section" style="background:rgba(255,255,255,0.02); border:1px solid #27272a; border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:12px;">
             <div style="font-size:13px; font-weight:800; color:#38bdf8; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
-              <span>🎛️ تنظیمات تایپوگرافی، فاصله و موقعیت متن (IRLotus):</span>
+              <span>🎛️ تنظیمات تایپوگرافی متن (IRLotus):</span>
               <span style="font-size:10.5px; background:rgba(34,197,94,0.15); color:#4ade80; border:1px solid rgba(34,197,94,0.3); padding:2px 8px; border-radius:6px; font-weight:700;">🟩 کادر امن ۸۰۶×۱۳۰۸ فعال</span>
             </div>
 
@@ -4467,14 +5411,117 @@
             </div>
           </div>
 
+          <!-- بخش ویرایش متن روی کاور -->
+          <div id="fs_cover_section" style="display:none; background:rgba(255,255,255,0.02); border:1px solid rgba(245,158,11,0.35); border-radius:12px; padding:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+              <label style="font-size:13px; font-weight:800; color:#fbbf24;">✍️ ویرایش متن روی کاور (فونت تیتر ثابت):</label>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <button type="button" onclick="autoBreakCoverLines()" style="background:linear-gradient(135deg, #f59e0b, #d97706); border:none; color:#fff; padding:4px 10px; border-radius:6px; font-size:11.5px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:4px;" title="شکستن خودکار کلمات به خطوط متعادل">
+                  ✂️ شکستن خودکار سطرها
+                </button>
+                <button type="button" onclick="resetCoverToOriginal()" style="background:#27272a; border:1px solid #3f3f46; color:#a1a1aa; padding:4px 8px; border-radius:6px; font-size:11px; cursor:pointer;" title="برگشت به هوک اولیه">
+                  🔄 بازنشانی هوک
+                </button>
+              </div>
+            </div>
+
+            <div style="font-size:11px; color:#94a3b8; margin-bottom:6px; background:rgba(0,0,0,0.3); padding:6px 10px; border-radius:6px; border:1px dashed rgba(245,158,11,0.25); line-height:1.6;">
+              💡 <strong>راهنما:</strong> هر خط متن کاور در یک سطر جداگانه نمایش داده می‌شود. با زدن <strong>Enter</strong> می‌توانید متن را به ۲ یا ۳ سطر با ریتم دلخواه بشکنید.
+            </div>
+
+            <textarea id="fs_cover_input" oninput="updateFullscreenPhonePreview()" rows="3" placeholder="متن تیتر کاور..." style="background:#05070d; border:1px solid rgba(245,158,11,0.3); color:#fff; padding:12px; border-radius:8px; font-family:'IRTitr', 'Vazirmatn', sans-serif; font-size:15px; width:100%; box-sizing:border-box; line-height:1.6; resize:vertical; text-align:center;"></textarea>
+          </div>
+
+          <!-- جعبه کنترل فونت، فاصله خطوط و موقعیت متن کاور -->
+          <div id="fs_cover_typo_section" style="display:none; background:rgba(255,255,255,0.02); border:1px solid #27272a; border-radius:12px; padding:14px; flex-direction:column; gap:12px;">
+            <div style="font-size:13px; font-weight:800; color:#fbbf24; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+              <span>🎛️ تنظیمات تایپوگرافی کاور (فونت IRTitr):</span>
+              <span style="font-size:10.5px; background:rgba(245,158,11,0.15); color:#fde047; border:1px solid rgba(245,158,11,0.3); padding:2px 8px; border-radius:6px; font-weight:700;">🎯 استاندارد کاور اینستاگرام</span>
+            </div>
+
+            <!-- اسلایدر ۱: سایز فونت کاور -->
+            <div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                <span style="font-size:12px; color:#cbd5e1; font-weight:700;">اندازه فونت کاور (در فایل ۱۰۸۰×۱۹۲۰):</span>
+                <span id="fs_cover_fs_val" style="font-size:12.5px; font-weight:900; color:#fef08a;">95px</span>
+              </div>
+              <input type="range" id="fs_cover_fs" min="65" max="135" value="95" oninput="onCoverFontSizeChanged()" style="width:100%; accent-color:#f59e0b; cursor:pointer;" />
+              <div style="display:flex; justify-content:space-between; font-size:10.5px; color:#71717a; margin-top:2px;">
+                <span>کوچک (65px)</span>
+                <span>استاندارد (90/95px)</span>
+                <span>بزرگ (135px)</span>
+              </div>
+            </div>
+
+            <!-- اسلایدر ۲: فاصله بین خطوط کاور (Line-Height) -->
+            <div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                <span style="font-size:12px; color:#cbd5e1; font-weight:700;">فاصله بین خطوط کاور (Line-Height):</span>
+                <span id="fs_cover_lh_val" style="font-size:12.5px; font-weight:900; color:#38bdf8;">160px</span>
+              </div>
+              <input type="range" id="fs_cover_line_height" min="100" max="230" value="160" oninput="updateFullscreenPhonePreview()" style="width:100%; accent-color:#38bdf8; cursor:pointer;" />
+              <div style="display:flex; justify-content:space-between; font-size:10.5px; color:#71717a; margin-top:2px;">
+                <span>فشرده (100px)</span>
+                <span>استاندارد (150/160px)</span>
+                <span>کشیده (230px)</span>
+              </div>
+            </div>
+
+            <!-- اسلایدر ۳: موقعیت عمودی کاور (Top Offset) -->
+            <div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                <span style="font-size:12px; color:#cbd5e1; font-weight:700;">موقعیت عمودی تیتر کاور (فاصله از بالا):</span>
+                <span id="fs_cover_top_val" style="font-size:12.5px; font-weight:900; color:#10b981;">568px</span>
+              </div>
+              <input type="range" id="fs_cover_top_offset" min="360" max="860" value="568" oninput="updateFullscreenPhonePreview()" style="width:100%; accent-color:#10b981; cursor:pointer;" />
+              <div style="display:flex; justify-content:space-between; font-size:10.5px; color:#71717a; margin-top:2px;">
+                <span>بالا (360px)</span>
+                <span>مرکز فیگما (568px)</span>
+                <span>پایین (860px)</span>
+              </div>
+            </div>
+
+            <!-- انتخاب رنگ و وزن کاور -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; align-items:center;">
+              <div>
+                <label style="font-size:11.5px; font-weight:700; color:#cbd5e1; display:block; margin-bottom:4px;">رنگ متن کاور:</label>
+                <select id="fs_cover_color" onchange="updateFullscreenPhonePreview()" style="background:#090b12; border:1px solid #27272a; color:#fff; padding:7px 10px; border-radius:8px; font-family:'Vazirmatn',sans-serif; font-size:12px; width:100%;">
+                  <option value="default">پیش‌فرض قالب (کرم/مشکی)</option>
+                  <option value="white">⚪ سفید خالص (#FFFFFF)</option>
+                  <option value="cream">🟡 کرم روشن (#FFF7ED)</option>
+                  <option value="dark">⚫ مشکی عمیق (#171717)</option>
+                  <option value="gold">✨ طلایی وایرال (#F4C466)</option>
+                </select>
+              </div>
+
+              <div style="background:rgba(0,0,0,0.3); border:1px solid #27272a; border-radius:8px; padding:8px 10px; display:flex; align-items:center; gap:8px; margin-top:16px;">
+                <input type="checkbox" id="fs_cover_bold_check" onchange="updateFullscreenPhonePreview()" style="width:18px; height:18px; accent-color:#f59e0b; cursor:pointer;" />
+                <div>
+                  <label for="fs_cover_bold_check" style="font-size:12px; font-weight:800; color:#fff; cursor:pointer; display:block;">تیتر فوق‌بولد</label>
+                  <span style="font-size:10px; color:#71717a;">وزن پررنگ</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- جعبه انتخاب و پخش موزیک -->
           <div style="background:rgba(56,189,248,0.03); border:1px solid rgba(56,189,248,0.2); border-radius:12px; padding:12px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
               <label style="font-size:12px; font-weight:800; color:#38bdf8;">🎵 قطعه موسیقی:</label>
-              <div style="display:flex; gap:6px; align-items:center;">
-                <button type="button" id="fs_select_src_audio_btn" onclick="selectSourceSoundtrackFs()" style="display:none; background:linear-gradient(135deg, #10b981, #059669); color:#fff; border:none; padding:3px 8px; border-radius:6px; font-size:11px; font-weight:800; cursor:pointer;">
+              <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                <button type="button" onclick="openExtractAudioDialog(activePreviewSlot)" style="background:linear-gradient(135deg, #8b5cf6, #6366f1); color:#fff; border:none; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:4px; box-shadow:0 2px 6px rgba(99,102,241,0.35);" title="انتخاب فایل ویدیوی ریلز دانلودشده از روی سیستم و جداسازی خودکار صدا با FFmpeg">
+                  🎬 جداسازی صدا از ریلز دانلودی
+                </button>
+                <button type="button" id="fs_extract_audio_modal_btn" onclick="extractAudioFromFsModal()" style="display:none; background:linear-gradient(135deg, #6366f1, #4f46e5); color:#fff; border:none; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:800; cursor:pointer;" title="دانلود و جداسازی خودکار صدا از ریلز مرجع">
+                  🎵 جداسازی صدای ریلز
+                </button>
+                <button type="button" id="fs_select_src_audio_btn" onclick="selectSourceSoundtrackFs()" style="display:none; background:linear-gradient(135deg, #10b981, #059669); color:#fff; border:none; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:800; cursor:pointer;" title="انتخاب مستقیم موزیک استخراج‌شده ریلز مرجع">
                   🎯 موزیک ریلز مرجع
                 </button>
+                <label for="fs_audio_file_input" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#e2e8f0; padding:4px 9px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer;" title="انتخاب یا آپلود فایل صوتی دستی از کامپیوتر">
+                  📁 آپلود MP3
+                </label>
+                <input type="file" id="fs_audio_file_input" accept="audio/*" onchange="uploadAudioFromFsModal(this)" style="display:none;" />
                 <button type="button" onclick="playAudioPreview(document.getElementById('fs_audio_select').value, this)" style="background:#0284c7; border:none; color:#fff; padding:4px 10px; border-radius:6px; font-size:11.5px; font-weight:800; cursor:pointer;">
                   ▶ پخش موزیک
                 </button>
@@ -4498,6 +5545,19 @@
               </div>
             </div>
 
+            <!-- نوار ابزار صوتی اختصاصی ریلز مرجع -->
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:8px 0; padding:8px 10px; background:rgba(0,0,0,0.35); border-radius:8px; border:1px solid rgba(255,255,255,0.08);">
+              <button type="button" id="fs_hunted_extract_audio_btn" onclick="extractAudioFromFsModal()" style="display:none; background:linear-gradient(135deg, #6366f1, #4f46e5); color:#fff; border:none; padding:5px 12px; border-radius:7px; font-size:11.5px; font-weight:800; cursor:pointer; align-items:center; gap:5px;">
+                🎵 دانلود و جداسازی صدای این ریلز
+              </button>
+              <button type="button" id="fs_hunted_use_audio_btn" onclick="selectSourceSoundtrackFs()" style="display:none; background:linear-gradient(135deg, #10b981, #059669); color:#fff; border:none; padding:5px 12px; border-radius:7px; font-size:11.5px; font-weight:800; cursor:pointer; align-items:center; gap:5px;">
+                🎯 قرار دادن موزیک همین ریلز روی اسلات
+              </button>
+              <label for="fs_audio_file_input" style="background:rgba(255,255,255,0.06); color:#cbd5e1; border:1px solid rgba(255,255,255,0.18); padding:5px 12px; border-radius:7px; font-size:11.5px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:5px;">
+                📂 بارگذاری فایل صوتی MP3
+              </label>
+            </div>
+
             <!-- ویدیوی مرجع یا فریم -->
             <div id="fs_hunted_media_box" style="margin-top:8px;"></div>
             
@@ -4505,8 +5565,13 @@
               🪞 مقایسه پهلوبه‌پهلو با مرجع (Side-by-Side)
             </button>
 
-            <div id="fs_hunted_raw_box" style="margin-top:8px; background:rgba(0,0,0,0.35); padding:8px; border-radius:6px; font-size:11.5px; color:#cbd5e1; line-height:1.6;">
-              <strong style="color:#fda4af; display:block; margin-bottom:2px;">📝 متن دقیق داخل ویدیو:</strong>
+            <div id="fs_hunted_raw_box" style="margin-top:8px; background:rgba(0,0,0,0.35); padding:8px 10px; border-radius:6px; font-size:11.5px; color:#cbd5e1; line-height:1.6;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; flex-wrap:wrap; gap:4px;">
+                <strong id="fs_hunted_raw_title" style="color:#fda4af; display:flex; align-items:center; gap:6px;">📝 متن دقیق داخل ویدیو:</strong>
+                <button type="button" onclick="copyHuntedTextToEditor()" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fef08a; padding:2px 8px; border-radius:5px; font-size:11px; cursor:pointer;" title="کپی متن فریم به ویرایشگر اسلات">
+                  📋 کپی به کادر ویرایش
+                </button>
+              </div>
               <div id="fs_hunted_raw_text" style="white-space:pre-wrap; color:#f1f5f9;"></div>
             </div>
           </div>
@@ -4707,6 +5772,98 @@
         <div>
           کیفیت: کریستالی ۱۰۸۰×۱۹۲۰ (Filmora Profile)
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال جداسازی صدا از ریلز دانلودشده (Extract Audio From Reel Video) -->
+  <div id="extractAudioModal" onclick="if(event.target === this) closeExtractAudioDialog()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:10005; justify-content:center; align-items:center; padding:16px; box-sizing:border-box;">
+    <div style="background:#09090b; border:1px solid #27272a; border-radius:14px; max-width:680px; width:100%; max-height:90vh; overflow-y:auto; padding:24px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.9);">
+      
+      <!-- هدر مودال -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid #27272a; padding-bottom:12px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:24px;">🎬</span>
+          <div>
+            <div style="font-size:15px; font-weight:800; color:#fafafa; display:flex; align-items:center; gap:8px;">
+              <span>جداسازی صدا از ریلز دانلودشده و اعمال روی ویدیو</span>
+              <span id="extractAudioSlotBadge" class="badge badge-rose">اسلات ۱</span>
+            </div>
+            <div style="font-size:11.5px; color:#a1a1aa; margin-top:2px;">
+              ویدیوی ریلز را انتخاب کنید تا صدای آن با کیفیت بالا (۳۲۰kbps) استخراج شده و روی ویدیوی شما قرار گیرد.
+            </div>
+          </div>
+        </div>
+        <button type="button" onclick="closeExtractAudioDialog()" class="btn btn-ghost btn-sm" style="font-size:16px; width:32px; height:32px; padding:0;">✕</button>
+      </div>
+
+      <!-- وضعیت پردازش و نتایج -->
+      <div id="extractAudioStatusBox" style="margin-bottom:14px;"></div>
+
+      <!-- بخش اول: انتخاب مستقیم فایل از سیستم -->
+      <div style="background:#121215; border:1px solid #27272a; border-radius:10px; padding:16px; margin-bottom:14px;">
+        <div style="font-size:13px; font-weight:800; color:#38bdf8; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+          <span>📁 گزینه ۱: انتخاب فایل ویدیوی ریلز از کامپیوتر</span>
+        </div>
+        
+        <input type="file" id="modalReelVideoFile" accept="video/*,.mp4,.mov,.m4v,.mkv,.webm" onchange="onModalVideoFileSelected(this)" style="display:none;" />
+        
+        <div onclick="document.getElementById('modalReelVideoFile').click()" style="border:2px dashed rgba(56,189,248,0.35); background:rgba(56,189,248,0.03); border-radius:8px; padding:20px; text-align:center; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='#38bdf8'; this.style.background='rgba(56,189,248,0.08)';" onmouseout="this.style.borderColor='rgba(56,189,248,0.35)'; this.style.background='rgba(56,189,248,0.03)';">
+          <div style="font-size:32px; margin-bottom:6px;">🎥</div>
+          <div style="font-size:13.5px; font-weight:800; color:#fafafa; margin-bottom:4px;">
+            برای انتخاب ویدیوی ریلز (MP4, MOV, MKV, WebM) اینجا کلیک کنید
+          </div>
+          <div style="font-size:11.5px; color:#a1a1aa; margin-bottom:10px;">
+            فایل ویدیوی دانلودشده از اینستاگرام یا سیستم خود را انتخاب کنید (جداسازی خودکار در ۱ ثانیه)
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" onclick="event.stopPropagation(); document.getElementById('modalReelVideoFile').click();" style="background:linear-gradient(135deg, #38bdf8, #0284c7); border:none; padding:6px 18px; font-weight:800; border-radius:8px; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(2,132,199,0.35);">
+            📁 باز کردن انتخاب‌گر فایل سیستم
+          </button>
+        </div>
+
+        <div id="selectedVideoFileBox" style="display:none; margin-top:12px; background:#09090b; border:1px solid #27272a; border-radius:8px; padding:10px 14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div>
+              <span style="font-size:12px; color:#94a3b8;">فایل انتخاب‌شده:</span>
+              <span id="selectedVideoFileName" style="font-size:13px; font-weight:800; color:#6ee7b7; direction:ltr; display:inline-block; margin-right:6px;"></span>
+              <span id="selectedVideoFileSize" class="badge badge-zinc" style="font-size:11px;"></span>
+            </div>
+            <button type="button" onclick="extractAudioFromSelectedFile()" class="btn btn-primary btn-sm" style="background:#8b5cf6; border-color:#8b5cf6;">
+              🚀 استخراج صدا و تنظیم روی اسلات
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- بخش دوم: وارد کردن مسیر مستقیم فایل روی سیستم -->
+      <div style="background:#121215; border:1px solid #27272a; border-radius:10px; padding:16px; margin-bottom:14px;">
+        <div style="font-size:13px; font-weight:800; color:#cbd5e1; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+          <span>💻 گزینه ۲: وارد کردن مسیر مستقیم فایل در ویندوز (بدون نیاز به آپلود مجدد)</span>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <input type="text" id="modalReelVideoPath" placeholder="مثلاً: C:\Users\User\Downloads\reel.mp4 یا D:\Reels\reel1.mp4" style="flex:1; min-width:260px; background:#09090b; border:1px solid #27272a; color:#fafafa; padding:8px 12px; border-radius:6px; font-family:'Consolas',monospace; font-size:12.5px; direction:ltr; text-align:left;" />
+          <button type="button" onclick="extractAudioFromSpecifiedPath()" class="btn btn-outline btn-sm" style="border-color:#a855f7; color:#c084fc;">
+            ⚡ استخراج مستقیم
+          </button>
+        </div>
+      </div>
+
+      <!-- بخش سوم: ریلزهای پیدا شده در سیستم و پوشه دانلودها -->
+      <div style="background:#121215; border:1px solid #27272a; border-radius:10px; padding:16px; margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <div style="font-size:13px; font-weight:800; color:#34d399; display:flex; align-items:center; gap:6px;">
+            <span>📱 گزینه ۳: ریلزهای پیداشده در پوشه دانلودها و کش سیستم</span>
+          </div>
+          <button type="button" onclick="loadSystemReelsList()" class="btn btn-ghost btn-sm" style="font-size:11.5px; color:#94a3b8; padding:2px 8px;">
+            🔄 بازخوانی لیست
+          </button>
+        </div>
+        <div id="systemReelsListContainer" style="max-height:220px; overflow-y:auto; border-radius:6px;"></div>
+      </div>
+
+      <!-- دکمه‌های فوتر -->
+      <div style="display:flex; justify-content:flex-end; gap:8px; border-top:1px solid #27272a; padding-top:12px;">
+        <button type="button" onclick="closeExtractAudioDialog()" class="btn btn-outline">بستن</button>
       </div>
 
     </div>

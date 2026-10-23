@@ -1,0 +1,564 @@
+{
+  "verified_accounts": {
+    "halekhoub": {
+      "handle": "@halekhoub",
+      "name_fa": "حال خوب",
+      "cluster": "دلنوشته و متن آرامش و پذیرش",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "570K followers",
+      "last_checked": "2026-10-14 15:04:57"
+    },
+    "vahidrezakhoshbayan": {
+      "handle": "@vahidrezakhoshbayan",
+      "name_fa": "وحیدرضا خوش‌بیان",
+      "cluster": "دکلمه صوتی، مانیفست عاطفی و مرزبندی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "262K followers",
+      "last_checked": "2026-10-14 15:05:03"
+    },
+    "text.love400": {
+      "handle": "@text.love400",
+      "name_fa": "تکست لاو ۴۰۰",
+      "cluster": "تکست سفید/مشکی، کارما و تاوان",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "238K followers",
+      "last_checked": "2026-10-14 15:05:09"
+    },
+    "heliumm.__": {
+      "handle": "@heliumm.__",
+      "name_fa": "هلیوم تکست",
+      "cluster": "تکست‌گرافی مینیمال سینمایی، مونولوگ احساسی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "223K followers",
+      "last_checked": "2026-10-14 15:05:14"
+    },
+    "leyli_geraphy": {
+      "handle": "@leyli_geraphy",
+      "name_fa": "لیلی گرافی",
+      "cluster": "تکست‌گرافی با تعامل فوق‌العاده",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "17.3K followers",
+      "last_checked": "2026-10-14 15:05:20"
+    },
+    "shadighorbanyy": {
+      "handle": "@shadighorbanyy",
+      "name_fa": "شادی قربانی",
+      "cluster": "دکلمه‌های پخته و احساسی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "36.4K followers",
+      "last_checked": "2026-10-14 15:05:26"
+    },
+    "radiodelwin": {
+      "handle": "@radiodelwin",
+      "name_fa": "مجله هنری رادیو دلوین",
+      "cluster": "پادکست و نریشن کوتاه حسی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "135K followers",
+      "last_checked": "2026-10-14 15:05:31"
+    },
+    "atiya_text": {
+      "handle": "@atiya_text",
+      "name_fa": "عاطیا تکست",
+      "cluster": "تکست عاشقانه و حس خوب",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "63K followers",
+      "last_checked": "2026-10-14 15:05:38"
+    },
+    "docharetooo": {
+      "handle": "@docharetooo",
+      "name_fa": "دچارتو",
+      "cluster": "تکست و متن عاطفی، ویوهای میلیونی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "33.3K followers",
+      "last_checked": "2026-10-14 15:05:45"
+    },
+    "_khaazaan_": {
+      "handle": "@_khaazaan_",
+      "name_fa": "مجله هنری خزان",
+      "cluster": "دکلمه، کلیپ و تکست",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "28.1K followers",
+      "last_checked": "2026-10-14 15:05:51"
+    },
+    "___yeharf": {
+      "handle": "@___yeharf",
+      "name_fa": "یه حرف",
+      "cluster": "دلنوشته‌های بغض‌آلود و احساسی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "17.5K followers",
+      "last_checked": "2026-10-14 15:05:56"
+    },
+    "sepehr_kh": {
+      "handle": "@sepehr_kh",
+      "name_fa": "سپهر خدابنده (صلح درون)",
+      "cluster": "پادکست آرامش و التیام درون",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "611K followers",
+      "last_checked": "2026-10-14 15:06:03"
+    },
+    "savad_zendegi": {
+      "handle": "@savad_zendegi",
+      "name_fa": "سواد زندگی",
+      "cluster": "روانشناسی رابطه و خودارزشمندی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "576K followers",
+      "last_checked": "2026-10-14 15:06:09"
+    },
+    "matne_ziba": {
+      "handle": "@matne_ziba",
+      "name_fa": "متن زیبا",
+      "cluster": "تکست و حرف دل برای زندگی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "1.7M followers",
+      "last_checked": "2026-10-14 15:06:15"
+    },
+    "alikeshavarz.original": {
+      "handle": "@alikeshavarz.original",
+      "name_fa": "علی کشاورز",
+      "cluster": "دکلمه با صدای مولف",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "36.4K followers",
+      "last_checked": "2026-10-14 15:06:21"
+    },
+    "horaetemad": {
+      "handle": "@horaetemad",
+      "name_fa": "حورا اعتمادی",
+      "cluster": "ویدیوگرافی احساسی با متن",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "174K followers",
+      "last_checked": "2026-10-14 15:06:27"
+    },
+    "haarmuni": {
+      "handle": "@haarmuni",
+      "name_fa": "هارمونی",
+      "cluster": "تکست‌گرافی و موسیقی احساسی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "216K followers",
+      "last_checked": "2026-10-14 15:06:32"
+    },
+    "delneveshtee_naab": {
+      "handle": "@delneveshtee_naab",
+      "name_fa": "دلنوشته ناب",
+      "cluster": "دلنوشته‌های پربازدید",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "68.1K followers",
+      "last_checked": "2026-10-14 15:06:38"
+    },
+    "radio.khat": {
+      "handle": "@radio.khat",
+      "name_fa": "رادیو خط",
+      "cluster": "پادکست احساسی رادیویی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "143K followers",
+      "last_checked": "2026-10-14 15:06:45"
+    },
+    "ghalbe_daroon": {
+      "handle": "@ghalbe_daroon",
+      "name_fa": "قلب درون",
+      "cluster": "دکلمه و آرامش درونی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "176K followers",
+      "last_checked": "2026-10-14 15:06:51"
+    },
+    "imazhart": {
+      "handle": "@imazhart",
+      "name_fa": "ایماژ آرت",
+      "cluster": "تکست‌گرافی هنری سینمایی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "1.6M followers",
+      "last_checked": "2026-10-14 15:06:57"
+    },
+    "boqzdel": {
+      "handle": "@boqzdel",
+      "name_fa": "بغض دل",
+      "cluster": "بغض و دلتنگی عاطفی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "234K followers",
+      "last_checked": "2026-10-14 15:07:04"
+    },
+    "pouneh_ir": {
+      "handle": "@pouneh_ir",
+      "name_fa": "پونه",
+      "cluster": "دلنوشته لطیف و خودارزشمندی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "48.8K followers",
+      "last_checked": "2026-10-14 15:07:11"
+    },
+    "medad.mag": {
+      "handle": "@medad.mag",
+      "name_fa": "مجله مداد",
+      "cluster": "تکست ویدیویی و حرف دل",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "79.1K followers",
+      "last_checked": "2026-10-14 15:07:18"
+    },
+    "tavan_sangin": {
+      "handle": "@tavan_sangin",
+      "name_fa": "تاوان سنگین",
+      "cluster": "تاوان، کارما و خداحافظی باوقار",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "199K followers",
+      "last_checked": "2026-10-14 15:07:23"
+    },
+    "book.icy1": {
+      "handle": "@book.icy1",
+      "name_fa": "تکه کتاب یخی",
+      "cluster": "تکه کتاب و تکست عمیق",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "186K followers",
+      "last_checked": "2026-10-14 15:07:29"
+    },
+    "shabe_sher.1": {
+      "handle": "@shabe_sher.1",
+      "name_fa": "شب شعر",
+      "cluster": "شعر و تکست شبانه",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "8,422 followers",
+      "last_checked": "2026-10-14 15:07:36"
+    },
+    "moshaereeh": {
+      "handle": "@moshaereeh",
+      "name_fa": "مشاعره",
+      "cluster": "شعر و دیالوگ ماندگار",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "453K followers",
+      "last_checked": "2026-10-14 15:07:42"
+    },
+    "chicheknaz": {
+      "handle": "@chicheknaz",
+      "name_fa": "چیچک ناز",
+      "cluster": "دلنوشته و کلیپ حسی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "100K followers",
+      "last_checked": "2026-10-14 15:07:47"
+    },
+    "hichpouchstory": {
+      "handle": "@hichpouchstory",
+      "name_fa": "هیچ و پوچ استوری",
+      "cluster": "استوری و تکست ریلز",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "230K followers",
+      "last_checked": "2026-10-14 15:07:52"
+    },
+    "deep_dari9": {
+      "handle": "@deep_dari9",
+      "name_fa": "دیپ دری",
+      "cluster": "تکست ادبی و دلنوشته اصیل",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "105K followers",
+      "last_checked": "2026-10-14 15:07:58"
+    },
+    "lanternnevesht": {
+      "handle": "@lanternnevesht",
+      "name_fa": "فانوس‌نوشت (آیدا صادقی)",
+      "cluster": "التیام و متن‌های الهام‌بخش",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "19.2K followers",
+      "last_checked": "2026-10-14 15:08:04"
+    },
+    "darlahze__": {
+      "handle": "@darlahze__",
+      "name_fa": "در لحظه",
+      "cluster": "تکست ریلز مینیمال",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "79.5K followers",
+      "last_checked": "2026-10-14 15:08:10"
+    },
+    "aruma.mind": {
+      "handle": "@aruma.mind",
+      "name_fa": "آروما مایند",
+      "cluster": "روانشناسی عاطفی و التیام",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "843K followers",
+      "last_checked": "2026-10-14 15:08:15"
+    },
+    "textnime_shab": {
+      "handle": "@textnime_shab",
+      "name_fa": "تکست نیمه شب",
+      "cluster": "مونولوگ‌های شبانه و دلتنگی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "1,812 followers",
+      "last_checked": "2026-10-14 15:08:22"
+    },
+    "baroone_eshgh1": {
+      "handle": "@baroone_eshgh1",
+      "name_fa": "بارون عشق",
+      "cluster": "عاشقانه و دلنوشته",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "135K followers",
+      "last_checked": "2026-10-14 15:08:27"
+    },
+    "naghmeh_zendegiii": {
+      "handle": "@naghmeh_zendegiii",
+      "name_fa": "نغمه زندگی",
+      "cluster": "دکلمه و نریشن حسی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "170K followers",
+      "last_checked": "2026-10-14 15:08:33"
+    },
+    "zehn.darlahzeh": {
+      "handle": "@zehn.darlahzeh",
+      "name_fa": "ذهن در لحظه",
+      "cluster": "آرامش و حال خوب",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "183K followers",
+      "last_checked": "2026-10-14 15:08:39"
+    },
+    "tabattoll": {
+      "handle": "@tabattoll",
+      "name_fa": "تَبَتُّل",
+      "cluster": "تکست‌گرافی ادبی و عرفانی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "122K followers",
+      "last_checked": "2026-10-14 15:08:46"
+    },
+    "b.kame.del": {
+      "handle": "@b.kame.del",
+      "name_fa": "به کام دل",
+      "cluster": "توییت و تکست مدرن",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "76K followers",
+      "last_checked": "2026-10-14 15:08:52"
+    },
+    "samagerafi": {
+      "handle": "@samagerafi",
+      "name_fa": "سماگرافی",
+      "cluster": "تایپوگرافی و تکست ویدیویی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "236K followers",
+      "last_checked": "2026-10-14 15:08:57"
+    },
+    "del__aavaa": {
+      "handle": "@del__aavaa",
+      "name_fa": "دل آوا",
+      "cluster": "دکلمه و پادکست کوتاه",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "125K followers",
+      "last_checked": "2026-10-14 15:09:03"
+    },
+    "enhesaar": {
+      "handle": "@enhesaar",
+      "name_fa": "انحصار",
+      "cluster": "تکست خاص و مونوپولی احساس",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "68.4K followers",
+      "last_checked": "2026-10-14 15:09:09"
+    },
+    "arameshe_masnoei": {
+      "handle": "@arameshe_masnoei",
+      "name_fa": "آرامش مصنوعی",
+      "cluster": "دلنوشته و بغض شبانه",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "218K followers",
+      "last_checked": "2026-10-14 15:09:15"
+    },
+    "__bluebutterfly___": {
+      "handle": "@__bluebutterfly___",
+      "name_fa": "پروانه آبی",
+      "cluster": "دلنوشته زنانه و آرام",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "148K followers",
+      "last_checked": "2026-10-14 15:09:21"
+    },
+    "tabe.eshgh__": {
+      "handle": "@tabe.eshgh__",
+      "name_fa": "تب عشق",
+      "cluster": "تکست عاشقانه و وفاداری",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "24.9K followers",
+      "last_checked": "2026-10-14 15:09:26"
+    },
+    "dellk0ok": {
+      "handle": "@dellk0ok",
+      "name_fa": "دل کوک",
+      "cluster": "صفحه هنری و تکست",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "78.6K followers",
+      "last_checked": "2026-10-14 15:09:32"
+    },
+    "hastionistiii": {
+      "handle": "@hastionistiii",
+      "name_fa": "هستی و نیستی",
+      "cluster": "دلنوشته عمیق و فلسفی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "434K followers",
+      "last_checked": "2026-10-14 15:09:39"
+    },
+    "wiiraneh": {
+      "handle": "@wiiraneh",
+      "name_fa": "ویرانه",
+      "cluster": "دلنوشته عبور و زخم",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "324K followers",
+      "last_checked": "2026-10-14 15:09:46"
+    },
+    "_sooje_": {
+      "handle": "@_sooje_",
+      "name_fa": "سوژه",
+      "cluster": "تکست ریلز و روزمرگی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "64.4K followers",
+      "last_checked": "2026-10-14 15:09:51"
+    },
+    "sanma.text": {
+      "handle": "@sanma.text",
+      "name_fa": "سانما تکست",
+      "cluster": "ویدیوگرافی و تکست",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "58.4K followers",
+      "last_checked": "2026-10-14 15:09:57"
+    },
+    "lilium.flwr": {
+      "handle": "@lilium.flwr",
+      "name_fa": "لیلیوم",
+      "cluster": "عکس‌نوشته و ویدیوگرافی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "69K followers",
+      "last_checked": "2026-10-14 15:10:04"
+    },
+    "matn_negar112": {
+      "handle": "@matn_negar112",
+      "name_fa": "متن نگار",
+      "cluster": "تکست‌گرافی مفهومی",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "231K followers",
+      "last_checked": "2026-10-14 15:10:10"
+    },
+    "abra_text_": {
+      "handle": "@abra_text_",
+      "name_fa": "اَبرا تکست",
+      "cluster": "تکست‌گرافی مینیمال ابری",
+      "status": "VALID_ACTIVE",
+      "title": "(9+) Instagram",
+      "is_active": true,
+      "followers_detected": "2,086 followers",
+      "last_checked": "2026-10-14 15:10:17"
+    }
+  },
+  "_discovered_candidates": [
+    "hosseinheydarpour",
+    "dellkhaah",
+    "dr0un",
+    "tex_arghavan",
+    "hastiadds",
+    "popular",
+    "otaghe_10metri",
+    "_ghasedak_9",
+    "houraetemadinasab",
+    "goliipvr",
+    "book.icy",
+    "tablighat_admin1",
+    "hichpouch",
+    "digibit.shop",
+    "amirh0sseintalebi",
+    "kimia_rahmedani",
+    "halekhoobe_maa",
+    "shehsanelee"
+  ]
+}

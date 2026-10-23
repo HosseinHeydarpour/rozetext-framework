@@ -252,8 +252,11 @@ def upload_single_slot(slot: int, date_str: str, target_folder: str = None, cust
         import jdatetime
         parts = [int(p) for p in date_str.split("-")]
         j_date = jdatetime.date.fromgregorian(year=parts[0], month=parts[1], day=parts[2])
-        shamsi_str = j_date.strftime("%Y-%m-%d")
-        target_folder = os.path.join(r"D:\زر تکست", shamsi_str)
+        folder_d = os.path.join(r"D:\رز تکست", shamsi_str)
+        if os.path.exists(folder_d) or os.path.exists(r"D:\رز تکست") or os.path.exists("D:\\"):
+            target_folder = folder_d
+        else:
+            target_folder = os.path.join(BASE_DIR, "outputs", "posts", shamsi_str)
 
     if not os.path.exists(target_folder):
         return {"ok": False, "error": f"پوشه فایل‌ها یافت نشد: {target_folder}"}

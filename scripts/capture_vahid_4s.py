@@ -1,0 +1,62 @@
+import urllib.request
+import json
+import time
+import sys
+import base64
+import os
+
+sys.stdout.reconfigure(encoding='utf-8')
+
+BRIDGE = "http://127.0.0.1:9223"
+TARGET_ID = "B6E44804798D56AB8786A0DCD7C982CE"
+FRAMES_DIR = "downloads/frames"
+
+def post(endpoint, data):
+    body = json.dumps(data).encode('utf-8')
+    req = urllib.request.Request(f"{BRIDGE}{endpoint}", data=body, headers={'Content-Type': 'application/json'})
+    with urllib.request.urlopen(req, timeout=50) as resp:
+        return json.loads(resp.read().decode('utf-8'))
+
+res = post("/attach", {"targetId": TARGET_ID})
+session_id = res.get("sessionId")
+print(f"Attached session: {session_id}")
+
+reels = [
+    ("DJR63KJIy2t", "745K", "@vahidrezakhoshbayan"),
+    ("DK-E6xoonsH", "542K", "@vahidrezakhoshbayan"),
+    ("DPHRC0yCJxg", "524K", "@vahidrezakhoshbayan"),
+    ("DIb21i1IlXx", "520K", "@vahidrezakhoshbayan")
+]
+
+for code, views, acc in reels:
+    img_path = os.path.join(FRAMES_DIR, f"{code}_frame_4s.png")
+    url = f"https://www.instagram.com/reel/{code}/"
+    print(f"Capturing {code} at 4.5s ({views} | {acc})...")
+    post("/navigate", {"sessionId": session_id, "url": url})
+    time.sleep(4.5)
+
+    # Pause video at 4.5s
+    post("/evaluate", {"sessionId": session_id, "expression": """
+    (() => {
+        const v = document.querySelector('video');
+        if (v) { v.pause(); v.currentTime = 4.5; }
+        return true;
+    })()
+    """})
+    time.sleep(1.2)
+
+    cmd_data = {
+        "method": "Page.captureScreenshot",
+        "params": {"format": "png"},
+        "sessionId": session_id
+    }
+    ss_res = post("/cmd", cmd_data)
+    b64 = ss_res.get("result", {}).get("data")
+    if b64:
+        with open(img_path, "wb") as f:
+            f.write(base64.b64decode(b64))
+        print(f"  + Saved {img_path}")
+    else:
+        print(f"  - Failed {code}")
+
+print("\nDone capturing 4 reels at 4.5s!")

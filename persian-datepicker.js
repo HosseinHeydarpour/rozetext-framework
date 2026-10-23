@@ -17,7 +17,8 @@
 
   function parseIsoDate(isoStr) {
     if (!isoStr || !/^\d{4}-\d{2}-\d{2}$/.test(isoStr)) {
-      return new Date(2026, 8, 28, 12, 0, 0);
+      const now = new Date();
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0);
     }
     const [y, m, d] = isoStr.split("-").map(Number);
     return new Date(y, m - 1, d, 12, 0, 0);
@@ -270,7 +271,8 @@
   }
 
   let activeInput = null;
-  let viewCenterDate = new Date(2026, 8, 28, 12, 0, 0);
+  let viewCenterDate = new Date();
+  viewCenterDate.setHours(12, 0, 0, 0);
   let popoverEl = null;
 
   function ensurePopover() {
@@ -348,6 +350,28 @@
       `;
     }
 
+    const now = new Date();
+    const todayIso = toIsoDate(now);
+    const todayJalali = getJalaliInfo(now);
+
+    const tmrw = new Date(now);
+    tmrw.setDate(tmrw.getDate() + 1);
+    const tmrwIso = toIsoDate(tmrw);
+    const tmrwJalali = getJalaliInfo(tmrw);
+
+    const dayOfWeek = now.getDay();
+    const diffToThu = (4 - dayOfWeek + 7) % 7;
+    const thuDate = new Date(now);
+    thuDate.setDate(thuDate.getDate() + (diffToThu === 0 && dayOfWeek !== 4 ? 7 : diffToThu));
+    const thuIso = toIsoDate(thuDate);
+    const thuJalali = getJalaliInfo(thuDate);
+
+    const diffToFri = (5 - dayOfWeek + 7) % 7;
+    const friDate = new Date(now);
+    friDate.setDate(friDate.getDate() + (diffToFri === 0 && dayOfWeek !== 5 ? 7 : diffToFri));
+    const friIso = toIsoDate(friDate);
+    const friJalali = getJalaliInfo(friDate);
+
     pop.innerHTML = `
       <div class="roze-dp-header">
         <button type="button" class="roze-dp-nav-btn" id="rozeDpPrevMonth">❮ ماه قبل</button>
@@ -359,10 +383,10 @@
       </div>
 
       <div class="roze-dp-shortcuts">
-        <button type="button" class="roze-dp-chip" data-shortcut="2026-09-27">امروز (۵ مهر)</button>
-        <button type="button" class="roze-dp-chip" data-shortcut="2026-09-28">فردا (۶ مهر)</button>
-        <button type="button" class="roze-dp-chip peak" data-shortcut="2026-10-01">پنج‌شنبه 🔥</button>
-        <button type="button" class="roze-dp-chip peak" data-shortcut="2026-10-02">جمعه 🔥</button>
+        <button type="button" class="roze-dp-chip" data-shortcut="${todayIso}">امروز (${todayJalali.jDay} ${todayJalali.monthNameFa})</button>
+        <button type="button" class="roze-dp-chip" data-shortcut="${tmrwIso}">فردا (${tmrwJalali.jDay} ${tmrwJalali.monthNameFa})</button>
+        <button type="button" class="roze-dp-chip peak" data-shortcut="${thuIso}">پنج‌شنبه 🔥 (${thuJalali.jDay} ${thuJalali.monthNameFa})</button>
+        <button type="button" class="roze-dp-chip peak" data-shortcut="${friIso}">جمعه 🔥 (${friJalali.jDay} ${friJalali.monthNameFa})</button>
       </div>
 
       <div class="roze-dp-weekdays">

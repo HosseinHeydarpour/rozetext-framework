@@ -712,7 +712,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 """
 
 def generate_pdf():
-    base_dir = r"d:\rozetext-framework"
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     html_file = os.path.join(base_dir, "shahrchoob_campaign_proposal.html")
     pdf_file = os.path.join(base_dir, "سناریوهای_تبلیغاتی_شهرچوب_در_رزتکست.pdf")
     pdf_file_en = os.path.join(base_dir, "Shahrchoob_Story_Campaign_Proposal.pdf")
@@ -723,13 +723,16 @@ def generate_pdf():
     print(f"HTML written to: {html_file}")
 
     # 2. Locate Browser
-    chrome_paths = [
+    chrome_candidates = [
+        shutil.which("chrome"),
+        shutil.which("msedge"),
         r"C:\Program Files\Google\Chrome\Application\chrome.exe",
         r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+        os.path.expandvars(r"%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe"),
     ]
     browser = None
-    for p in chrome_paths:
-        if os.path.exists(p):
+    for p in chrome_candidates:
+        if p and os.path.exists(p):
             browser = p
             break
 

@@ -1205,6 +1205,14 @@
     }
 
     // Initialize builders on load
+    const huntInput = document.getElementById('huntStartDateInput');
+    if (huntInput) {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      const d = String(now.getDate()).padStart(2, '0');
+      huntInput.value = `${y}-${m}-${d}`;
+    }
     updatePromptBuilder();
     updateHunterPrompt();
     updateStoryPrompt();

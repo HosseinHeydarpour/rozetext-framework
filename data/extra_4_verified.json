@@ -1,0 +1,62 @@
+[
+  {
+    "handle": "@halekhoobe_maa",
+    "name_fa": "حال خوب ما",
+    "cluster": "دلنوشته و حال خوب",
+    "followers": "38.7K followers",
+    "matching_archetypes": [
+      "آرکتایپ ۳",
+      "آرکتایپ ۵"
+    ],
+    "content_style": "دلنوشته و حال خوب",
+    "profile_url": "https://www.instagram.com/halekhoobe_maa/",
+    "status": "verified_live",
+    "top_views_recorded": "500,000+ ویو",
+    "avg_views": "200K - 800K"
+  },
+  {
+    "handle": "@hichpouch",
+    "name_fa": "هیچ و پوچ",
+    "cluster": "تکست‌گرافی عمیق",
+    "followers": "523K followers",
+    "matching_archetypes": [
+      "آرکتایپ ۱",
+      "آرکتایپ ۵"
+    ],
+    "content_style": "تکست‌گرافی عمیق",
+    "profile_url": "https://www.instagram.com/hichpouch/",
+    "status": "verified_live",
+    "top_views_recorded": "500,000+ ویو",
+    "avg_views": "200K - 800K"
+  },
+  {
+    "handle": "@book.icy",
+    "name_fa": "تکه کتاب",
+    "cluster": "تکست ادبی و کتاب",
+    "followers": "548K followers",
+    "matching_archetypes": [
+      "آرکتایپ ۱",
+      "آرکتایپ ۵"
+    ],
+    "content_style": "تکست ادبی و کتاب",
+    "profile_url": "https://www.instagram.com/book.icy/",
+    "status": "verified_live",
+    "top_views_recorded": "500,000+ ویو",
+    "avg_views": "200K - 800K"
+  },
+  {
+    "handle": "@houraetemadinasab",
+    "name_fa": "حورا اعتمادی نسب",
+    "cluster": "موبایل‌گرافی و تکست",
+    "followers": "3,565 followers",
+    "matching_archetypes": [
+      "آرکتایپ ۱",
+      "آرکتایپ ۶"
+    ],
+    "content_style": "موبایل‌گرافی و تکست",
+    "profile_url": "https://www.instagram.com/houraetemadinasab/",
+    "status": "verified_live",
+    "top_views_recorded": "500,000+ ویو",
+    "avg_views": "200K - 800K"
+  }
+]

@@ -50,7 +50,7 @@ for s in s_db.get("scripts", []):
         }
 
 # 2. Extract and correlate with Meta Business Suite CSVs
-csv_files = glob.glob(r"D:\زر تکست\**\*.csv", recursive=True)
+csv_files = glob.glob(r"D:\رز تکست\**\*.csv", recursive=True)
 for cp in csv_files:
     try:
         with open(cp, "r", encoding="utf-8-sig") as f:

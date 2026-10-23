@@ -7,7 +7,12 @@ import sys
 from datetime import datetime
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from urllib.parse import urlparse
-from media_downloader import download_reel_and_extract_media, open_in_explorer
+from media_downloader import (
+    download_reel_and_extract_media,
+    open_in_explorer,
+    extract_audio_from_local_video,
+    list_system_downloaded_reels
+)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(BASE_DIR, "scripts"))
@@ -28,6 +33,13 @@ SKILL_HISTORY_PATH = os.path.join(
 )
 
 DB_LOCK = threading.Lock()
+
+def get_posts_output_dir(shamsi_str: str) -> str:
+    """Returns the preferred posts output directory (D:\رز تکست\<shamsi_date> with fallback to outputs/posts)."""
+    d_dir = r"D:\رز تکست"
+    if os.path.exists(d_dir) or os.path.exists("D:\\"):
+        return os.path.join(d_dir, shamsi_str)
+    return os.path.join(BASE_DIR, "outputs", "posts", shamsi_str)
 
 # Instagram Insights ONLINE_FOLLOWERS_AVG matrix (from @rozetext.ir live dashboard - October 2026 / 71.4K followers)
 WEEKDAY_INSIGHTS = {
@@ -71,43 +83,138 @@ DAILY_6_SLOTS = [
         "time_irst": "18:15",
         "window_label": "۱۸:۱۵ عصر (موج چهارم: پیش‌راه‌اندازی شبانه)",
         "dashboard_bucket": "6a (17:30–20:29 IRST)",
-        "best_archetypes": ["آرکتایپ ۳", "آرکتایپ ۵"],
-        "reason": "کاشت پست پیش از پیک شب برای جمع‌آوری شیرهای دایرکت (خواهر، رفیق، پارتنر)."
+        "best_archetypes": ["آرکتایپ ۳"],
+        "reason": "کاشت پست پیش از شروع پیک شبانه برای جمع کردن موتور Share در دایرکت (تقدیم‌نامه به خواهر / پارتنر / رفیق)."
     },
     {
         "slot": 5,
         "time_irst": "21:00",
         "window_label": "۲۱:۰۰ شب 🔥 (موج پنجم: بمب اول پیک مطلق شبانه)",
         "dashboard_bucket": "9a (20:30–23:29 IRST)",
-        "best_archetypes": ["آرکتایپ ۵", "آرکتایپ ۱", "آرکتایپ ۳", "آرکتایپ ۴"],
-        "reason": "بالاترین تراکم فالوور آنلاین در کل هفته (تا ۱۷,۶۸۲ نفر) + بالاترین نرخ وایرال گزارش (به‌ویژه آرکتایپ ۵ و ۱)."
+        "best_archetypes": ["آرکتایپ ۱", "آرکتایپ ۳", "آرکتایپ ۴", "آرکتایپ ۵"],
+        "reason": "شلوغ‌ترین ساعت کل شبانه‌روز در داشبورد شما (تا ۱۷,۶۸۲ آنلاین) + بالاترین نرخ تبدیل به وایرال میلیونی (قوی‌ترین بمب روز شما)."
     },
     {
         "slot": 6,
         "time_irst": "23:45",
         "window_label": "۲۳:۴۵ شب 🔥 (موج ششم: بمب دوم نیمه‌شب و دلتنگی)",
         "dashboard_bucket": "12p (23:30–02:29 IRST)",
-        "best_archetypes": ["آرکتایپ ۵", "آرکتایپ ۱", "آرکتایپ ۲"],
-        "reason": "ساعت خلوت، بغض و بی‌خوابی شبانه؛ بهترین تایم برای «مرزگذاری باوقار»، «آدم همیشه قوی» و «خداحافظی باوقار»."
+        "best_archetypes": ["آرکتایپ ۱", "آرکتایپ ۲"],
+        "reason": "ساعت خلوت، بی‌خوابی و بغض شبانه؛ بالاترین نرخ تبدیل به فالو و Save در کل پیج (تنهایی سنگ صبور / خداحافظی باوقار)."
     }
 ]
 
 
-def recommend_slot_for_archetype(archetype_str: str, occupied_slots: set) -> int:
-    """Recommends the best available slot (1..6) for a given archetype."""
-    arch = archetype_str or ""
-    if "آرکتایپ ۵" in arch:
-        pref = [5, 6, 1, 4, 3, 2]  # Archetype 5 is #1 viral performer (248K avg views)
-    elif "آرکتایپ ۱" in arch:
-        pref = [5, 6, 3, 4, 2, 1]  # Archetype 1 is #2 viral performer (226K avg views)
-    elif "آرکتایپ ۲" in arch:
-        pref = [6, 5, 3, 4, 2, 1]
-    elif "آرکتایپ ۳" in arch:
-        pref = [4, 5, 2, 3, 6, 1]
-    elif "آرکتایپ ۴" in arch:
-        pref = [5, 3, 6, 4, 2, 1]
+SLOT_ARCHETYPE_AFFINITY = {
+    # اسلات ۱ (۰۹:۳۰ صبح): آرکتایپ ۵ و ۶ (اصالت، رفتاربینی، داستان کوتاه و شروع روز با حس قدرت)
+    1: {5: 120, 6: 120, 3: 40, 4: -800, 1: -1000, 2: -1000},
+    # اسلات ۲ (۱۲:۱۵ ظهر): آرکتایپ ۳ و ۶ (آدم امن، رفیق، مینی‌روایت دونفره و قدردانی)
+    2: {3: 120, 6: 115, 1: 65, 4: 40, 5: 30, 2: -800},
+    # اسلات ۳ (۱۵:۰۰ بعدازظهر): آرکتایپ ۱ و ۴ (خستگی روزانه، گلایه در رابطه و مرزگذاری صریح)
+    3: {1: 120, 4: 120, 3: 50, 5: 40, 6: 20, 2: -200},
+    # اسلات ۴ (۱۸:۱۵ عصر): منحصراً آرکتایپ ۳ (تقدیم‌نامه به خواهر / پارتنر / رفیق برای موتور Share دایرکت)
+    4: {3: 130, 6: 60, 5: 30, 4: 20, 1: 10, 2: -800},
+    # اسلات ۵ (۲۱:۰۰ شب 🔥): قوی‌ترین بمب روز شما (آرکتایپ ۱، ۳، ۴ یا ۵ مگاوایرال با بالاترین نمره روز)
+    5: {1: 125, 3: 125, 4: 125, 5: 130, 2: 50, 6: 30},
+    # اسلات ۶ (۲۳:۴۵ شب 🔥): آرکتایپ ۱ و ۲ (تنهایی سنگ صبور / خداحافظی باوقار و رهایی بدون اصرار)
+    6: {2: 130, 1: 125, 5: 40, 4: 30, 3: 20, 6: -800},
+}
+
+
+def extract_archetype_num(arch_str: str, content: str = "", title: str = "") -> int:
+    """Extracts integer archetype (1..6) accurately from string or semantic cues."""
+    combined_txt = f"{title} {content}"
+    if any(k in combined_txt for k in ["پدرم واسه مامانم", "بی مناسبت گل خریده", "خانواده", "کودک درون"]):
+        return 6
+    if any(k in combined_txt for k in ["واگذارت کردم", "نفرینت نمیکنم", "تقاص", "کارما", "به خدا سپردم", "روزگار نقاب", "روزگار بهترین قاضی"]):
+        return 5
+    if any(k in combined_txt for k in ["بی احترامی ازتون ببینم", "اتفاقا به من اعتماد نکنید", "حدفتون میکنم", "حذفتون میکنم"]):
+        return 4
+    if any(k in combined_txt for k in ["خداحافظی", "به سلامت", "تموم شد نه با دعوا", "اصراری واسه نگه داشتن", "میرم عقب تر"]):
+        return 2
+
+    FA_TO_EN = {'۱': '1', '۲': '2', '۳': '3', '۴': '4', '۵': '5', '۶': '6'}
+    s = str(arch_str or "")
+    for fa_d, en_d in FA_TO_EN.items():
+        s = s.replace(fa_d, en_d)
+
+    m = re.search(r"(?:آرکتایپ|Archetype|\bArch\b)?\s*([1-6])", s)
+    if m:
+        return int(m.group(1))
+
+    if any(k in combined_txt for k in ["عاشقت شدم", "تولدت مبارک", "دوستت دارم", "کنارم بمون", "نور زندگی", "پارتنر"]):
+        return 3
+    if any(k in combined_txt for k in ["خسته", "کسی نمیپرسه", "تنهایی", "پیر میشن"]):
+        return 1
+
+    return 1
+
+
+def optimize_daily_basket_slots(scripts: list) -> list:
+    """
+    Given a list of scripts for a single day (up to 6), calculates the globally optimal
+    assignment of scripts to slots (1..6) using max-weight permutation matching to guarantee
+    circadian and archetype affinity (e.g. Archetype 5/6 in Slot 1, Archetype 2/1 in Slot 6).
+    """
+    import itertools
+    n = len(scripts)
+    if n == 0:
+        return []
+
+    target_slots = list(range(1, min(6, n) + 1))
+    best_score = -float("inf")
+    best_assignment = None
+
+    if n <= 6:
+        for perm in itertools.permutations(target_slots):
+            score = 0
+            for i, slot_idx in enumerate(perm):
+                sc = scripts[i]
+                arch = extract_archetype_num(sc.get('archetype', ''), sc.get('content', ''), sc.get('title', ''))
+                viral_score = float(sc.get('score') or 90)
+                aff = SLOT_ARCHETYPE_AFFINITY[slot_idx].get(arch, 0)
+                if slot_idx == 5:
+                    aff += (viral_score - 90) * 2
+                score += aff
+            if score > best_score:
+                best_score = score
+                best_assignment = perm
+
+        result = []
+        for i, slot_idx in enumerate(best_assignment):
+            c = dict(scripts[i])
+            c['scheduled_slot'] = slot_idx
+            result.append(c)
+        result.sort(key=lambda x: x['scheduled_slot'])
+        return result
     else:
-        pref = [2, 3, 1, 4, 5, 6]
+        top6 = scripts[:6]
+        res = optimize_daily_basket_slots(top6)
+        res.extend(scripts[6:])
+        return res
+
+
+def recommend_slot_for_archetype(archetype_str: str, occupied_slots: set, content: str = "", title: str = "") -> int:
+    """Recommends the best available slot (1..6) for a given archetype ensuring strict circadian fit."""
+    arch_num = extract_archetype_num(archetype_str, content, title)
+
+    # Priority ordered slot preferences by archetype:
+    # Slot 1: Strictly 5 or 6 (Morning strength/warmth). Strictly avoid 1, 2, 4.
+    # Slot 6: Strictly 2 or 1 (Midnight quiet/farewell).
+    if arch_num == 5:
+        pref = [1, 5, 4, 3, 2, 6]  # Archetype 5 is top morning dignity & prime night
+    elif arch_num == 6:
+        pref = [1, 2, 4, 3, 5, 6]  # Archetype 6 is top morning warmth & lunch
+    elif arch_num == 3:
+        pref = [4, 2, 5, 3, 6, 1]  # Archetype 3 is evening forward & lunch dialogue
+    elif arch_num == 4:
+        pref = [3, 5, 4, 2, 6, 1]  # Archetype 4 is afternoon boundaries
+    elif arch_num == 1:
+        pref = [5, 3, 6, 4, 2, 1]  # Archetype 1 is night & afternoon (never slot 1)
+    elif arch_num == 2:
+        pref = [6, 5, 3, 4, 2, 1]  # Archetype 2 is midnight farewell (never slot 1)
+    else:
+        pref = [5, 2, 4, 3, 1, 6]
 
     for s in pref:
         if s not in occupied_slots:
@@ -193,7 +300,11 @@ class PublisherEngine:
 
     def load_db(self) -> dict:
         with open(self.db_path, "r", encoding="utf-8") as f:
-            return json.load(f)
+            data = json.load(f)
+        if "scripts" in data and isinstance(data["scripts"], list):
+            for sc in data["scripts"]:
+                self.sanitize_script_origin(sc)
+        return data
 
     def save_db(self, data: dict):
         if "meta" not in data or not isinstance(data["meta"], dict):
@@ -203,10 +314,70 @@ class PublisherEngine:
                 "base_history_count": 233,
             }
         data["meta"]["last_updated"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        if "scripts" in data and isinstance(data["scripts"], list):
+            for sc in data["scripts"]:
+                self.sanitize_script_origin(sc)
         tmp_path = self.db_path + ".tmp"
         with open(tmp_path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         os.replace(tmp_path, self.db_path)
+
+    @staticmethod
+    def sanitize_script_origin(script_obj: dict) -> dict:
+        """
+        تضمین ۱۰۰٪ صحت برچسب منبع (Hunted vs AI-Generated):
+        یک ریلز فقط و فقط زمانی 'شکارشده' محسوب می‌شود که:
+        ۱. فیلد is_viral_hunted به صورت صریح True باشد
+        ۲. دارای منبع معتبر اینستاگرامی (source_url حاوی لینک یا source_page با شروع @) باشد.
+        در غیر این صورت، این ریلز به صورت قطعی 'تولید اختصاصی هوش مصنوعی' است و تمامی فیلدهای پسماند
+        شکار (لینک، پیج و ویو مرجع) به صورت خودکار پاکسازی می‌شوند تا هیچ برچسب اشتباهی ظاهر نشود.
+        """
+        source_url = (script_obj.get("source_url") or "").strip()
+        source_page = (script_obj.get("source_page") or "").strip()
+        has_valid_source = bool(
+            (source_url and ("http" in source_url or "instagram.com" in source_url)) or
+            (source_page and source_page.startswith("@") and len(source_page) > 2)
+        )
+        is_hunted = bool(script_obj.get("is_viral_hunted", False)) and has_valid_source
+
+        if is_hunted:
+            script_obj["is_viral_hunted"] = True
+            script_obj["source_url"] = source_url
+            script_obj["source_page"] = source_page
+            script_obj["source_views"] = (script_obj.get("source_views") or "").strip()
+            
+            # Auto-resolve local frame image path if exists
+            m = re.search(r"/(?:reel|p)/([A-Za-z0-9_-]+)", source_url)
+            shortcode = m.group(1) if m else None
+            frame_url = ""
+            if shortcode:
+                import glob
+                all_found = (
+                    glob.glob(f"downloads/frames/*{shortcode}*.png") +
+                    glob.glob(f"downloads/frames/*{shortcode}*.jpg") +
+                    glob.glob(f"assets/hunted_frames/*{shortcode}*.jpg") +
+                    glob.glob(f"assets/hunted_frames/*{shortcode}*.png")
+                )
+                # Prioritize logged-in and 2s-verified frames over unauthenticated/age-gated frames
+                matching_frames = sorted(
+                    all_found,
+                    key=lambda p: (0 if "logged" in p else (1 if "2s" in p else 2))
+                )
+                if matching_frames and os.path.exists(matching_frames[0]):
+                    rel = os.path.relpath(matching_frames[0], BASE_DIR).replace("\\", "/")
+                    frame_url = f"/{rel}"
+            script_obj["local_frame_url"] = frame_url
+            script_obj["has_local_frame"] = bool(frame_url)
+        else:
+            script_obj["is_viral_hunted"] = False
+            script_obj["source_url"] = ""
+            script_obj["source_page"] = ""
+            script_obj["source_views"] = ""
+            script_obj["extracted_raw_text"] = ""
+            script_obj["local_frame_url"] = ""
+            script_obj["has_local_frame"] = False
+
+        return script_obj
 
     @staticmethod
     def _clean_raw_text_for_direct_use(raw_text: str) -> str:
@@ -546,7 +717,12 @@ class PublisherEngine:
             if dup_info["is_duplicate"] and not payload.get("allow_duplicate"):
                 raise ValueError(f"DUPLICATE_REEL_BLOCKED: {dup_info['history_check_badge']}")
 
-            slot_num = int(payload.get("scheduled_slot") or recommend_slot_for_archetype(archetype_str, occupied))
+            slot_num = int(payload.get("scheduled_slot") or recommend_slot_for_archetype(
+                archetype_str,
+                occupied,
+                content_str,
+                payload.get("title", "")
+            ))
             slot_info = get_date_slot_info(target_date, slot_num)
 
             lines = [l.strip() for l in content_str.splitlines() if l.strip()]
@@ -560,7 +736,7 @@ class PublisherEngine:
                 "goal": payload.get("goal") or "جذب فالوور حداکثری (Follow Magnet)",
                 "content": content_str,
                 "caption": payload.get("caption", "").strip(),
-                "hook": lines[0] if lines else "",
+                "hook": (payload.get("hook") or "").strip() or (lines[0] if lines else ""),
                 "punchline": lines[-1] if lines else "",
                 "words_count": words_count,
                 "lines_count": len(lines),
@@ -593,6 +769,7 @@ class PublisherEngine:
                 "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             }
             script_obj["post_mortem_analysis"] = self.diagnose_post_mortem(script_obj)
+            script_obj = self.sanitize_script_origin(script_obj)
             db["scripts"].insert(0, script_obj)
             self.save_db(db)
             return script_obj
@@ -607,7 +784,7 @@ class PublisherEngine:
 
             for field in (
                 "source_url", "source_page", "source_views", "extracted_raw_text", "extra_notes",
-                "title", "archetype", "goal", "content", "caption",
+                "title", "hook", "archetype", "goal", "content", "caption",
                 "persona_fit_reason", "actual_views", "actual_result", "post_mortem_analysis"
             ):
                 if field in payload and payload[field] is not None:
@@ -622,11 +799,15 @@ class PublisherEngine:
             elif "score" in payload and payload["score"] is not None:
                 target["score"] = int(payload["score"])
 
-            if target.get("source_url") or target.get("source_page") or target.get("source_views"):
-                target["is_viral_hunted"] = True
+            if "is_viral_hunted" in payload:
+                target["is_viral_hunted"] = bool(payload["is_viral_hunted"])
+            target = self.sanitize_script_origin(target)
 
             lines = [l.strip() for l in target.get("content", "").splitlines() if l.strip()]
-            target["hook"] = lines[0] if lines else ""
+            if "hook" in payload and payload["hook"] is not None:
+                target["hook"] = str(payload["hook"]).strip()
+            elif not target.get("hook"):
+                target["hook"] = lines[0] if lines else ""
             target["punchline"] = lines[-1] if lines else ""
             target["words_count"] = len(target.get("content", "").split())
             target["lines_count"] = len(lines)
@@ -639,7 +820,7 @@ class PublisherEngine:
         """
         Imports a list of scripts (e.g. 6, 12, 18, 24 reels for 1..N days) and automatically
         groups them into batches of 6 per day starting from start_date, assigning each reel
-        within a 6-pack to its optimal slot (1..6) based on its Archetype!
+        within a 6-pack to its optimal circadian slot (1..6) based on its Archetype!
         """
         from datetime import timedelta
         base_dt = datetime.strptime(start_date, "%Y-%m-%d") if start_date else datetime.now()
@@ -657,7 +838,6 @@ class PublisherEngine:
                     for s in db["scripts"]
                     if s.get("scheduled_date") == day_str and s.get("scheduled_slot") and not s.get("published")
                 }
-                # If day already has 6 occupied slots, push to next clean day
                 while len(occupied) >= 6:
                     base_dt += timedelta(days=1)
                     day_str = (base_dt + timedelta(days=day_offset // 6)).strftime("%Y-%m-%d")
@@ -667,18 +847,19 @@ class PublisherEngine:
                         if s.get("scheduled_date") == day_str and s.get("scheduled_slot") and not s.get("published")
                     }
 
-            for item in chunk:
-                with DB_LOCK:
-                    db = self.load_db()
-                    occupied = {
-                        int(s.get("scheduled_slot"))
-                        for s in db["scripts"]
-                        if s.get("scheduled_date") == day_str and s.get("scheduled_slot") and not s.get("published")
-                    }
-                    slot_num = recommend_slot_for_archetype(item.get("archetype", ""), occupied)
+            # Globally optimize the 6-pack slots before adding
+            optimized_chunk = optimize_daily_basket_slots(chunk)
+
+            for item in optimized_chunk:
                 item_copy = dict(item)
                 item_copy["scheduled_date"] = day_str
-                item_copy["scheduled_slot"] = slot_num
+                # Use optimized slot directly
+                slot_info = get_date_slot_info(day_str, item_copy.get("scheduled_slot", 1))
+                item_copy["scheduled_time"] = slot_info["time_irst"]
+                item_copy["recommended_time"] = slot_info["time_irst"]
+                item_copy["window_label"] = slot_info["window_label"]
+                item_copy["weekday_fa"] = slot_info["weekday_fa"]
+                item_copy["online_followers"] = slot_info["online_followers"]
                 item_copy["is_viral_hunted"] = True
                 created = self.add_script(item_copy)
                 created_scripts.append(created)
@@ -698,13 +879,19 @@ class PublisherEngine:
                     for s in db["scripts"]
                     if s["id"] != script_id and s.get("scheduled_date") == target_date and s.get("scheduled_slot")
                 }
-                slot_num = recommend_slot_for_archetype(target.get("archetype", ""), occupied)
+                slot_num = recommend_slot_for_archetype(
+                    target.get("archetype", ""),
+                    occupied,
+                    target.get("content", ""),
+                    target.get("title", "")
+                )
 
             slot_num = max(1, min(6, int(slot_num)))
             slot_info = get_date_slot_info(target_date, slot_num)
 
             target["scheduled_date"] = target_date
             target["scheduled_slot"] = slot_num
+            target["scheduled_time"] = slot_info["time_irst"]
             target["recommended_time"] = slot_info["time_irst"]
             target["window_label"] = slot_info["window_label"]
             target["weekday_fa"] = slot_info["weekday_fa"]
@@ -714,7 +901,7 @@ class PublisherEngine:
             return target
 
     def auto_schedule_date(self, target_date: str) -> list:
-        """Automatically assigns up to 6 unpublished scripts to the 6 optimal slots of target_date."""
+        """Automatically assigns and rebalances up to 6 scripts to their optimal circadian slots on target_date."""
         with DB_LOCK:
             db = self.load_db()
             day_scripts = [s for s in db["scripts"] if s.get("scheduled_date") == target_date]
@@ -726,19 +913,29 @@ class PublisherEngine:
                         if len(day_scripts) == 6:
                             break
 
-            occupied = set()
-            for s in day_scripts[:6]:
-                best_slot = recommend_slot_for_archetype(s.get("archetype", ""), occupied)
-                occupied.add(best_slot)
-                slot_info = get_date_slot_info(target_date, best_slot)
-                s["scheduled_slot"] = best_slot
-                s["recommended_time"] = slot_info["time_irst"]
-                s["window_label"] = slot_info["window_label"]
-                s["weekday_fa"] = slot_info["weekday_fa"]
-                s["online_followers"] = slot_info["online_followers"]
+            # Run global basket optimization to match slots 1..6 with ideal archetypes
+            optimized_basket = optimize_daily_basket_slots(day_scripts[:6])
+            for opt_sc in optimized_basket:
+                slot_num = opt_sc["scheduled_slot"]
+                slot_info = get_date_slot_info(target_date, slot_num)
+                opt_sc["scheduled_time"] = slot_info["time_irst"]
+                opt_sc["recommended_time"] = slot_info["time_irst"]
+                opt_sc["window_label"] = slot_info["window_label"]
+                opt_sc["weekday_fa"] = slot_info["weekday_fa"]
+                opt_sc["online_followers"] = slot_info["online_followers"]
+
+                # Update in main db array
+                for idx, existing in enumerate(db["scripts"]):
+                    if existing["id"] == opt_sc["id"]:
+                        db["scripts"][idx] = opt_sc
+                        break
 
             self.save_db(db)
-            return day_scripts[:6]
+            return optimized_basket
+
+    def rebalance_date_slots(self, target_date: str) -> list:
+        """Alias for auto_schedule_date to globally rebalance circadian slot-archetype alignment."""
+        return self.auto_schedule_date(target_date)
 
     def publish_script(self, script_id: str) -> dict:
         """Marks a script as published and atomically appends it to both published-content-history.md files."""
@@ -820,11 +1017,19 @@ class RequestHandler(SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == "/api/state":
             db = ENGINE.load_db()
-            pub_count = sum(1 for s in db["scripts"] if s.get("published"))
+            base_count = db.get("meta", {}).get("base_history_count", 233)
+            if os.path.exists(ROOT_HISTORY_PATH):
+                try:
+                    with open(ROOT_HISTORY_PATH, "r", encoding="utf-8") as f:
+                        h_matches = re.findall(r"### Reel #\d+", f.read())
+                        if h_matches:
+                            base_count = len(h_matches)
+                except Exception:
+                    pass
             self._send_json(200, {
                 "ok": True,
                 "meta": db["meta"],
-                "total_history_count": 233 + pub_count,
+                "total_history_count": base_count,
                 "daily_6_slots": DAILY_6_SLOTS,
                 "weekday_insights": WEEKDAY_INSIGHTS,
                 "scripts": db["scripts"]
@@ -881,6 +1086,16 @@ class RequestHandler(SimpleHTTPRequestHandler):
                     custom_style["is_bold"] = qs["is_bold"][0].lower() in ["true", "1", "yes"]
                 if "hl_color" in qs:
                     custom_style["hl_color"] = qs["hl_color"][0]
+                if "cover_font_size" in qs:
+                    custom_style["cover_font_size"] = int(qs["cover_font_size"][0])
+                if "cover_line_height" in qs:
+                    custom_style["cover_line_height"] = int(qs["cover_line_height"][0])
+                if "cover_top_offset" in qs:
+                    custom_style["cover_top_offset"] = int(qs["cover_top_offset"][0])
+                if "cover_color" in qs:
+                    custom_style["cover_color"] = qs["cover_color"][0]
+                if "cover_is_bold" in qs:
+                    custom_style["cover_is_bold"] = qs["cover_is_bold"][0].lower() in ["true", "1", "yes"]
 
                 png_bytes = post_maker.render_preview_png_bytes(
                     slot=slot,
@@ -950,6 +1165,30 @@ class RequestHandler(SimpleHTTPRequestHandler):
                                 break
                         if matching_track:
                             break
+
+                # Also scan local downloads/reels and assets for extracted audio if not in catalog
+                if not matching_track and shortcode:
+                    import glob
+                    aud_candidates = (
+                        glob.glob(f"downloads/reels/**/{shortcode}*.mp3", recursive=True) +
+                        glob.glob(f"downloads/reels/**/*_{shortcode}_*.mp3", recursive=True) +
+                        glob.glob(f"downloads/reels/**/*{shortcode}*.m4a", recursive=True) +
+                        glob.glob(f"downloads/reels/**/*{shortcode}*.wav", recursive=True) +
+                        glob.glob(f"assets/soundtracks/**/*{shortcode}*.mp3", recursive=True)
+                    )
+                    if aud_candidates and os.path.exists(aud_candidates[0]):
+                        found_aud = os.path.abspath(aud_candidates[0])
+                        rel_aud = os.path.relpath(found_aud, BASE_DIR).replace("\\", "/")
+                        matching_track = {
+                            "filename": os.path.basename(found_aud),
+                            "relative_path": rel_aud,
+                            "shortcode": shortcode,
+                            "title": f"🎯 صدای استخراج‌شده ریلز مرجع ({shortcode})",
+                            "duration_seconds": post_maker.get_audio_duration(found_aud) if post_maker else 7.0,
+                            "url": s_url,
+                            "filesize": os.path.getsize(found_aud),
+                            "is_source_track": True
+                        }
 
                 local_video_path = None
                 local_frame_path = None
@@ -1031,19 +1270,37 @@ class RequestHandler(SimpleHTTPRequestHandler):
                     source_soundtrack = hunted_meta.get("matching_soundtrack")
                     default_soundtrack = None
 
+                    # If slot has a confirmed audio track extracted from reel or custom uploaded
+                    custom_aud = s.get("confirmed_audio_path")
+                    if custom_aud and os.path.exists(custom_aud):
+                        found_aud = os.path.abspath(custom_aud)
+                        rel_aud = os.path.relpath(found_aud, BASE_DIR).replace("\\", "/")
+                        clean_fn = os.path.basename(found_aud)
+                        source_soundtrack = {
+                            "filename": clean_fn,
+                            "relative_path": rel_aud,
+                            "shortcode": hunted_meta.get("shortcode") or "custom",
+                            "title": f"🎬 [صدای استخراج‌شده ریلز] {clean_fn}",
+                            "duration_seconds": post_maker.get_audio_duration(found_aud) if post_maker else 7.0,
+                            "filesize": os.path.getsize(found_aud),
+                            "is_source_track": True,
+                            "is_extracted_from_reel": True
+                        }
+
                     if source_soundtrack:
                         existing_idx = next((i for i, t in enumerate(slot_tracks) if t.get("relative_path") == source_soundtrack.get("relative_path")), None)
                         if existing_idx is not None:
                             found_tr = slot_tracks.pop(existing_idx)
                             special_tr = dict(found_tr)
                             special_tr["is_source_track"] = True
-                            special_tr["title"] = f"🎯 🌟 [موزیک ریلز شکارشده مرجع] {special_tr.get('title', '')}"
+                            special_tr["title"] = f"🎯 🌟 [موزیک ریلز مرجع] {special_tr.get('title', '')}"
                             slot_tracks.insert(0, special_tr)
                             default_soundtrack = special_tr["relative_path"]
                         else:
                             special_tr = dict(source_soundtrack)
                             special_tr["is_source_track"] = True
-                            special_tr["title"] = f"🎯 🌟 [موزیک ریلز شکارشده مرجع] {special_tr.get('title', '')}"
+                            if not special_tr.get("title", "").startswith("🎯") and not special_tr.get("title", "").startswith("🎬"):
+                                special_tr["title"] = f"🎯 🌟 [موزیک ریلز مرجع] {special_tr.get('title', '')}"
                             slot_tracks.insert(0, special_tr)
                             default_soundtrack = special_tr["relative_path"]
                     elif slot_tracks:
@@ -1074,6 +1331,8 @@ class RequestHandler(SimpleHTTPRequestHandler):
                         "source_soundtrack": source_soundtrack,
                         "local_video_url": hunted_meta.get("local_video_url"),
                         "local_frame_url": hunted_meta.get("local_frame_url"),
+                        "frame_transcript_verified": bool(s.get("frame_transcript_verified", False)),
+                        "caption": s.get("caption", ""),
                     })
                 else:
                     items.append({
@@ -1103,7 +1362,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 "ok": True,
                 "date": target_date,
                 "shamsi_date": shamsi_str,
-                "default_folder": f"D:\\زر تکست\\{shamsi_str}",
+                "default_folder": get_posts_output_dir(shamsi_str),
                 "catalog": catalog,
                 "items": items
             })
@@ -1167,7 +1426,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
                     shamsi_str = j_date.strftime("%Y-%m-%d")
                 except Exception:
                     shamsi_str = target_date
-                target_folder = f"D:\\زر تکست\\{shamsi_str}"
+                target_folder = get_posts_output_dir(shamsi_str)
 
             if not os.path.exists(target_folder):
                 self._send_json(200, {"ok": True, "exists": False, "folder": target_folder, "slots": []})
@@ -1262,13 +1521,26 @@ class RequestHandler(SimpleHTTPRequestHandler):
             with open(file_path, "rb") as f:
                 self.wfile.write(f.read())
             return
+
+        if parsed.path == "/api/media/list-system-reels":
+            from urllib.parse import parse_qs
+            qs = parse_qs(parsed.query)
+            target_date = qs.get("date", [""])[0]
+            db = ENGINE.load_db()
+            day_dirs = db.get("meta", {}).get("day_directories", {})
+            custom_directory = day_dirs.get(target_date, "")
+            reels = list_system_downloaded_reels(date_str=target_date, custom_directory=custom_directory)
+            self._send_json(200, {"ok": True, "reels": reels})
+            return
+
         return super().do_GET()
 
     def do_POST(self):
         parsed = urlparse(self.path)
         length = int(self.headers.get("Content-Length", 0))
-        raw_body = self.rfile.read(length).decode("utf-8") if length > 0 else "{}"
+        raw_bytes = self.rfile.read(length) if length > 0 else b""
         try:
+            raw_body = raw_bytes.decode("utf-8")
             payload = json.loads(raw_body) if raw_body else {}
         except Exception:
             payload = {}
@@ -1434,7 +1706,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 self._send_json(200, {"ok": True, "result": result})
                 return
 
-            if parsed.path == "/api/post-maker/generate-single":
+            if parsed.path in ["/api/post-maker/generate-single", "/api/post-maker/generate-slot"]:
                 slot = int(payload.get("slot", 1))
                 target_date = payload.get("date") or datetime.now().strftime("%Y-%m-%d")
                 custom_folder = (payload.get("folder") or "").strip()
@@ -1506,6 +1778,135 @@ class RequestHandler(SimpleHTTPRequestHandler):
                     "frame_path": saved_frame_path,
                     "frame_url": frame_url
                 })
+                return
+
+            if parsed.path == "/api/media/upload-audio":
+                import base64
+                audio_data_b64 = payload.get("audio_data", "")
+                script_id = (payload.get("script_id") or "").strip()
+                date_str = (payload.get("date") or datetime.now().strftime("%Y-%m-%d")).strip()
+                slot = payload.get("slot") or 1
+                shortcode = (payload.get("shortcode") or "").strip()
+                orig_filename = payload.get("filename") or "audio.mp3"
+                clean_ext = os.path.splitext(orig_filename)[1] or ".mp3"
+                if not clean_ext.lower() in [".mp3", ".m4a", ".wav", ".aac", ".ogg"]:
+                    clean_ext = ".mp3"
+
+                if not audio_data_b64:
+                    self._send_json(400, {"ok": False, "error": "محتوای فایل صوتی (audio_data) ارسال نشده است."})
+                    return
+
+                if "base64," in audio_data_b64:
+                    audio_data_b64 = audio_data_b64.split("base64,")[1]
+
+                raw_bytes = base64.b64decode(audio_data_b64)
+                out_dir = os.path.join(BASE_DIR, "downloads", "reels", date_str)
+                os.makedirs(out_dir, exist_ok=True)
+                slot_int = int(slot) if str(slot).isdigit() else 1
+                clean_fn = f"{date_str}_Slot-{slot_int:02d}_{shortcode or 'custom'}_audio{clean_ext}"
+                saved_audio_path = os.path.abspath(os.path.join(out_dir, clean_fn))
+
+                with open(saved_audio_path, "wb") as f:
+                    f.write(raw_bytes)
+
+                rel_p = os.path.relpath(saved_audio_path, BASE_DIR).replace("\\", "/")
+                dur = post_maker.get_audio_duration(saved_audio_path) if post_maker else 7.0
+
+                track_obj = {
+                    "filename": clean_fn,
+                    "relative_path": rel_p,
+                    "shortcode": shortcode,
+                    "title": f"🎯 🌟 [موزیک آپلودشده ریلز مرجع] {orig_filename}",
+                    "duration_seconds": dur,
+                    "filesize": len(raw_bytes),
+                    "is_source_track": True
+                }
+
+                self._send_json(200, {
+                    "ok": True,
+                    "audio_path": saved_audio_path,
+                    "relative_path": rel_p,
+                    "audio_filename": clean_fn,
+                    "web_audio_url": f"/{rel_p}",
+                    "track": track_obj
+                })
+                return
+
+            if parsed.path == "/api/media/extract-audio-from-video":
+                slot = payload.get("slot") or 1
+                date_str = (payload.get("date") or datetime.now().strftime("%Y-%m-%d")).strip()
+                title = (payload.get("title") or "").strip()
+                script_id = (payload.get("script_id") or "").strip()
+                video_path = (payload.get("video_path") or "").strip()
+                video_data_b64 = payload.get("video_data", "")
+                orig_filename = (payload.get("filename") or "reel.mp4").strip()
+
+                db = ENGINE.load_db()
+                day_dirs = db.get("meta", {}).get("day_directories", {})
+                custom_directory = day_dirs.get(date_str, "")
+
+                target_video_file = ""
+
+                # Handle uploaded video (base64)
+                if video_data_b64:
+                    import base64
+                    if "base64," in video_data_b64:
+                        video_data_b64 = video_data_b64.split("base64,")[1]
+                    raw_bytes = base64.b64decode(video_data_b64)
+
+                    if custom_directory and os.path.isdir(custom_directory):
+                        out_dir = os.path.normpath(custom_directory)
+                    else:
+                        out_dir = os.path.normpath(os.path.join(BASE_DIR, "downloads", "reels", date_str))
+                    os.makedirs(out_dir, exist_ok=True)
+
+                    slot_int = int(slot) if str(slot).isdigit() else 1
+                    stem = os.path.splitext(orig_filename)[0]
+                    clean_stem = re.sub(r"[^\w\u0600-\u06FF]+", "_", stem).strip("_")[:30] or "custom"
+                    clean_ext = os.path.splitext(orig_filename)[1] or ".mp4"
+                    clean_fn = f"{date_str}_Slot-{slot_int:02d}_{clean_stem}_video{clean_ext}"
+                    target_video_file = os.path.join(out_dir, clean_fn)
+                    with open(target_video_file, "wb") as f:
+                        f.write(raw_bytes)
+                elif video_path:
+                    # Clean up Windows quotes if user pasted path with quotes
+                    video_path = video_path.strip('\'"')
+                    if not os.path.exists(video_path):
+                        self._send_json(400, {"ok": False, "error": f"فایل ویدیویی در مسیر مشخص‌شده یافت نشد: {video_path}"})
+                        return
+                    target_video_file = os.path.normpath(video_path)
+                else:
+                    self._send_json(400, {"ok": False, "error": "هیچ فایل یا مسیری برای ویدیوی ریلز مشخص نشده است."})
+                    return
+
+                res = extract_audio_from_local_video(
+                    video_path=target_video_file,
+                    title=title,
+                    scheduled_date=date_str,
+                    scheduled_slot=slot,
+                    custom_directory=custom_directory,
+                    open_explorer=False
+                )
+
+                if not res.get("ok"):
+                    self._send_json(400, res)
+                    return
+
+                # Persist in scripts-db.json for this slot and date
+                with DB_LOCK:
+                    db = ENGINE.load_db()
+                    for s in db.get("scripts", []):
+                        match_id = script_id and (s.get("id") == script_id)
+                        match_slot = date_str and slot and (s.get("scheduled_date") == date_str) and (str(s.get("scheduled_slot")) == str(slot))
+                        if match_id or match_slot:
+                            s["confirmed_audio_path"] = res["audio_path"]
+                            s["confirmed_video_path"] = target_video_file
+                            if res.get("frame_path"):
+                                s["confirmed_frame_path"] = res["frame_path"]
+                            break
+                    ENGINE.save_db(db)
+
+                self._send_json(200, res)
                 return
 
             if parsed.path == "/api/telegram/config":

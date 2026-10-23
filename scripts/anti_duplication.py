@@ -18,9 +18,16 @@ import json
 from typing import Dict, Any, List, Optional, Tuple
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-REPORT_PATH = os.path.join(BASE_DIR, "reports", "06-10-2026-report.md")
+REPORTS_DIR = os.path.join(BASE_DIR, "reports")
 HISTORY_PATH = os.path.join(BASE_DIR, "published-content-history.md")
 DB_PATH = os.path.join(BASE_DIR, "data", "scripts-db.json")
+
+PERSIAN_STOPWORDS = {
+    "از", "به", "در", "که", "با", "برای", "رو", "را", "من", "تو", "او", "ما", "شما",
+    "این", "آن", "هم", "اما", "ولی", "نه", "شد", "بود", "کرد", "است", "هست", "نیست",
+    "یک", "یه", "چون", "تا", "اگر", "اگه", "چه", "چی", "چرا", "همه", "هیچ", "دیگه",
+    "روی", "توی", "کن", "کنم", "کنه", "باشه", "شدن", "کردن", "بودن"
+}
 
 class AntiDuplicationEngine:
     _instance = None
@@ -51,8 +58,8 @@ class AntiDuplicationEngine:
     def extract_tokens(cls, text: str) -> set:
         norm = cls.normalize_persian(text)
         words = norm.split()
-        # Filter very short stopwords/letters
-        return {w for w in words if len(w) >= 2}
+        # Filter very short stopwords/letters and general Persian stopwords
+        return {w for w in words if len(w) >= 2 and w not in PERSIAN_STOPWORDS}
 
     @classmethod
     def extract_ngrams(cls, text: str, n: int = 4) -> set:
@@ -65,10 +72,12 @@ class AntiDuplicationEngine:
     def _load_corpus(self):
         seen_identifiers = set()
         
-        # 1. Load from reports/06-10-2026-report.md
-        if os.path.exists(REPORT_PATH):
+        # 1. Load from all reports/*.md
+        import glob
+        report_files = sorted(glob.glob(os.path.join(REPORTS_DIR, "*.md")))
+        for rep_path in report_files:
             try:
-                with open(REPORT_PATH, "r", encoding="utf-8") as f:
+                with open(rep_path, "r", encoding="utf-8") as f:
                     rep_text = f.read()
                 blocks = re.split(r"Reel #(\d+)", rep_text)[1:]
                 for i in range(0, len(blocks), 2):
@@ -90,7 +99,7 @@ class AntiDuplicationEngine:
                         ngrams = self.extract_ngrams(full_text, 4)
                         hook = content.split("\n")[0].strip() if content else caption[:40]
                         self.corpus.append({
-                            "source": "rozetext_published_report",
+                            "source": f"report_{os.path.basename(rep_path)}",
                             "reel_number": r_num,
                             "reel_id": reel_id,
                             "date": m_date.group(1).strip() if m_date else "",
@@ -101,7 +110,7 @@ class AntiDuplicationEngine:
                             "ngrams": ngrams
                         })
             except Exception as e:
-                print(f"[AntiDuplication] Error reading report: {e}")
+                print(f"[AntiDuplication] Error reading report {rep_path}: {e}")
 
         # 2. Load from published-content-history.md
         if os.path.exists(HISTORY_PATH):

@@ -1,86 +1,69 @@
-import glob, json, sys, re, os
-sys.stdout.reconfigure(encoding='utf-8')
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from server import ENGINE
+import glob, json, os, sys
+sys.path.insert(0, os.path.dirname(__file__))
+from anti_duplication import AntiDuplicationEngine
 
-with open('data/scripts-db.json', 'r', encoding='utf-8') as f:
-    db = json.load(f)
+engine = AntiDuplicationEngine.get_instance()
+print(f"Loaded corpus size: {len(engine.corpus)}")
 
-db_codes = {s.get('source_url', '').rstrip('/').split('/')[-1] for s in db['scripts'] if s.get('source_url')}
-db_texts = [(s.get('content') or '') + ' ' + (s.get('extracted_raw_text') or '') for s in db['scripts']]
+json_files = glob.glob('data/*.json')
+all_items = []
+seen_urls = set()
+seen_contents = set()
 
-print(f'DB scripts count: {len(db["scripts"])}, DB codes: {len(db_codes)}')
-
-candidates = []
-for fpath in glob.glob('scratch/*.json') + glob.glob('data/*.json') + glob.glob('scripts/*.py') + glob.glob('scratch/*.py'):
-    if 'scripts-db.json' in fpath or 'stories-db.json' in fpath:
+for path in json_files:
+    if 'benchmark' in path or 'harvest' in path or 'scripts-db' in path or 'all_harvested' in path:
         continue
     try:
-        if fpath.endswith('.json'):
-            with open(fpath, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-            items = data if isinstance(data, list) else (data.get('scripts') or data.get('reels') or data.get('items') or [])
-            for it in items:
-                if isinstance(it, dict):
-                    candidates.append((fpath, it))
+        data = json.load(open(path, encoding='utf-8'))
+        items = data if isinstance(data, list) else data.get('scripts', [])
+        for it in items:
+            url = it.get('source_url', '')
+            content = it.get('content', '')
+            if not content: continue
+            if url in seen_urls or content in seen_contents:
+                continue
+            seen_urls.add(url)
+            seen_contents.add(content)
+            all_items.append((path, it))
     except Exception as e:
         pass
 
-print(f'Total candidate items loaded: {len(candidates)}')
+print(f"Total unique candidates collected: {len(all_items)}")
 
-clean_1m = []
-for fpath, it in candidates:
-    txt = (it.get('extracted_raw_text') or it.get('content') or '').strip()
-    u = it.get('source_url') or it.get('url') or ''
-    views = str(it.get('source_views') or it.get('views') or '')
-    code = u.rstrip('/').split('/')[-1] if u else ''
+clean_candidates = []
+for file_origin, it in all_items:
+    txt = it['content']
+    res = engine.check(txt)
+    is_dup = res.get('is_duplicate', False)
+    sim = res.get('similarity_score', 0.0)
+    page = it.get('source_page', '')
     
-    if not ('M' in views or '1,' in views or 'میلیون' in views):
-        continue
-    if '0.' in views:
-        continue
-    if code in db_codes:
-        continue
-    lines = [l.strip() for l in txt.splitlines() if l.strip()]
-    if not (7 <= len(lines) <= 16):
+    # Exclude @vahidrezakhoshbayan monopoly
+    if page == '@vahidrezakhoshbayan':
         continue
         
-    # Check history duplicate
-    hist = ENGINE.check_duplicate_against_history(txt, txt)
-    if hist['is_duplicate']:
-        continue
-        
-    # Check DB duplicate
-    c_tokens = ENGINE._normalize_persian_tokens(txt)
-    db_dup = False
-    for dbt in db_texts:
-        dbt_tokens = ENGINE._normalize_persian_tokens(dbt)
-        if len(c_tokens & dbt_tokens) / max(1, min(len(c_tokens), len(dbt_tokens))) >= 0.40:
-            db_dup = True
-            break
-    if db_dup:
-        continue
-        
-    clean_1m.append({
-        'code': code,
-        'views': views,
-        'lines': len(lines),
-        'hook': lines[0],
-        'url': u,
-        'page': it.get('source_page') or it.get('page') or '',
-        'text': txt,
-        'fpath': fpath,
-        'sim': hist['similarity_score']
-    })
+    if not is_dup and sim < 38.0:
+        lines = [l for l in txt.split('\n') if l.strip()]
+        if 6 <= len(lines) <= 18:
+            clean_candidates.append({
+                'origin': file_origin,
+                'title': it.get('title', ''),
+                'source_page': page,
+                'source_url': it.get('source_url', ''),
+                'source_views': it.get('source_views', ''),
+                'lines_count': len(lines),
+                'sim': sim,
+                'content': txt,
+                'item': it
+            })
 
-unique_clean = {}
-for c in clean_1m:
-    if c['code'] not in unique_clean:
-        unique_clean[c['code']] = c
+print(f"Clean, non-duplicate, non-vahidreza candidates: {len(clean_candidates)}")
 
-print(f'\n=== FOUND {len(unique_clean)} CLEAN 1M+ CANDIDATES NOT IN DB OR HISTORY ===\n')
-for code, c in unique_clean.items():
-    print(f"[{code}] {c['views']} | Lines: {c['lines']} | Sim: {c['sim']:.1f}% | Page: {c['page']}")
-    print(f"  Hook: {c['hook']}")
-    print(f"  File: {c['fpath']}")
-    print("-" * 50)
+# Group by page
+from collections import Counter
+pages = [c['source_page'] for c in clean_candidates]
+print("Distribution by page:", Counter(pages))
+
+with open('data/clean_pool_discovered.json', 'w', encoding='utf-8') as f:
+    json.dump([c['item'] for c in clean_candidates], f, ensure_ascii=False, indent=2)
+print("Saved to data/clean_pool_discovered.json")

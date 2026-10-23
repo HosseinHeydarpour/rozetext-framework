@@ -23,22 +23,48 @@ for name in ["dark_cover.png", "dark_text.png", "light_cover.png", "light_text.p
 
 # Preload base64 fonts for 100% guaranteed headless Chrome rendering (IRLotus Bold, Regular, IRTitr)
 FONTS_BASE64 = {}
-font_files = {
-    "IRLotus": r"C:\Windows\Fonts\IRLotus.ttf",
-    "IRLotusBold": r"C:\Windows\Fonts\IRLotusBold.ttf",
-    "IRTitr": r"C:\Windows\Fonts\IRTitr.ttf",
+font_candidates = {
+    "IRLotus": [
+        os.path.join(BASE_DIR, "assets", "fonts", "IRLotus.ttf"),
+        r"C:\Windows\Fonts\IRLotus.ttf",
+    ],
+    "IRLotusBold": [
+        os.path.join(BASE_DIR, "assets", "fonts", "IRLotusBold.ttf"),
+        r"C:\Windows\Fonts\IRLotusBold.ttf",
+    ],
+    "IRTitr": [
+        os.path.join(BASE_DIR, "assets", "fonts", "IRTitr.ttf"),
+        r"C:\Windows\Fonts\IRTitr.ttf",
+    ],
 }
-for fname, fpath in font_files.items():
-    if os.path.exists(fpath):
-        try:
-            with open(fpath, "rb") as f:
-                FONTS_BASE64[fname] = base64.b64encode(f.read()).decode("ascii")
-        except Exception:
-            pass
+for fname, candidates in font_candidates.items():
+    for fpath in candidates:
+        if os.path.exists(fpath):
+            try:
+                with open(fpath, "rb") as f:
+                    FONTS_BASE64[fname] = base64.b64encode(f.read()).decode("ascii")
+                break
+            except Exception:
+                pass
 
-FFMPEG_EXE = r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.2-full_build\bin\ffmpeg.exe"
-FFPROBE_EXE = r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.2-full_build\bin\ffprobe.exe"
+def _resolve_binary(name: str, fallback_path: str = "") -> str:
+    found = shutil.which(name)
+    if found:
+        return found
+    if fallback_path and os.path.exists(fallback_path):
+        return fallback_path
+    return name
+
+FFMPEG_EXE = _resolve_binary("ffmpeg", r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.2-full_build\bin\ffmpeg.exe")
+FFPROBE_EXE = _resolve_binary("ffprobe", r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.2-full_build\bin\ffprobe.exe")
 SOUNDTRACKS_CATALOG_PATH = os.path.join(BASE_DIR, "assets", "soundtracks", "catalog.json")
+
+def get_default_output_dir(folder_name: str) -> str:
+    """Returns preferred posts folder on D:\رز تکست with fallback to local outputs/posts."""
+    d_dir = r"D:\رز تکست"
+    if os.path.exists(d_dir) or os.path.exists("D:\\"):
+        return os.path.join(d_dir, folder_name)
+    return os.path.join(BASE_DIR, "outputs", "posts", folder_name)
 
 def get_soundtracks_catalog():
     if os.path.exists(SOUNDTRACKS_CATALOG_PATH):
@@ -309,23 +335,65 @@ def parse_content_lines(content: str):
         
     return parsed
 
-def build_cover_html(hook_text: str, theme: str) -> str:
+def build_cover_html(hook_text: str, theme: str, custom_style: dict = None) -> str:
     """
-    Cover styling: KEPT EXACTLY CONSTANT as original Figma template.
-    Font: IRTitr, Normal weight (400), font-size: 90px (Light) / 95px (Dark).
+    Cover styling: Supports custom text, custom line breaks, and real-time typography styling (IRTitr).
+    Defaults to Figma standard: 90px (Light) / 95px (Dark), normal weight (400), top: 568px.
     """
+    custom_style = custom_style or {}
     bg_file = "light_cover.png" if theme == "light" else "dark_cover.png"
     b64_data = PLATES_BASE64.get(bg_file, "")
     
-    lines = split_hook_into_lines(hook_text)
+    clean_hook = (hook_text or "").strip()
+    if "\n" in clean_hook:
+        lines = [l.strip() for l in clean_hook.split("\n") if l.strip()]
+    else:
+        lines = split_hook_into_lines(clean_hook)
+        
     lines_html = "".join([f"<div>{l}</div>" for l in lines])
     
-    color = "#171717" if theme == "light" else "#FFF7ED"
-    opacity = "0.85" if theme == "light" else "1.0"
+    # Custom color override
+    user_color = custom_style.get("cover_color") or custom_style.get("color")
+    if user_color == "white":
+        color = "#FFFFFF"
+    elif user_color == "cream":
+        color = "#FFF7ED"
+    elif user_color == "dark":
+        color = "#171717"
+    elif user_color == "gold":
+        color = "#F4C466"
+    elif user_color and str(user_color).startswith("#"):
+        color = user_color
+    else:
+        color = "#171717" if theme == "light" else "#FFF7ED"
+
+    opacity = str(custom_style.get("cover_opacity", custom_style.get("opacity", "0.85" if theme == "light" else "1.0")))
     
-    # Exact original Figma sizes & normal weight (constant as requested)
-    font_size = "90px" if theme == "light" else "95px"
-    line_height = "145px" if theme == "light" else "160px"
+    # Font size
+    def_font_size = 90 if theme == "light" else 95
+    user_fs = custom_style.get("cover_font_size") or custom_style.get("font_size")
+    font_size_val = int(user_fs) if user_fs and str(user_fs).isdigit() else def_font_size
+    font_size = f"{font_size_val}px"
+    
+    # Line height
+    def_line_height = 145 if theme == "light" else 160
+    user_lh = custom_style.get("cover_line_height") or custom_style.get("line_height")
+    if user_lh and str(user_lh).isdigit():
+        line_height_val = int(user_lh)
+    else:
+        line_height_val = def_line_height if font_size_val == def_font_size else int(font_size_val * 1.62)
+    line_height = f"{line_height_val}px"
+    
+    # Top offset
+    def_top = 568
+    user_top = custom_style.get("cover_top_offset") or custom_style.get("top_offset")
+    top_offset_val = int(user_top) if user_top is not None and str(user_top).lstrip("-").isdigit() else def_top
+    
+    # Font weight
+    is_bold = custom_style.get("cover_is_bold", custom_style.get("is_bold", False))
+    if isinstance(is_bold, str):
+        is_bold = is_bold.lower() in ("true", "1", "yes")
+    font_weight = "bold" if is_bold else "normal"
     
     b64_titr = FONTS_BASE64.get("IRTitr", "")
     src_titr = f"url('data:font/truetype;base64,{b64_titr}') format('truetype'), local('IRTitr')" if b64_titr else "local('IRTitr')"
@@ -339,6 +407,11 @@ def build_cover_html(hook_text: str, theme: str) -> str:
     font-family: 'IRTitr';
     src: {src_titr};
     font-weight: normal;
+  }}
+  @font-face {{
+    font-family: 'IRTitr';
+    src: {src_titr};
+    font-weight: bold;
   }}
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
   body {{
@@ -357,12 +430,12 @@ def build_cover_html(hook_text: str, theme: str) -> str:
   }}
   .hook-box {{
     position: absolute;
-    top: 568px;
+    top: {top_offset_val}px;
     left: 0;
     width: 1080px;
     text-align: center;
     font-family: 'IRTitr', sans-serif;
-    font-weight: normal;
+    font-weight: {font_weight};
     font-size: {font_size};
     line-height: {line_height};
     color: {color};
@@ -378,6 +451,7 @@ def build_cover_html(hook_text: str, theme: str) -> str:
   </div>
 </body>
 </html>"""
+
 
 def build_text_post_html(content: str, theme: str, custom_styles: dict = None) -> str:
     """
@@ -661,7 +735,7 @@ def render_preview_png_bytes(slot: int = 1, date_str: str = None, item_type: str
         content = f"متن نمونه تکست‌گرافی برای پیش‌نمایش اسلات {slot}..."
 
     if item_type.lower() == "cover":
-        html_str = build_cover_html(hook, theme)
+        html_str = build_cover_html(hook, theme, custom_style=custom_style)
     else:
         html_str = build_text_post_html(content, theme, custom_styles=custom_style)
 
@@ -717,7 +791,7 @@ def generate_daily_posts(date_str: str = None, target_folder: str = None, custom
         parts = [int(p) for p in date_str.split("-")]
         j_date = jdatetime.date.fromgregorian(year=parts[0], month=parts[1], day=parts[2])
         folder_name = j_date.strftime("%Y-%m-%d")
-        target_folder = os.path.join(r"D:\زر تکست", folder_name)
+        target_folder = get_default_output_dir(folder_name)
         
     os.makedirs(target_folder, exist_ok=True)
     
@@ -740,8 +814,10 @@ def generate_daily_posts(date_str: str = None, target_folder: str = None, custom
         
         if str(slot) in custom_hooks and custom_hooks[str(slot)].strip():
             hook = custom_hooks[str(slot)].strip()
+            script["hook"] = hook
         elif slot in custom_hooks and custom_hooks[slot].strip():
             hook = custom_hooks[slot].strip()
+            script["hook"] = hook
         else:
             hook = clean_hook_text(script.get("hook"), script.get("title"), script.get("content"))
             
@@ -750,8 +826,9 @@ def generate_daily_posts(date_str: str = None, target_folder: str = None, custom
         cover_path = os.path.join(target_folder, cover_filename)
         text_path = os.path.join(target_folder, text_filename)
         
-        # 1. Render Cover (CONSTANT Figma standard sizing & weight)
-        c_html = build_cover_html(hook, theme)
+        # 1. Render Cover with custom styling if provided
+        slot_cover_style = slot_style.get("cover_style") or slot_style
+        c_html = build_cover_html(hook, theme, custom_style=slot_cover_style)
         render_html_to_file(browser, c_html, cover_path)
         
         # 2. Render Text (PROPERLY LARGER & BOLDER with safe zone & user styles)
@@ -810,6 +887,12 @@ def generate_daily_posts(date_str: str = None, target_folder: str = None, custom
                 
         results.append(item_res)
         
+    try:
+        with open(DB_PATH, "w", encoding="utf-8") as f:
+            json.dump(db, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
     return {
         "status": "success",
         "date": date_str,
@@ -846,7 +929,7 @@ def generate_single_post(slot: int, date_str: str = None, target_folder: str = N
         parts = [int(p) for p in date_str.split("-")]
         j_date = jdatetime.date.fromgregorian(year=parts[0], month=parts[1], day=parts[2])
         folder_name = j_date.strftime("%Y-%m-%d")
-        target_folder = os.path.join(r"D:\زر تکست", folder_name)
+        target_folder = get_default_output_dir(folder_name)
         
     os.makedirs(target_folder, exist_ok=True)
     
@@ -858,6 +941,12 @@ def generate_single_post(slot: int, date_str: str = None, target_folder: str = N
     
     if custom_hook and custom_hook.strip():
         hook = custom_hook.strip()
+        script["hook"] = hook
+        try:
+            with open(DB_PATH, "w", encoding="utf-8") as f:
+                json.dump(db, f, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
     else:
         hook = clean_hook_text(script.get("hook"), script.get("title"), script.get("content"))
         
@@ -866,8 +955,9 @@ def generate_single_post(slot: int, date_str: str = None, target_folder: str = N
     cover_path = os.path.join(target_folder, cover_filename)
     text_path = os.path.join(target_folder, text_filename)
     
-    # 1. Render Cover
-    c_html = build_cover_html(hook, theme)
+    # 1. Render Cover with custom styling if provided
+    cover_style = custom_style.get("cover_style") or custom_style
+    c_html = build_cover_html(hook, theme, custom_style=cover_style)
     render_html_to_file(browser, c_html, cover_path)
     
     # 2. Render Text

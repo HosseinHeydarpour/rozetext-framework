@@ -1,5 +1,8 @@
 """
-RozeText Content Scoring Engine v3.0
+RozeText Content Scoring Engine v3.0 — updated for content rules v4.1 (24 Oct 2026).
+In v4.1, the old slot multipliers (1.05x / 0.88x) are abolished and no score
+tier guarantees any view range. A score is a priority ranking only; compare
+actual results to the recent 30-day median, not to these tiers.
 ====================================
 Calibrated on 358 Instagram reels from @rozetext.ir (including 66 latest reels from Oct 2026).
 Solves:
@@ -147,47 +150,34 @@ def evaluate_script_v3(script: dict, slot: int = None) -> dict:
     raw_score = p_fit + h_power + univ + mic + share
     
     # ====================================================
-    # 3. CIRCADIAN SLOT MULTIPLIER (Contextual Timing)
+    # 3. SLOT EFFECT (v4.1: abolished as a multiplier)
     # ====================================================
-    # Slots 5 (21:00) and 6 (23:45) are the golden hours for deep reflection
+    # v4 abolished the old 1.05x / 0.88x slot multipliers, and v4.1 keeps
+    # that abolition. Slot fit is already handled by the publisher's
+    # 6-slot archetype affinity; do not inflate or deflate the score here.
     slot_multiplier = 1.0
-    slot_note = ""
-    if scheduled_slot:
-        try:
-            s_num = int(scheduled_slot)
-            if s_num in [5, 6]:
-                # Deep emotional / boundary text thrives at night
-                if p_fit >= 16 and (share >= 16 or mic >= 16):
-                    slot_multiplier = 1.05
-                    slot_note = "تطابق طلایی با اسلات پیک شبانه (21:00 / 23:45) -> ضریب 1.05x"
-            elif s_num in [1, 2]:
-                # Heavy heartbreak / grudge in morning creates resistance
-                if any(k in clean_full for k in ["نفرین", "گریه", "تنهایی", "خسته ام", "دلم گرفته"]):
-                    slot_multiplier = 0.88
-                    slot_note = "اصطکاک زمانی: انتشار متن غمگین/سنگین در اسلات صبح یا ظهر -> ضریب 0.88x"
-        except:
-            pass
+    slot_note = "v4.1: ضریب اسلات لغو شده است؛ نمره فقط اولویت‌بندی است، نه پیش‌بینی بازدید"
 
     final_score = int(round(raw_score * slot_multiplier))
     final_score = max(0, min(100, final_score))
     
-    # Verdict assignment
+    # Verdict assignment — priority tiers only, no view forecast (v4.1)
     if final_score >= 96:
-        verdict = "🔥 مگاوایرال احتمالی (+300K)"
+        verdict = "🔥 اولویت اول انتشار"
         tier = "VIRAL_GOLD"
-        expected_views = "۳۰۰,۰۰۰ تا ۱,۵۰۰,۰۰۰ ویو"
+        expected_views = "بدون پیش‌بینی بازدید — فقط اولویت انتشار؛ با میانه ۳۰ روز اخیر مقایسه شود"
     elif final_score >= 89:
-        verdict = "⚡ وایرال بالا (100K - 300K)"
+        verdict = "⚡ اولویت بالا"
         tier = "HIGH_MID"
-        expected_views = "۱۰۰,۰۰۰ تا ۳۰۰,۰۰۰ ویو"
+        expected_views = "بدون پیش‌بینی بازدید — فقط اولویت انتشار؛ با میانه ۳۰ روز اخیر مقایسه شود"
     elif final_score >= 80:
-        verdict = "📈 عملکرد متوسط و پایدار (30K - 100K)"
+        verdict = "📈 انتشار عادی"
         tier = "MID"
-        expected_views = "۳۰,۰۰۰ تا ۱۰۰,۰۰۰ ویو"
+        expected_views = "بدون پیش‌بینی بازدید — فقط اولویت انتشار؛ با میانه ۳۰ روز اخیر مقایسه شود"
     else:
-        verdict = "❌ منطقه خطر / مردود (<30K)"
+        verdict = "❌ رد"
         tier = "REJECTED"
-        expected_views = "کمتر از ۳۰,۰۰۰ ویو (خطر شکست)"
+        expected_views = "بدون پیش‌بینی بازدید — رد بر اساس اولویت"
 
     return {
         "final_score": final_score,

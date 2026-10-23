@@ -32,20 +32,13 @@ tests/output/
 *.gif
 data/*.bak
 data/*.html
-data/archive/
-data/harvest_*.json
-data/scraped_*.json
-downloads/*.json
-downloads/reels/
 downloads/current_screen.png
-downloads/frames/*_tag.png
-downloads/frames/*_2s.png
-downloads/frames/*_test.png
 artifacts/
 assets/sash/
 decode_node.js
 decode_sash.py
 reports/
 scratch/
+
 
 

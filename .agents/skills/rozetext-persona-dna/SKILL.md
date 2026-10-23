@@ -180,4 +180,5 @@ $$\text{Final Score} = \text{Raw Score} \times \text{Slot Multiplier}$$
 * [writing-style-and-anti-patterns.md](./references/writing-style-and-anti-patterns.md): قواعد نگارشی، ریتم جملات و تحلیل دقیق ۲۳ پست Flop برای پرهیز از تکرار اشتباهات.
 * [viral-hunter-browser-protocol.md](./references/viral-hunter-browser-protocol.md): **پروتکل شکار خودکار محتوای وایرال با ایجنت مرورگر در دسته‌های چرخان روی ۱۲۰ پیج بنچ‌مارک، مجهز به کف بازدید تطبیقی (۱۵۰K تا ۳۵۰K)، اسکرول عمیق ۱۰ تا ۱۴ مرحله‌ای، استخراج نریشن صوتی و چیدمان خودکار ساعتی بر اساس آرکتایپ.**
 * [benchmark-accounts-directory.md](./references/benchmark-accounts-directory.md): **دایرکتوری جامع و طبقه‌بندی‌شده ۱۲۰ پیج مادر و بنچ‌مارک واقعی (در ۶ خوشه موضوعی) برای شکار محتوای وایرال، همراه با ماتریس تطبیق آرکتایپ‌ها، وضعیت ممیزی زنده در مرورگر و فایل دیتای ماشینی `data/benchmark_accounts.json`.**
+* [publisher-guide-v4-1.md](./references/publisher-guide-v4-1.md): **راهنمای پابلیشر نسخه ۴٫۱ — نقشه‌ی کد اصلی، چه چیزی را Muse می‌تواند کنترل کند و چه چیزی را نمی‌تواند، و نحوه‌ی اجرای محلی پابلیشر.**
 

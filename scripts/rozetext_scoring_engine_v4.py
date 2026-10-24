@@ -1,4 +1,15 @@
-"""DRAFT v4 — NOT yet the hunting engine. v3 remains authoritative until the prospective test in engine-v4-report.md passes. """
+"""RozeText Content Scoring Engine v4.0 — OFFICIAL from 2026-10-24 (owner order).
+Replaces v3 as the current engine. v3 file remains in the repo as legacy only.
+Derived ONLY from the 399 own-page posts in reels_database_completed.json (2026-10-24).
+Changes vs v3: no fixed 83 baseline (score starts at 40 + measured features);
+long-text penalty removed (long posts outperformed in own data);
+structure (lines), first-person density, family/work themes and questions are scored;
+boundary (+12) and milestone-hook (+8) bonuses kept; short/preachy/calendar/psychology penalties kept at -15.
+Weights are coarse steps, not fitted decimals, to avoid overfitting.
+In-sample validation on 399: Spearman vs views/day 0.313 (v3: 0.051); tiers TOP>=80 64% viral, HIGH>=70 46%, MID>=55 28%, LOW 20%.
+Prospective test on new posts with 7-day views is still required to confirm out-of-sample performance.
+Score is a relative ranking, not a view forecast.
+"""
 """Draft v4 scoring, derived ONLY from the 399 own-page posts.
 Weights are deliberately coarse (steps, not fitted decimals) to avoid overfitting tiny samples.
 See engine-v4-report.md for evidence and limits."""
